@@ -3,7 +3,7 @@
 <head>
 <title>Finanzcockpit</title>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Cockpit">
@@ -1390,6 +1390,8 @@ main>.wrap>.psect:first-child,main>.wrap>.ptip+.psect,main>.wrap>.ptodo+.psect{m
 .rbtr.sum{font-weight:800;border-top:1px solid var(--line2)}
 .warnc{color:var(--warn)}
 @media (min-width:1100px){ #page-rebalancing>#rbres{grid-column:1/-1} }
+html,body{touch-action:pan-x pan-y}
+input,select,textarea{font-size:16px}
 [hidden]{display:none!important}
 body{margin:0;background:var(--bg)}
 </style>
@@ -3881,6 +3883,14 @@ body{margin:0;background:var(--bg)}
       rb.rows.forEach(function(r){ var m=rows.filter(function(x){return map[r.k].test(x.name||'')&&x.amount!=null;})[0]; if(m){ r.v=+m.amount; n++; } });
       if(!n){ say('rbmsg','Im Renditerechner wurden keine passenden ETFs gefunden.','bad'); return; } rbBuild(); rbDirty=true; rbRender(); rbSave(); });
   }
+  /* ===== Zoom sperren ===== */
+  (function(){
+    var no=function(e){ e.preventDefault(); };
+    ['gesturestart','gesturechange','gestureend'].forEach(function(t){ document.addEventListener(t,no,{passive:false}); });
+    document.addEventListener('touchmove',function(e){ if(e.touches&&e.touches.length>1)e.preventDefault(); if(typeof e.scale==='number'&&e.scale!==1)e.preventDefault(); },{passive:false});
+    document.addEventListener('wheel',function(e){ if(e.ctrlKey)e.preventDefault(); },{passive:false});
+    document.addEventListener('keydown',function(e){ if((e.ctrlKey||e.metaKey)&&['+','-','=','0'].indexOf(e.key)>-1)e.preventDefault(); });
+  })();
   /* ===== Konfetti & Toast ===== */
   function toast(t){
     var e=document.createElement('div'); e.className='toast'; e.textContent=t; document.body.appendChild(e);
@@ -4435,6 +4445,7 @@ body{margin:0;background:var(--bg)}
       if(SYNC.gist)syncNow();
       document.addEventListener('visibilitychange',function(){ if(!document.hidden)syncNow(); });
       window.addEventListener('online',function(){ syncNow(); });
+      setInterval(function(){ if(!document.hidden&&SYNC.gist)syncNow(); },60000);
       return;
     }
     setSync('verbinde …');
