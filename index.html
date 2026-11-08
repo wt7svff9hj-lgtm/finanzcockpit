@@ -1300,8 +1300,9 @@ h2:not(.h2i){display:flex;align-items:center;gap:10px}
 .psect{margin:14px 4px -6px}
 main>.wrap>.psect:first-child,main>.wrap>.ptip+.psect,main>.wrap>.ptodo+.psect{margin-top:2px}
 
-.lkbio{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:10px;margin-top:22px;padding:12px 18px;border-radius:14px;background:var(--surface2);border:1px solid var(--line2);font-weight:700;font-size:14px}
-.lkbio svg{width:24px;height:24px;color:var(--acc1)}
+.lkbio{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;width:100%;margin:0 0 6px;padding:16px 18px;border-radius:16px;background:var(--grad);color:var(--on-grad);font-weight:800;font-size:16px;box-shadow:0 12px 28px -12px var(--glowc)}
+.lkor{margin:6px 0 14px;font-size:12px;color:var(--muted)}
+.lkbio svg{width:26px;height:26px;color:currentColor}
 .lkbio+.lkforgot{display:block;margin:14px auto 0}
 
 /* ===== Desktop / Laptop (Mobile bleibt Standard) ===== */
@@ -3536,12 +3537,12 @@ body{margin:0;background:var(--bg)}
     mode=mode||'unlock'; opts=opts||{}; var old=$('lockscr'); if(old)old.remove();
     var cfg=pinCfg(), el=document.createElement('div'); el.id='lockscr'; el.className='lockscr'+(mode==='unlock'?' full':''); el.setAttribute('data-mode',mode); el.setAttribute('role','dialog'); el.setAttribute('aria-label','PIN-Eingabe');
     var title={unlock:'Willkommen zurück',set1:'Neue PIN festlegen',set2:'PIN wiederholen',verify:'Aktuelle PIN eingeben'}[mode];
-    var sub={unlock:'Gib deine PIN ein, um dein Finanzcockpit zu öffnen.',set1:'4 bis 8 Ziffern. Bestätige mit ✓.',set2:'Zur Sicherheit noch einmal.',verify:opts.why||'Zur Bestätigung.'}[mode];
+    var sub={unlock:bioGet()?'Tippe auf Face ID oder gib deine PIN ein.':'Gib deine PIN ein, um dein Finanzcockpit zu öffnen.',set1:'4 bis 8 Ziffern. Bestätige mit ✓.',set2:'Zur Sicherheit noch einmal.',verify:opts.why||'Zur Bestätigung.'}[mode];
     var len=mode==='unlock'||mode==='verify'?(cfg&&cfg.l||4):8;
     el.innerHTML='<div class="lkbox">'+(mode==='unlock'?'':'<button type="button" class="lkx" aria-label="Abbrechen">×</button>')+'<div class="lklogo">'+document.querySelector('.logo').innerHTML+'</div><h3>'+title+'</h3><p class="lksub">'+sub+'</p>'+
-      '<div class="lkdots" data-len="'+len+'">'+Array(len+1).join('<i></i>')+'</div><p class="lkerr" role="status"></p>'+keypad()+
+      (mode==='unlock'&&bioGet()?'<button type="button" class="lkbio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M9 9v1.5M15 9v1.5M12 9v4h-1M9.5 16a4 4 0 0 0 5 0"/></svg>Mit Face ID öffnen</button><p class="lkor">oder PIN eingeben</p>':'')+'<div class="lkdots" data-len="'+len+'">'+Array(len+1).join('<i></i>')+'</div><p class="lkerr" role="status"></p>'+keypad()+
       (mode==='set1'||mode==='set2'?'<button type="button" class="lkok" disabled>✓ Bestätigen</button>':'')+
-      (mode==='unlock'&&bioGet()?'<button type="button" class="lkbio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M9 9v1.5M15 9v1.5M12 9v4h-1M9.5 16a4 4 0 0 0 5 0"/></svg>Mit Face ID entsperren</button>':'')+
+
       (mode==='unlock'?'<button type="button" class="lkforgot">PIN vergessen?</button>':'')+'</div>';
     document.body.appendChild(el); requestAnimationFrame(function(){el.classList.add('in');});
     var val='', dots=el.querySelectorAll('.lkdots i'), err=el.querySelector('.lkerr'), okb=el.querySelector('.lkok');
@@ -3560,7 +3561,6 @@ body{margin:0;background:var(--bg)}
     function press(k){ if(k==='del'){val=val.slice(0,-1);paint();return;} if(val.length>=8)return; val+=k; paint(); err.textContent='';
       if((mode==='unlock'||mode==='verify')&&val.length===len)setTimeout(submit,120); }
     async function tryBio(){ var ok=await bioUnlock(); if(ok&&el.isConnected){ LK.unlocked=true; el.querySelector('.lkdots').classList.add('ok'); setTimeout(function(){hideLock();},220); } }
-    if(mode==='unlock'&&bioGet())setTimeout(tryBio,350);
     el.addEventListener('click',function(ev){ if(ev.target.closest('.lkbio')){ tryBio(); return; } var b=ev.target.closest('[data-k]'); if(b){ b.classList.remove('hit'); void b.offsetWidth; b.classList.add('hit'); press(b.getAttribute('data-k')); return; }
       if(ev.target.closest('.lkok'))submit(); if(ev.target.closest('.lkx'))hideLock();
       if(ev.target.closest('.lkforgot'))err.innerHTML='Die Sperre schützt vor neugierigen Blicken, verschlüsselt aber nichts. Zum Zurücksetzen sag Claude im Chat Bescheid.'; });
