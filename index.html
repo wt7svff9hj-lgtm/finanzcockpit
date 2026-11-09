@@ -1490,6 +1490,58 @@ input,select,textarea{font-size:16px}
 .updbar div{flex:1;min-width:0}.updbar b{display:block;font-size:14px}.updbar small{font-size:12px;opacity:.7}
 .updbar button{all:unset;cursor:pointer;flex:none;padding:9px 14px;border-radius:12px;background:var(--grad);color:var(--on-grad);font-weight:800;font-size:13.5px}
 .cdcap{display:none;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center}
+
+/* ===== Entsperren: Tasten & Animation ===== */
+.lkpad button{outline:none!important;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;transition:background .18s,transform .12s,box-shadow .18s}
+.lkpad button:focus,.lkpad button:focus-visible{outline:none!important;box-shadow:inset 0 1px 0 var(--hl)}
+.lkpad button.hit{background:color-mix(in srgb,var(--acc1) 28%,var(--surface2));transform:scale(.92);box-shadow:0 0 0 4px color-mix(in srgb,var(--acc1) 14%,transparent)}
+.lkpad button[data-k="del"].hit{background:transparent;box-shadow:none}
+.lkbio:focus,.lkbio:focus-visible{outline:none}
+.lkdots i{border-radius:50%!important}
+.lkdots i.on{animation:dotpop .28s cubic-bezier(.3,1.6,.5,1)}
+@keyframes dotpop{0%{transform:scale(.4)}100%{transform:scale(1.15)}}
+.lkburst{position:fixed;left:50%;top:var(--by,22%);width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,color-mix(in srgb,var(--acc1) 70%,transparent) 0%,color-mix(in srgb,var(--acc1) 25%,transparent) 45%,transparent 70%);transform:scale(0);opacity:0;z-index:0}
+.lkbox{z-index:1}
+@media (prefers-reduced-motion:no-preference){
+  .lockscr.success .lkburst{animation:lkburst .75s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes lkburst{0%{transform:scale(0);opacity:.9}100%{transform:scale(14);opacity:0}}
+  .lockscr.success .lklogo{animation:lklogo .5s cubic-bezier(.3,1.4,.5,1) forwards}
+  @keyframes lklogo{0%{transform:none}50%{transform:scale(1.18) rotate(-4deg)}100%{transform:scale(1.08)}}
+  .lockscr.success .lkpad,.lockscr.success .lkbio,.lockscr.success .lkor,.lockscr.success .lkforgot,.lockscr.success .lksub,.lockscr.success .lkver{transition:opacity .3s,transform .4s cubic-bezier(.2,.8,.2,1);opacity:0;transform:translateY(24px) scale(.97)}
+  .lockscr.success h3{transition:opacity .3s .1s}
+  .lockscr.success .lkdots i{animation:dotok .45s cubic-bezier(.3,1.5,.5,1) both}
+  .lockscr.success .lkdots i:nth-child(2){animation-delay:.05s}.lockscr.success .lkdots i:nth-child(3){animation-delay:.1s}.lockscr.success .lkdots i:nth-child(4){animation-delay:.15s}.lockscr.success .lkdots i:nth-child(n+5){animation-delay:.2s}
+  @keyframes dotok{0%{transform:scale(1)}50%{transform:scale(1.6)}100%{transform:scale(1.1)}}
+  .lockscr.out{animation:lkout .6s cubic-bezier(.4,0,.2,1) forwards;transition:none}
+  @keyframes lkout{0%{opacity:1;transform:none;filter:none}100%{opacity:0;transform:scale(1.12);filter:blur(14px)}}
+  html.unlocking main{animation:appin 1s cubic-bezier(.2,.8,.2,1) both}
+  .lkvault{position:fixed;z-index:2;pointer-events:none;opacity:0;transform:scale(.55) rotate(-30deg);transition:opacity .3s,transform .5s cubic-bezier(.3,1.35,.5,1);filter:drop-shadow(0 0 22px color-mix(in srgb,var(--acc1) 35%,transparent))}
+  .lkvault.in{opacity:1;transform:none}
+  .lkvault svg{width:100%;height:100%;overflow:visible}
+  .lkvault .vring{fill:color-mix(in srgb,var(--acc1) 7%,#0b0f0e);stroke:color-mix(in srgb,var(--acc1) 55%,transparent);stroke-width:5}
+  .lkvault .vring2{fill:none;stroke:color-mix(in srgb,var(--acc1) 22%,transparent);stroke-width:2}
+  .lkvault .vticks line{stroke:color-mix(in srgb,var(--acc1) 45%,transparent);stroke-width:2;stroke-linecap:round}
+  .lkvault .vb{fill:color-mix(in srgb,var(--acc1) 70%,#1a2320);transition:transform .4s cubic-bezier(.5,0,.2,1) .2s,opacity .4s .2s}
+  .lkvault .vwheel{transition:transform .62s cubic-bezier(.55,0,.25,1)}
+  .lkvault .vwheel line{stroke:var(--acc1);stroke-width:9;stroke-linecap:round}
+  .lkvault .vwheel circle{fill:var(--acc1)}
+  .lkvault .vrim{fill:none!important;stroke:color-mix(in srgb,var(--acc1) 80%,transparent);stroke-width:7}
+  .lkvault .vhub{fill:color-mix(in srgb,var(--acc1) 85%,#fff)!important}.lkvault .vhubin{fill:#0b0f0e!important}
+  .lkvault.spin .vwheel{transform:rotate(240deg)}
+  .lkvault.spin .vb{transform:translateY(24px);opacity:.35}
+  .lkvault.open{filter:drop-shadow(0 0 40px color-mix(in srgb,var(--acc1) 70%,transparent))}
+  .lkdoor,.lkdoor *{animation:none!important;transition:none!important}
+  .lkdoor{opacity:1!important;filter:none!important}
+  .lkdoor.l{clip-path:inset(0 50% 0 0)}.lkdoor.r{clip-path:inset(0 0 0 50%)}
+  .lkdoor.go{transition:transform .95s cubic-bezier(.7,0,.2,1)!important}
+  .lkdoor.l.go{transform:translateX(-52%)}.lkdoor.r.go{transform:translateX(52%)}
+  .lkseam{position:fixed;top:0;bottom:0;left:50%;width:3px;margin-left:-1.5px;z-index:10001;pointer-events:none;background:linear-gradient(transparent,var(--acc1) 30%,#fff 50%,var(--acc1) 70%,transparent);box-shadow:0 0 24px 6px color-mix(in srgb,var(--acc1) 60%,transparent);animation:seam .7s ease-out forwards}
+  @keyframes seam{0%{opacity:0;transform:scaleY(.2)}25%{opacity:1;transform:scaleY(1)}100%{opacity:0;transform:scaleY(1) scaleX(8)}}
+  @keyframes appin{0%{opacity:0;transform:scale(.94) translateY(26px);filter:blur(10px)}60%{filter:none}100%{opacity:1;transform:none;filter:none}}
+  html.unlocking .dash,html.unlocking #todocard,html.unlocking .tile{animation:rise .7s cubic-bezier(.2,.8,.2,1) both}
+  html.unlocking .dash{animation-delay:.18s}html.unlocking #todocard{animation-delay:.26s}
+  html.unlocking .tile:nth-child(1){animation-delay:.32s}html.unlocking .tile:nth-child(2){animation-delay:.37s}html.unlocking .tile:nth-child(3){animation-delay:.42s}html.unlocking .tile:nth-child(4){animation-delay:.47s}html.unlocking .tile:nth-child(5){animation-delay:.52s}html.unlocking .tile:nth-child(6){animation-delay:.57s}
+}
 [hidden]{display:none!important}
 body{margin:0;background:var(--bg)}
 .encbox{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--up-bg);border:1px solid color-mix(in srgb,var(--up) 35%,transparent);margin:10px 0}.encbox .ib{font-size:18px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--surface)}.encbox b{display:block;color:var(--up)}.encbox small{font-size:12.5px;color:var(--muted)}
@@ -3652,7 +3704,7 @@ body{margin:0;background:var(--bg)}
     var title={unlock:'Willkommen zurück',set1:'Neue PIN festlegen',set2:'PIN wiederholen',verify:'Aktuelle PIN eingeben'}[mode];
     var sub={unlock:bioGet()?'Tippe auf Face ID oder gib deine PIN ein.':'Gib deine PIN ein, um dein Finanzcockpit zu öffnen.',set1:'4 bis 8 Ziffern. Bestätige mit ✓.',set2:'Zur Sicherheit noch einmal.',verify:opts.why||'Zur Bestätigung.'}[mode];
     var len=mode==='unlock'||mode==='verify'?(cfg&&cfg.l||4):8;
-    el.innerHTML='<div class="lkbox">'+(mode==='unlock'?'':'<button type="button" class="lkx" aria-label="Abbrechen">×</button>')+'<div class="lklogo">'+document.querySelector('.logo').innerHTML+'</div><h3>'+title+'</h3><p class="lksub">'+sub+'</p>'+
+    el.innerHTML='<i class="lkburst"></i><div class="lkbox">'+(mode==='unlock'?'':'<button type="button" class="lkx" aria-label="Abbrechen">×</button>')+'<div class="lklogo">'+document.querySelector('.logo').innerHTML+'</div><h3>'+title+'</h3><p class="lksub">'+sub+'</p>'+
       (mode==='unlock'&&bioGet()?'<button type="button" class="lkbio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M9 9v1.5M15 9v1.5M12 9v4h-1M9.5 16a4 4 0 0 0 5 0"/></svg>Mit Face ID öffnen</button><p class="lkor">oder PIN eingeben</p>':'')+'<div class="lkdots" data-len="'+len+'">'+Array(len+1).join('<i></i>')+'</div><p class="lkerr" role="status"></p>'+keypad()+
       (mode==='set1'||mode==='set2'?'<button type="button" class="lkok" disabled>✓ Bestätigen</button>':'')+
 
@@ -3665,7 +3717,7 @@ body{margin:0;background:var(--bg)}
       if(mode==='unlock'||mode==='verify'){
         if(Date.now()<LK.until){ err.textContent='Zu viele Versuche. Bitte '+Math.ceil((LK.until-Date.now())/1000)+' s warten.'; val=''; paint(); return; }
         var h=await pinHash(val,cfg.s);
-        if(h===cfg.h){ LK.fails=0; if(mode==='unlock'){ LK.unlocked=true; el.querySelector('.lkdots').classList.add('ok'); setTimeout(function(){hideLock();},260); } else { hideLock(); opts.ok&&opts.ok(); } }
+        if(h===cfg.h){ LK.fails=0; if(mode==='unlock'){ LK.unlocked=true; lkSuccess(el); } else { hideLock(); opts.ok&&opts.ok(); } }
         else { LK.fails++; if(LK.fails>=5){LK.until=Date.now()+30000; LK.fails=0;} fail('Falsche PIN'); }
       } else if(mode==='set1'){ showLock('set2',{first:val}); }
       else if(mode==='set2'){ if(val!==opts.first){ fail('Die PINs stimmen nicht überein'); return; } var salt=Math.random().toString(36).slice(2)+Date.now().toString(36), h2=await pinHash(val,salt);
@@ -3673,14 +3725,37 @@ body{margin:0;background:var(--bg)}
     }
     function press(k){ if(k==='del'){val=val.slice(0,-1);paint();return;} if(val.length>=8)return; val+=k; paint(); err.textContent='';
       if((mode==='unlock'||mode==='verify')&&val.length===len)setTimeout(submit,120); }
-    async function tryBio(){ var ok=await bioUnlock(); if(ok&&el.isConnected){ LK.unlocked=true; el.querySelector('.lkdots').classList.add('ok'); setTimeout(function(){hideLock();},220); } }
-    el.addEventListener('click',function(ev){ if(ev.target.closest('.lkbio')){ tryBio(); return; } var b=ev.target.closest('[data-k]'); if(b){ b.classList.remove('hit'); void b.offsetWidth; b.classList.add('hit'); press(b.getAttribute('data-k')); return; }
+    async function tryBio(){ var ok=await bioUnlock(); if(ok&&el.isConnected){ LK.unlocked=true; lkSuccess(el); } }
+    el.addEventListener('click',function(ev){ if(ev.target.closest('.lkbio')){ tryBio(); return; } var b=ev.target.closest('[data-k]'); if(b){ b.classList.remove('hit'); void b.offsetWidth; b.classList.add('hit'); clearTimeout(b._ht); b._ht=setTimeout(function(){b.classList.remove('hit');},220); if(b.blur)b.blur(); press(b.getAttribute('data-k')); return; }
       if(ev.target.closest('.lkok'))submit(); if(ev.target.closest('.lkx'))hideLock();
       if(ev.target.closest('.lkforgot'))err.innerHTML='Die Sperre schützt vor neugierigen Blicken, verschlüsselt aber nichts. Zum Zurücksetzen sag Claude im Chat Bescheid.'; });
     el._key=function(e){ if(!el.isConnected){document.removeEventListener('keydown',el._key);return;} if(/^[0-9]$/.test(e.key))press(e.key); else if(e.key==='Backspace')press('del'); else if(e.key==='Enter'&&okb&&!okb.disabled)submit(); else if(e.key==='Escape'&&mode!=='unlock')hideLock(); };
     document.addEventListener('keydown',el._key);
   }
-  function hideLock(){ var el=$('lockscr'); var wasUnlock=el&&el.getAttribute('data-mode')==='unlock'; document.documentElement.classList.remove('locked'); if(wasUnlock)setTimeout(wlTrigger,300); if(!el)return; el.classList.add('out'); setTimeout(function(){el.remove();},380); }
+  function lkSuccess(el){
+    try{ var lr=el.querySelector('.lklogo').getBoundingClientRect(), bu=el.querySelector('.lkburst'); bu.style.left=(lr.left+lr.width/2)+'px'; bu.style.top=(lr.top+lr.height/2)+'px'; }catch(e){}
+    el.querySelector('.lkdots').classList.add('ok'); el.classList.add('success');
+    try{navigator.vibrate&&navigator.vibrate(18);}catch(e){}
+    var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+    if(rm){ setTimeout(function(){hideLock();},80); return; }
+    var v=document.createElement('div'); v.className='lkvault'; v.innerHTML='<svg viewBox="-140 -140 280 280" aria-hidden="true"><g class="vbolts"><g transform="rotate(0)"><rect class="vb" x="-7" y="-128" width="14" height="22" rx="4"/></g><g transform="rotate(45)"><rect class="vb" x="-7" y="-128" width="14" height="22" rx="4"/></g><g transform="rotate(90)"><rect class="vb" x="-7" y="-128" width="14" height="22" rx="4"/></g><g transform="rotate(135)"><rect class="vb" x="-7" y="-128" width="14" height="22" rx="4"/></g><g transform="rotate(180)"><rect class="vb" x="-7" y="-128" width="14" height="22" rx="4"/></g><g transform="rotate(225)"><rect class="vb" x="-7" y="-128" width="14" height="22" rx="4"/></g><g transform="rotate(270)"><rect class="vb" x="-7" y="-128" width="14" height="22" rx="4"/></g><g transform="rotate(315)"><rect class="vb" x="-7" y="-128" width="14" height="22" rx="4"/></g></g><circle class="vring" r="112"/><circle class="vring2" r="100"/><g class="vticks"><line x1="0" y1="-98" x2="0" y2="-88" transform="rotate(0)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(10)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(20)"/><line x1="0" y1="-98" x2="0" y2="-88" transform="rotate(30)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(40)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(50)"/><line x1="0" y1="-98" x2="0" y2="-88" transform="rotate(60)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(70)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(80)"/><line x1="0" y1="-98" x2="0" y2="-88" transform="rotate(90)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(100)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(110)"/><line x1="0" y1="-98" x2="0" y2="-88" transform="rotate(120)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(130)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(140)"/><line x1="0" y1="-98" x2="0" y2="-88" transform="rotate(150)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(160)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(170)"/><line x1="0" y1="-98" x2="0" y2="-88" transform="rotate(180)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(190)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(200)"/><line x1="0" y1="-98" x2="0" y2="-88" transform="rotate(210)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(220)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(230)"/><line x1="0" y1="-98" x2="0" y2="-88" transform="rotate(240)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(250)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(260)"/><line x1="0" y1="-98" x2="0" y2="-88" transform="rotate(270)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(280)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(290)"/><line x1="0" y1="-98" x2="0" y2="-88" transform="rotate(300)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(310)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(320)"/><line x1="0" y1="-98" x2="0" y2="-88" transform="rotate(330)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(340)"/><line x1="0" y1="-98" x2="0" y2="-92" transform="rotate(350)"/></g><g class="vwheel"><g transform="rotate(0)"><line x1="0" y1="0" x2="0" y2="-74"/><circle cx="0" cy="-78" r="9"/></g><g transform="rotate(120)"><line x1="0" y1="0" x2="0" y2="-74"/><circle cx="0" cy="-78" r="9"/></g><g transform="rotate(240)"><line x1="0" y1="0" x2="0" y2="-74"/><circle cx="0" cy="-78" r="9"/></g><circle class="vrim" r="56"/><circle class="vhub" r="20"/><circle class="vhubin" r="8"/></g></svg>';
+    var pad=el.querySelector('.lkpad'), pr=pad&&pad.getBoundingClientRect(), cy=(pr&&pr.height>40)?pr.top+pr.height/2:innerHeight*.62;
+    var lo=el.querySelector('.lkdots').getBoundingClientRect().bottom+30, sz=Math.min(innerWidth*.66,(innerHeight-lo)*.8,300); cy=Math.max(cy,lo+sz/2);
+    v.style.width=v.style.height=sz+'px'; v.style.left=(innerWidth/2-sz/2)+'px'; v.style.top=(cy-sz/2)+'px'; el.appendChild(v);
+    setTimeout(function(){ v.classList.add('in'); },110);
+    setTimeout(function(){ v.classList.add('spin'); try{navigator.vibrate&&navigator.vibrate([10,60,10,60,24]);}catch(e){} },260);
+    setTimeout(function(){ v.classList.add('open'); },820);
+    setTimeout(function(){hideLock();},900);
+  }
+  function hideLock(){ var el=$('lockscr'); var wasUnlock=el&&el.getAttribute('data-mode')==='unlock'; document.documentElement.classList.remove('locked');
+    if(wasUnlock){ var r=document.documentElement; r.classList.remove('unlocking'); void r.offsetWidth; r.classList.add('unlocking'); setTimeout(function(){r.classList.remove('unlocking');},1500); setTimeout(wlTrigger,950); }
+    if(!el)return;
+    if(wasUnlock&&el.querySelector('.lkvault')){ var dl=[];
+      ['l','r'].forEach(function(side){ var c=el.cloneNode(true); c.removeAttribute('id'); c.classList.add('lkdoor',side); document.body.appendChild(c); dl.push(c); });
+      var sm=document.createElement('i'); sm.className='lkseam'; document.body.appendChild(sm); el.remove();
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){ dl.forEach(function(c){c.classList.add('go');}); }); });
+      setTimeout(function(){ dl.forEach(function(c){c.remove();}); sm.remove(); },1150); return; }
+    el.classList.add('out'); setTimeout(function(){el.remove();},wasUnlock?700:380); }
   function lockMenu(){
     var cfg=pinCfg(), old=$('lkmenu'); if(old){old.remove();return;}
     var el=document.createElement('div'); el.id='lkmenu'; el.className='accpop lkmenu';
@@ -4086,7 +4161,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='1.0.0', APP_DATE='09.11.2026';
+  var APP_VERSION='1.0.2', APP_DATE='09.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
