@@ -1860,6 +1860,7 @@ html.discreet input.dscm:focus{filter:none}
 .lm.mio{background:#FFD27A;border-color:#FFD27A}.lm.mio span{top:auto;bottom:14px}
 .lm.rent{border-style:dashed}
 .lifeln.empty .frsub{margin-top:4px}
+.cmpmini{margin:-8px 0 8px;font-size:13.5px;color:var(--muted)}.cmpmini b{color:var(--fg)}
 .vglink{display:inline-block;margin:6px 0 4px;color:var(--acc1);font-weight:700;font-size:14px;text-decoration:none}
 #page-vergleiche .card{position:relative}
 .pyr{display:flex;flex-direction:column;align-items:center;gap:4px;margin:4px 0 12px}
@@ -1870,6 +1871,19 @@ html.discreet input.dscm:focus{filter:none}
 .pyb.me b{position:absolute;right:-8px;top:-9px;background:var(--acc1);color:#04140D;font-size:11px;font-weight:800;padding:2px 8px;border-radius:10px}
 .jobdots{display:flex;gap:6px;margin:4px 0 6px}
 .jobdots i{flex:1;height:30px;border-radius:8px;background:linear-gradient(to right,var(--acc1) var(--f),color-mix(in srgb,var(--fg) 9%,transparent) var(--f))}
+
+/* v1.9 Freiheit als eigene Seite */
+.frhero{padding:22px 22px 18px!important;background:radial-gradient(120% 90% at 0% 0%,color-mix(in srgb,#FFD27A 13%,transparent),transparent 55%),radial-gradient(100% 80% at 100% 100%,color-mix(in srgb,var(--acc1) 16%,transparent),transparent 60%),var(--surface)!important}
+.frhero{display:flex;flex-direction:column;justify-content:center}
+.frhero .frhd{margin:0 0 6px}
+.frhero .frclock{border-bottom:none;margin:0;padding:6px 0 0;gap:22px}
+.frhero .frclock .hg{width:84px;height:156px}
+.frhero .frbig b{font-size:46px}
+.frhero .frbig{font-size:18px}
+.frhero .frsub{font-size:14.5px}
+#frlifebox .lifeln{border-bottom:none;margin:0;padding:0}
+#frlifebox:empty{display:none}
+@media (max-width:420px){ .frhero .frbig b{font-size:38px} .frhero .frclock .hg{width:70px;height:130px} .frhero .frclock{gap:16px} }
 [hidden]{display:none!important}
 body{margin:0;background:var(--bg)}
 .encbox{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--up-bg);border:1px solid color-mix(in srgb,var(--up) 35%,transparent);margin:10px 0}.encbox .ib{font-size:18px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--surface)}.encbox b{display:block;color:var(--up)}.encbox small{font-size:12.5px;color:var(--muted)}
@@ -1895,6 +1909,7 @@ body{margin:0;background:var(--bg)}
     <a href="#einnahmen" id="nav-einnahmen">Gehalt</a>
     <a href="#notgroschen" id="nav-notgroschen">Notgroschen</a>
     <a href="#ausblick" id="nav-ausblick">Ausblick</a>
+    <a href="#freiheit" id="nav-freiheit">Freiheit</a>
     <a href="#rendite" id="nav-rendite">Rendite</a>
     <a href="#ertraege" id="nav-ertraege">Erträge</a>
     <a href="#freistellung" id="nav-freistellung">Freistellung</a>
@@ -1921,21 +1936,6 @@ body{margin:0;background:var(--bg)}
       <section class="card ins" id="dashreview" hidden></section>
       <section class="card ins" id="dashms" hidden></section>
       <section class="card ins" id="cmpcard"></section>
-      <section class="card ins" id="freecard">
-        <h2>Finanzielle Freiheit</h2>
-        <div id="freebox"></div>
-        <button type="button" class="linkbtn" id="freeedit">Ausgaben anpassen</button>
-        <div id="freeform" hidden>
-          <div class="inline">
-            <label class="f">Monatliche Ausgaben in Euro
-              <input class="num" type="text" inputmode="decimal" id="lifecost" autocomplete="off" placeholder="aus Fixkosten">
-            </label>
-            <button type="button" class="btn primary" id="lifecostsave">Speichern</button>
-          </div>
-          <p class="tasub">4-%-Regel: Wer das 25-Fache seiner Jahresausgaben besitzt, gilt als finanziell frei. Leer lassen = Fixkosten verwenden.</p>
-        </div>
-        <p class="msg" id="freemsg" role="status"></p>
-      </section>
     </div>
     <p class="sect">Monatsablauf</p>
     <section class="card clcard" id="clcard">
@@ -2280,6 +2280,25 @@ body{margin:0;background:var(--bg)}
   </div>
 
   <!-- KAUFZIELE -->
+  <div class="wrap" id="page-freiheit" hidden>
+    <section class="card frhero" id="frclockbox"></section>
+    <section class="card" id="frlifebox"></section>
+    <section class="card" id="freecard">
+        <h2>Freiheits-Rechnung</h2>
+        <div id="freebox"></div>
+        <button type="button" class="linkbtn" id="freeedit">Ausgaben anpassen</button>
+        <div id="freeform" hidden>
+          <div class="inline">
+            <label class="f">Monatliche Ausgaben in Euro
+              <input class="num" type="text" inputmode="decimal" id="lifecost" autocomplete="off" placeholder="aus Fixkosten">
+            </label>
+            <button type="button" class="btn primary" id="lifecostsave">Speichern</button>
+          </div>
+          <p class="tasub">4-%-Regel: Wer das 25-Fache seiner Jahresausgaben besitzt, gilt als finanziell frei. Leer lassen = Fixkosten verwenden.</p>
+        </div>
+        <p class="msg" id="freemsg" role="status"></p>
+      </section>
+  </div>
   <div class="wrap" id="page-vergleiche" hidden>
     <section class="card vghead"><h2>Vergleiche</h2><p class="note">Wie stehst du da – in Deutschland, weltweit und beim Gehalt? Alle Vergleiche beruhen auf offiziellen Statistiken. Deine Daten verlassen dabei nie dein Gerät.</p></section>
     <section class="card" id="vgde"></section>
@@ -3588,7 +3607,7 @@ body{margin:0;background:var(--bg)}
   ICO.eye='<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'; ICO.eyeoff='<path d="M3 3l18 18M10.6 5.1A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4M6.6 6.6C3.9 8.4 2 12 2 12s3.6 7 10 7c1.7 0 3.2-.5 4.5-1.2M9.9 9.9a3 3 0 0 0 4.2 4.2"/>'; ICO.hourglass='<path d="M6 3h12M6 21h12M7 3c0 5 5 6 5 9s-5 4-5 9M17 3c0 5-5 6-5 9s5 4 5 9"/>'; ICO.users='<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.5 3.3-5.5 6.5-5.5s5.9 2 6.5 5.5M16 4.8a3.3 3.3 0 0 1 0 6.4M18.5 14.8c1.7.8 2.8 2.6 3 5.2"/>';
   ICO.globe='<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/>'; ICO.briefcase='<rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/>';
   ICO.cloud='<path d="M7.5 18.5h9.5a4 4 0 0 0 .6-7.96A5.8 5.8 0 0 0 6.4 9.9a4.3 4.3 0 0 0 1.1 8.6z"/><path d="M9.6 14l1.8 1.8 3.4-3.6"/>'; ICO.alert='<circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.6v.01"/>';
-  var NAV_ICO={vergleiche:'users',start:'check',uebersicht:'home',einnahmen:'wallet',notgroschen:'shield',ausblick:'target',kaufziele:'bag',rebalancing:'pie',rendite:'percent',ertraege:'bars',freistellung:'doc',fixkosten:'loop',sparplan:'cal'};
+  var NAV_ICO={freiheit:'hourglass',vergleiche:'users',start:'check',uebersicht:'home',einnahmen:'wallet',notgroschen:'shield',ausblick:'target',kaufziele:'bag',rebalancing:'pie',rendite:'percent',ertraege:'bars',freistellung:'doc',fixkosten:'loop',sparplan:'cal'};
   var TASK_ICO={0:'home',1:'shield',2:'target',3:'loop',4:'cal',5:'percent',6:'bars',9:'doc',11:'note'};
 
   /* Kaufziele */
@@ -3878,20 +3897,23 @@ body{margin:0;background:var(--bg)}
     var ip=$('lifecost'), lc=lifeCost(), fkT=fkMonthlyTotal();
     if(ip&&document.activeElement!==ip){var g=docs['settings/main']; ip.value=g&&+g.lifeCost>0?nf0.format(+g.lifeCost):''; ip.placeholder=fkT>0?'aus Fixkosten: '+nf0.format(fkT):'z. B. 2.200';}
     var wc=S.filter(function(q){return q.total>0;}), last=wc[wc.length-1];
-    if(!last){box.innerHTML='<p class="empty">Noch keine Vermögensdaten.</p>';return;}
+    var cb=$('frclockbox'), lb=$('frlifebox');
+    if(!last){box.innerHTML='<p class="empty">Noch keine Vermögensdaten.</p>'; if(cb)cb.innerHTML=''; if(lb)lb.innerHTML=''; return;}
     if(!lc){$('freeform').hidden=false; $('freeedit').hidden=true;} else {$('freeedit').hidden=false; if(!window.__freeOpen)$('freeform').hidden=true;}
+    if(cb)cb.innerHTML='<p class="eyebrow frhd">Finanzielle Freiheit</p>'+(lc?freeClock(S,lc):'<div class="frempty"><span class="ib">'+ico('hourglass')+'</span><p>Trag unten deine monatlichen Ausgaben ein – dann füllt sich hier deine Freiheits-Uhr.</p></div>');
+    if(lb)lb.innerHTML=lifeLine(S,lc);
     if(!lc){box.innerHTML='<div class="frempty"><span class="ib">'+ico('mountain')+'</span><p>Trag deine monatlichen Ausgaben ein (oder deine Fixkosten im Reiter „Fixkosten“). Dann siehst du, wie weit dich dein Vermögen trägt – nach der 4-%-Regel.</p></div>';return;}
     var cost=lc.v, tot=last.total, cov=tot*0.04/12/cost*100, months=tot/cost, yrs=Math.floor(months/12), mo=Math.floor(months%12), fz=cost*12*25, rest=Math.max(0,fz-tot);
-    var pace=fcPace(), eta=null; if(pace&&pace.per>0&&rest>0){var mm=Math.ceil(rest/pace.per); eta=ymFromIdx(ymIdx(last.ym)+mm);}
+    var eta=null; if(rest>0){ var mm=projMonths(tot,fz,planSave()); if(mm!=null)eta=ymFromIdx(ymIdx(last.ym)+mm); }
     var ring=Math.min(100,cov), C=2*Math.PI*44;
-    box.innerHTML=freeClock(S,lc)+lifeLine(S,lc)+'<div class="frtop"><svg viewBox="0 0 110 110" class="frring" aria-hidden="true"><circle cx="55" cy="55" r="44" fill="none" stroke="var(--surface2)" stroke-width="11"/><circle cx="55" cy="55" r="44" fill="none" stroke="url(#frg)" stroke-width="11" stroke-linecap="round" stroke-dasharray="'+(C*ring/100).toFixed(1)+' '+C.toFixed(1)+'" transform="rotate(-90 55 55)" class="frarc"/><defs><linearGradient id="frg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--acc1)"/><stop offset="1" stop-color="var(--acc2)"/></linearGradient></defs></svg>'+
+    box.innerHTML='<div class="frtop"><svg viewBox="0 0 110 110" class="frring" aria-hidden="true"><circle cx="55" cy="55" r="44" fill="none" stroke="var(--surface2)" stroke-width="11"/><circle cx="55" cy="55" r="44" fill="none" stroke="url(#frg)" stroke-width="11" stroke-linecap="round" stroke-dasharray="'+(C*ring/100).toFixed(1)+' '+C.toFixed(1)+'" transform="rotate(-90 55 55)" class="frarc"/><defs><linearGradient id="frg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--acc1)"/><stop offset="1" stop-color="var(--acc2)"/></linearGradient></defs></svg>'+
       '<div class="frc"><b>'+nf0.format(Math.round(cov))+'&nbsp;%</b><small>frei</small></div>'+
       '<div class="frtxt"><p class="eyebrow">4-%-Regel</p><p>Dauerhaft <b>'+eur(tot*0.04/12)+'</b> pro Monat – das deckt '+pct(cov)+' deiner Ausgaben ('+eur(cost)+').</p></div></div>'+
       '<div class="mini3">'+
         '<div><span>Reichweite</span><b>'+yrs+' J. '+mo+' M.</b><em>ohne Gehalt</em></div>'+
         '<div class="hl"><span>Frei ab</span><b>'+eur(fz)+'</b><em>25 × Ausgaben</em></div>'+
         '<div><span>'+(rest>0?'Noch':'Erreicht')+'</span><b>'+(rest>0?eur(rest):'✓')+'</b><em>'+(rest>0?(eta?'ca. '+MON[+eta.slice(5)-1]+' '+eta.slice(0,4):'Tempo unklar'):'Glückwunsch!')+'</em></div>'+
-      '</div><p class="tasub">'+(lc.src==='fix'?'Basis: Fixkosten':'Basis: deine Ausgaben')+(eta?' · Prognose ohne Zinseszins':'')+'</p>';
+      '</div><p class="tasub">'+(lc.src==='fix'?'Basis: Fixkosten':'Basis: deine Ausgaben')+(eta?' · Prognose mit Ø-Sparrate und 5 % Rendite':'')+'</p>';
   }
   async function saveLifeCost(){
     var raw=$('lifecost').value.trim(), v=raw===''?null:num(raw);
@@ -4552,7 +4574,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='1.8.0', APP_DATE='13.11.2026';
+  var APP_VERSION='1.9.0', APP_DATE='13.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
@@ -5208,14 +5230,14 @@ body{margin:0;background:var(--bg)}
   function route(){
     try{unbalance();}catch(e){}
     var h=(location.hash||'').replace('#','');
-    var page=['start','uebersicht','einnahmen','notgroschen','ausblick','kaufziele','rendite','ertraege','freistellung','fixkosten','sparplan','rebalancing','vergleiche'].indexOf(h)>-1?h:'start';
-    ['start','uebersicht','einnahmen','notgroschen','ausblick','kaufziele','rendite','ertraege','freistellung','fixkosten','sparplan','rebalancing','vergleiche'].forEach(function(n){
+    var page=['start','uebersicht','einnahmen','notgroschen','ausblick','kaufziele','rendite','ertraege','freistellung','fixkosten','sparplan','rebalancing','vergleiche','freiheit'].indexOf(h)>-1?h:'start';
+    ['start','uebersicht','einnahmen','notgroschen','ausblick','kaufziele','rendite','ertraege','freistellung','fixkosten','sparplan','rebalancing','vergleiche','freiheit'].forEach(function(n){
       $('page-'+n).hidden=page!==n;
       $('nav-'+n).setAttribute('aria-current',page===n?'page':'false');
     });
     navPill(true); try{tbSync(page);}catch(e){} try{moreClose();}catch(e){} pageAnim(page); balanceSoon(); try{renderPageTodo(page);}catch(e){} if(todoFocus!=null){ var tf=todoFocus; todoFocus=null; setTimeout(function(){gotoForm(tf);},350); }
     if(page==='start')renderDash();
-    if(page==='notgroschen')renderNg(); else if(page==='ausblick')renderAusblick(); else if(page==='fixkosten')fkCompute(); else if(page==='start')renderChecks(); else if(page==='ertraege')renderEr(); else if(page==='einnahmen')renderGh(); else if(page==='freistellung')renderFs(); else if(page==='kaufziele')renderKz(); else if(page==='rebalancing')renderRb(); else if(page==='vergleiche')renderVg(); else {mainChart.draw();}
+    if(page==='notgroschen')renderNg(); else if(page==='ausblick')renderAusblick(); else if(page==='fixkosten')fkCompute(); else if(page==='start')renderChecks(); else if(page==='ertraege')renderEr(); else if(page==='einnahmen')renderGh(); else if(page==='freistellung')renderFs(); else if(page==='kaufziele')renderKz(); else if(page==='rebalancing')renderRb(); else if(page==='vergleiche')renderVg(); else if(page==='freiheit')renderFree(series()); else {mainChart.draw();}
   }
 
 
@@ -5260,8 +5282,8 @@ body{margin:0;background:var(--bg)}
     var mx=Math.max(v,grp[3])*1.12, pos=function(x){return Math.min(100,x/mx*100).toFixed(1);};
     el.innerHTML=h+'<p class="cmpbig">Vor <b>'+pa+'&nbsp;%</b></p><p class="cmpsub">der Haushalte im Alter von '+grp[0]+(grp[1]<120?'–'+grp[1]:'+')+' Jahren</p>'+
       '<div class="cmpbar"><i class="cm med" style="left:'+pos(grp[2])+'%"><span>Median<br>'+eur(grp[2])+'</span></i><i class="cm avg" style="left:'+pos(grp[3])+'%"><span>Ø<br>'+eur(grp[3])+'</span></i><i class="cm you" style="left:'+pos(v)+'%"><span>Du</span></i></div>'+
-      '<div class="mini3"><div><span>Gesamt</span><b>vor '+pl+'&nbsp;%</b><em>ganz Deutschland</em></div><div><span>Faktor</span><b>'+nf1.format(v/grp[2]).replace(/,0$/,'')+'×</b><em>vom Median</em></div><div><span>Alter</span><b>'+age+'</b><em><button type="button" class="linkbtn" id="byedit">ändern</button></em></div></div>'+
-      '<a class="vglink" href="#vergleiche">Alle Vergleiche ansehen →</a><p class="tasub">Quelle: Deutsche Bundesbank, Vermögensbefragung PHF 2021 (Nettovermögen je Haushalt, inkl. Immobilien und Fahrzeuge, abzüglich Schulden). Der Rang in der Altersgruppe ist aus Median und Durchschnitt geschätzt. Neuere Gesamtzahl 2023: Median 103.200 €.</p>'; }
+      (tgt?'<div class="mini3"><div><span>Gesamt</span><b>vor '+pl+'&nbsp;%</b><em>ganz Deutschland</em></div><div><span>Faktor</span><b>'+nf1.format(v/grp[2]).replace(/,0$/,'')+'×</b><em>vom Median</em></div><div><span>Alter</span><b>'+age+'</b><em><button type="button" class="linkbtn" id="byedit">ändern</button></em></div></div>'+
+      '<a class="vglink" href="#vergleiche">Alle Vergleiche ansehen →</a><p class="tasub">Quelle: Deutsche Bundesbank, Vermögensbefragung PHF 2021 (Nettovermögen je Haushalt, inkl. Immobilien und Fahrzeuge, abzüglich Schulden). Der Rang in der Altersgruppe ist aus Median und Durchschnitt geschätzt. Neuere Gesamtzahl 2023: Median 103.200 €.</p>':'<p class="cmpmini">Gesamt in Deutschland: <b>vor '+pl+'&nbsp;%</b> · '+nf1.format(v/grp[2]).replace(/,0$/,'')+'× Median</p><a class="vglink" href="#vergleiche">Alle Vergleiche ansehen →</a><p class="tasub">Quelle: Bundesbank, PHF 2021 (Haushalte)</p>'); }
   async function saveByear(){ var bi=[].filter.call(document.querySelectorAll('#byear'),function(e){return e.offsetParent!==null;})[0]||$('byear'), v=+(bi.value||'').replace(/\D/g,''), y=new Date().getFullYear(); if(!(v>=y-100&&v<=y-16)){ say('cmpmsg','Bitte ein gültiges Geburtsjahr eingeben.','bad'); return; }
     try{ await write('settings/main',Object.assign({},docs['settings/main']||{},{byear:v})); $('cmpcard').__edit=false; var vd=$('vgde'); if(vd)vd.__edit=false; renderAll(); if(!$('page-vergleiche').hidden)renderVg(); }catch(e){ say('cmpmsg',failText(),'bad'); } }
 
@@ -5441,7 +5463,7 @@ body{margin:0;background:var(--bg)}
 
   /* ===== iOS-Shell: Navigationsleiste, Tab-Bar, Mehr-Sheet ===== */
   var TB_MAIN=['start','uebersicht','einnahmen','ausblick'];
-  var TB_LBL={vergleiche:'Vergleiche',start:'Start',uebersicht:'Übersicht',einnahmen:'Gehalt',notgroschen:'Notgroschen',ausblick:'Ausblick',rendite:'Rendite',ertraege:'Erträge',freistellung:'Freistellung',fixkosten:'Fixkosten',sparplan:'Sparplan',rebalancing:'Rebalancing',kaufziele:'Kaufziele'};
+  var TB_LBL={freiheit:'Freiheit',vergleiche:'Vergleiche',start:'Start',uebersicht:'Übersicht',einnahmen:'Gehalt',notgroschen:'Notgroschen',ausblick:'Ausblick',rendite:'Rendite',ertraege:'Erträge',freistellung:'Freistellung',fixkosten:'Fixkosten',sparplan:'Sparplan',rebalancing:'Rebalancing',kaufziele:'Kaufziele'};
   var TB_ICO={start:'home',uebersicht:'pie',einnahmen:'wallet',ausblick:'target'};
   var MORE_COL={notgroschen:'#30B0C7',rendite:'#30D158',ertraege:'#FF9F0A',freistellung:'#5E5CE6',fixkosten:'#FF453A',sparplan:'#0A84FF',rebalancing:'#BF5AF2',kaufziele:'#FF375F'};
   function curPage(){ var h=(location.hash||'#start').slice(1); return TB_LBL[h]?h:'start'; }
