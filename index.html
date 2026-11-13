@@ -1838,6 +1838,38 @@ html.discreet input.dscm:focus{filter:none}
 .cm.you{width:18px;height:18px;margin:-9px 0 0 -9px;background:var(--acc1);border:3px solid var(--surface);box-shadow:0 0 0 2px var(--acc1),0 0 14px var(--acc1)}
 .cm.you span{bottom:22px;font-size:12px;font-weight:800;color:var(--acc1)}
 @media (min-width:1100px){ .insights[data-n="4"],.insights[data-n="2"]{grid-template-columns:repeat(2,minmax(0,1fr))!important} .insights[data-n="1"]{grid-template-columns:1fr!important} }
+
+/* v1.7.1: Cloud-Status in die Einstellungen */
+.iosbar .topr>#sync{display:none!important}
+.splk.pnl .chip.sy{width:32px!important;height:32px!important;flex:none;cursor:default}
+.splk.pnl .chip.sy .syt{display:none}
+#setbtn{position:relative}
+#setbtn.syncbad::after{content:"";position:absolute;top:3px;right:3px;width:9px;height:9px;border-radius:50%;background:var(--down);box-shadow:0 0 0 2px var(--bg)}
+
+/* v1.8 Lebensweg & Vergleiche */
+.lifeln{padding:2px 0 16px;margin-bottom:14px;border-bottom:1px solid var(--line2)}
+.lifeln .eyebrow{margin:0 0 4px}
+.lfbig{margin:0 0 34px;font-size:15px;color:var(--muted)}.lfbig b{font-size:26px;font-weight:800;letter-spacing:-.03em;color:var(--fg)}
+.lfbar{position:relative;height:6px;border-radius:3px;background:color-mix(in srgb,var(--fg) 10%,transparent);margin:0 12px 44px}
+.lffill{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:linear-gradient(90deg,var(--acc1),#FFD27A)}
+.lm{position:absolute;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--surface);border:2px solid var(--muted)}
+.lm span{position:absolute;left:50%;transform:translateX(-50%);top:14px;white-space:nowrap;font-size:10.5px;font-style:normal;color:var(--muted);text-align:center;line-height:1.2}
+.lm span b{display:block;font-size:11px;color:var(--fg)}
+.lm.now{border-color:var(--fg)}.lm.now span{top:auto;bottom:14px}
+.lm.free{width:16px;height:16px;margin:-8px 0 0 -8px;background:var(--acc1);border:3px solid var(--surface);box-shadow:0 0 0 2px var(--acc1),0 0 12px var(--acc1)}.lm.free span b{color:var(--acc1)}
+.lm.mio{background:#FFD27A;border-color:#FFD27A}.lm.mio span{top:auto;bottom:14px}
+.lm.rent{border-style:dashed}
+.lifeln.empty .frsub{margin-top:4px}
+.vglink{display:inline-block;margin:6px 0 4px;color:var(--acc1);font-weight:700;font-size:14px;text-decoration:none}
+#page-vergleiche .card{position:relative}
+.pyr{display:flex;flex-direction:column;align-items:center;gap:4px;margin:4px 0 12px}
+.pyb{position:relative;width:var(--w);min-width:180px;max-width:100%;box-sizing:border-box;padding:8px 12px;border-radius:10px;text-align:center;background:color-mix(in srgb,var(--fg) 7%,transparent);font-size:12.5px;line-height:1.25}
+.pyb span{display:block;font-weight:700}.pyb em{font-style:normal;color:var(--muted);font-size:11.5px}
+.pyb.b4{background:color-mix(in srgb,#FFD27A 22%,transparent)}.pyb.b3{background:color-mix(in srgb,var(--acc1) 18%,transparent)}
+.pyb.me{outline:2px solid var(--acc1);box-shadow:0 0 18px -4px var(--acc1)}
+.pyb.me b{position:absolute;right:-8px;top:-9px;background:var(--acc1);color:#04140D;font-size:11px;font-weight:800;padding:2px 8px;border-radius:10px}
+.jobdots{display:flex;gap:6px;margin:4px 0 6px}
+.jobdots i{flex:1;height:30px;border-radius:8px;background:linear-gradient(to right,var(--acc1) var(--f),color-mix(in srgb,var(--fg) 9%,transparent) var(--f))}
 [hidden]{display:none!important}
 body{margin:0;background:var(--bg)}
 .encbox{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--up-bg);border:1px solid color-mix(in srgb,var(--up) 35%,transparent);margin:10px 0}.encbox .ib{font-size:18px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--surface)}.encbox b{display:block;color:var(--up)}.encbox small{font-size:12.5px;color:var(--muted)}
@@ -1870,6 +1902,7 @@ body{margin:0;background:var(--bg)}
     <a href="#sparplan" id="nav-sparplan">Sparplan</a>
     <a href="#rebalancing" id="nav-rebalancing">Rebalancing</a>
     <a href="#kaufziele" id="nav-kaufziele">Kaufziele</a>
+    <a href="#vergleiche" id="nav-vergleiche">Vergleiche</a>
   </nav>
 
   <div class="banner" id="nodb" hidden>Hier wird nichts dauerhaft für alle Geräte gespeichert. Öffne das Finanzcockpit über den Link in Claude, dann bleiben deine Eingaben erhalten und du siehst auf iPhone und iPad denselben Stand.</div>
@@ -2247,6 +2280,13 @@ body{margin:0;background:var(--bg)}
   </div>
 
   <!-- KAUFZIELE -->
+  <div class="wrap" id="page-vergleiche" hidden>
+    <section class="card vghead"><h2>Vergleiche</h2><p class="note">Wie stehst du da – in Deutschland, weltweit und beim Gehalt? Alle Vergleiche beruhen auf offiziellen Statistiken. Deine Daten verlassen dabei nie dein Gerät.</p></section>
+    <section class="card" id="vgde"></section>
+    <section class="card" id="vgworld"></section>
+    <section class="card" id="vgsal"></section>
+    <section class="card" id="vgjob"></section>
+  </div>
   <div class="wrap" id="page-kaufziele" hidden>
     <section class="card">
       <h2>Kaufziele</h2>
@@ -3546,8 +3586,9 @@ body{margin:0;background:var(--bg)}
   var CAT_ICO={etf:'etf',aktien:'pie',notgroschen:'shield',edelmetalle:'coin',tagesgeld:'percent',bargeld:'note',paypal:'wallet',verliehen:'swap',kaution:'key'};
   ['city','bag','clock','flag','trend','rocket','spark','book','quote','bell','shield','trophy','bulb','target','pie','etf','cal'].forEach(function(k){ if(ICO[k])return; ICO[k]={city:'<path d="M3 21h18M5 21V10h5v11M10 21V4h6v17M16 21v-8h4v8"/>',bag:'<path d="M6 8h12l-1 13H7zM9 8a3 3 0 0 1 6 0"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',flag:'<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',trend:'<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>',rocket:'<path d="M12 15l-3-3c1.5-4.5 5-8 10-8 0 5-3.5 8.5-8 10z"/><path d="M9 12H5l2-4h4M12 15v4l4-2v-4"/>',spark:'<path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/>',book:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/>',quote:'<path d="M7 17c-2 0-3-1.5-3-3.5C4 10 6 7 9 6M17 17c-2 0-3-1.5-3-3.5 0-3.5 2-6.5 5-7.5"/>',bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/>',shield:'<path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/>',trophy:'<path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8"/>',bulb:'<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/>',target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',pie:'<path d="M12 3a9 9 0 1 0 9 9h-9z"/>',etf:'<path d="M4 19h16M6 16l4-5 3 3 5-7"/>',cal:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>'}[k]; });
   ICO.eye='<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'; ICO.eyeoff='<path d="M3 3l18 18M10.6 5.1A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4M6.6 6.6C3.9 8.4 2 12 2 12s3.6 7 10 7c1.7 0 3.2-.5 4.5-1.2M9.9 9.9a3 3 0 0 0 4.2 4.2"/>'; ICO.hourglass='<path d="M6 3h12M6 21h12M7 3c0 5 5 6 5 9s-5 4-5 9M17 3c0 5-5 6-5 9s5 4 5 9"/>'; ICO.users='<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.5 3.3-5.5 6.5-5.5s5.9 2 6.5 5.5M16 4.8a3.3 3.3 0 0 1 0 6.4M18.5 14.8c1.7.8 2.8 2.6 3 5.2"/>';
+  ICO.globe='<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/>'; ICO.briefcase='<rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/>';
   ICO.cloud='<path d="M7.5 18.5h9.5a4 4 0 0 0 .6-7.96A5.8 5.8 0 0 0 6.4 9.9a4.3 4.3 0 0 0 1.1 8.6z"/><path d="M9.6 14l1.8 1.8 3.4-3.6"/>'; ICO.alert='<circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.6v.01"/>';
-  var NAV_ICO={start:'check',uebersicht:'home',einnahmen:'wallet',notgroschen:'shield',ausblick:'target',kaufziele:'bag',rebalancing:'pie',rendite:'percent',ertraege:'bars',freistellung:'doc',fixkosten:'loop',sparplan:'cal'};
+  var NAV_ICO={vergleiche:'users',start:'check',uebersicht:'home',einnahmen:'wallet',notgroschen:'shield',ausblick:'target',kaufziele:'bag',rebalancing:'pie',rendite:'percent',ertraege:'bars',freistellung:'doc',fixkosten:'loop',sparplan:'cal'};
   var TASK_ICO={0:'home',1:'shield',2:'target',3:'loop',4:'cal',5:'percent',6:'bars',9:'doc',11:'note'};
 
   /* Kaufziele */
@@ -3751,7 +3792,7 @@ body{margin:0;background:var(--bg)}
     try{ var sy=String(cy), inv=0, net=0; series().forEach(function(q){ if(q.ym.slice(0,4)!==sy||!(q.ein>0))return; var g=docs['gehalt/'+sy]||{}, nn2=g.n?+g.n[q.ym.slice(5)]:0; if(nn2>=300){inv+=q.ein; net+=nn2;} });
       T+=net>0?tile('#einnahmen','percent','Sparquote '+sy,pct(inv/net*100),eur(inv)+' investiert',inv/net>=.2?'ok':'',{pc:inv/net*100/0.5,cls:inv/net>=.2?'ok':''}):tile('#einnahmen','percent','Sparquote','–','Gehalt + ETF-Einzahlung nötig','',null); }catch(e){}
     $('dashtiles').innerHTML=T;
-    var S2=series(); try{renderReview(S2);}catch(e){} try{renderMs(S2);}catch(e){} try{renderFree(S2);}catch(e){} try{renderCmp(S2);}catch(e){} try{renderYrTeaser();renderYrChips();}catch(e){} try{insDots();}catch(e){}
+    var S2=series(); try{renderReview(S2);}catch(e){} try{renderMs(S2);}catch(e){} try{renderFree(S2);}catch(e){} try{renderCmp(S2);}catch(e){} try{ if(!$('page-vergleiche').hidden)renderVg(); }catch(e){} try{renderYrTeaser();renderYrChips();}catch(e){} try{insDots();}catch(e){}
   }
 
   /* ===== Zielaufteilung ===== */
@@ -3843,7 +3884,7 @@ body{margin:0;background:var(--bg)}
     var cost=lc.v, tot=last.total, cov=tot*0.04/12/cost*100, months=tot/cost, yrs=Math.floor(months/12), mo=Math.floor(months%12), fz=cost*12*25, rest=Math.max(0,fz-tot);
     var pace=fcPace(), eta=null; if(pace&&pace.per>0&&rest>0){var mm=Math.ceil(rest/pace.per); eta=ymFromIdx(ymIdx(last.ym)+mm);}
     var ring=Math.min(100,cov), C=2*Math.PI*44;
-    box.innerHTML=freeClock(S,lc)+'<div class="frtop"><svg viewBox="0 0 110 110" class="frring" aria-hidden="true"><circle cx="55" cy="55" r="44" fill="none" stroke="var(--surface2)" stroke-width="11"/><circle cx="55" cy="55" r="44" fill="none" stroke="url(#frg)" stroke-width="11" stroke-linecap="round" stroke-dasharray="'+(C*ring/100).toFixed(1)+' '+C.toFixed(1)+'" transform="rotate(-90 55 55)" class="frarc"/><defs><linearGradient id="frg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--acc1)"/><stop offset="1" stop-color="var(--acc2)"/></linearGradient></defs></svg>'+
+    box.innerHTML=freeClock(S,lc)+lifeLine(S,lc)+'<div class="frtop"><svg viewBox="0 0 110 110" class="frring" aria-hidden="true"><circle cx="55" cy="55" r="44" fill="none" stroke="var(--surface2)" stroke-width="11"/><circle cx="55" cy="55" r="44" fill="none" stroke="url(#frg)" stroke-width="11" stroke-linecap="round" stroke-dasharray="'+(C*ring/100).toFixed(1)+' '+C.toFixed(1)+'" transform="rotate(-90 55 55)" class="frarc"/><defs><linearGradient id="frg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--acc1)"/><stop offset="1" stop-color="var(--acc2)"/></linearGradient></defs></svg>'+
       '<div class="frc"><b>'+nf0.format(Math.round(cov))+'&nbsp;%</b><small>frei</small></div>'+
       '<div class="frtxt"><p class="eyebrow">4-%-Regel</p><p>Dauerhaft <b>'+eur(tot*0.04/12)+'</b> pro Monat – das deckt '+pct(cov)+' deiner Ausgaben ('+eur(cost)+').</p></div></div>'+
       '<div class="mini3">'+
@@ -4145,7 +4186,7 @@ body{margin:0;background:var(--bg)}
       '<p class="eyebrow">Hintergrund</p><label class="splk wltog skytog"><span class="ib">'+ico('city')+'</span><span class="spt"><b>Lebende Skyline</b><small>Wächst bis zur Million, Licht nach Tageszeit</small></span><input type="checkbox" id="skychk"'+(skyOn()?' checked':'')+'></label>'+
       '<p class="eyebrow">Begrüßung</p><label class="splk wltog"><span class="ib">'+ico('sun')+'</span><span class="spt"><b>Einmal täglich anzeigen</b><small>Fortschritt, Tipp &amp; Motivation</small></span><input type="checkbox" id="wlchk"></label>'+
       '<p class="eyebrow">Sicherheit</p><button type="button" class="splk"><span class="ib">'+ico('lock')+'</span><span class="spt"><b>App-Sperre</b><small>Aus</small></span><span class="chev2">›</span></button>'+
-      '<p class="eyebrow">Daten</p><button type="button" class="splk pnl"><span class="ib">'+ico('cloud')+'</span><span class="spt"><b>'+panelTitle()+'</b><small id="pnlsub">'+($('synccard')?'Abgleich, Verschlüsselung, Sicherung':'Sicherung ablegen oder einlesen')+'</small></span><span class="chev2">›</span></button><p class="spver">Finanzcockpit · '+verLabel()+'</p>';
+      '<p class="eyebrow">Daten</p><button type="button" class="splk pnl"><span class="chip sy" id="pnlst"></span><span class="spt"><b>'+panelTitle()+'</b><small id="pnlsub">'+($('synccard')?'Abgleich, Verschlüsselung, Sicherung':'Sicherung ablegen oder einlesen')+'</small></span><span class="chev2">›</span></button><p class="spver">Finanzcockpit · '+verLabel()+'</p>';
     document.querySelector('.topr').appendChild(pop);
     function close(){pop.hidden=true;b.setAttribute('aria-expanded','false');}
     b.addEventListener('click',function(ev){ev.stopPropagation(); var o=pop.hidden; pop.hidden=!o; b.setAttribute('aria-expanded',o?'true':'false'); if(o)setPaint(); var am=$('accpop'); if(am)am.hidden=true;});
@@ -4511,7 +4552,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='1.7.0', APP_DATE='13.11.2026';
+  var APP_VERSION='1.8.0', APP_DATE='13.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
@@ -5167,14 +5208,14 @@ body{margin:0;background:var(--bg)}
   function route(){
     try{unbalance();}catch(e){}
     var h=(location.hash||'').replace('#','');
-    var page=['start','uebersicht','einnahmen','notgroschen','ausblick','kaufziele','rendite','ertraege','freistellung','fixkosten','sparplan','rebalancing'].indexOf(h)>-1?h:'start';
-    ['start','uebersicht','einnahmen','notgroschen','ausblick','kaufziele','rendite','ertraege','freistellung','fixkosten','sparplan','rebalancing'].forEach(function(n){
+    var page=['start','uebersicht','einnahmen','notgroschen','ausblick','kaufziele','rendite','ertraege','freistellung','fixkosten','sparplan','rebalancing','vergleiche'].indexOf(h)>-1?h:'start';
+    ['start','uebersicht','einnahmen','notgroschen','ausblick','kaufziele','rendite','ertraege','freistellung','fixkosten','sparplan','rebalancing','vergleiche'].forEach(function(n){
       $('page-'+n).hidden=page!==n;
       $('nav-'+n).setAttribute('aria-current',page===n?'page':'false');
     });
     navPill(true); try{tbSync(page);}catch(e){} try{moreClose();}catch(e){} pageAnim(page); balanceSoon(); try{renderPageTodo(page);}catch(e){} if(todoFocus!=null){ var tf=todoFocus; todoFocus=null; setTimeout(function(){gotoForm(tf);},350); }
     if(page==='start')renderDash();
-    if(page==='notgroschen')renderNg(); else if(page==='ausblick')renderAusblick(); else if(page==='fixkosten')fkCompute(); else if(page==='start')renderChecks(); else if(page==='ertraege')renderEr(); else if(page==='einnahmen')renderGh(); else if(page==='freistellung')renderFs(); else if(page==='kaufziele')renderKz(); else if(page==='rebalancing')renderRb(); else {mainChart.draw();}
+    if(page==='notgroschen')renderNg(); else if(page==='ausblick')renderAusblick(); else if(page==='fixkosten')fkCompute(); else if(page==='start')renderChecks(); else if(page==='ertraege')renderEr(); else if(page==='einnahmen')renderGh(); else if(page==='freistellung')renderFs(); else if(page==='kaufziele')renderKz(); else if(page==='rebalancing')renderRb(); else if(page==='vergleiche')renderVg(); else {mainChart.draw();}
   }
 
 
@@ -5202,7 +5243,7 @@ body{margin:0;background:var(--bg)}
       '<rect clip-path="url(#hgt)" x="0" y="'+(55-+sandTop).toFixed(1)+'" width="60" height="'+sandTop+'" fill="url(#hgs)" opacity=".9"/><rect clip-path="url(#hgb)" x="0" y="'+(104-+sandBot).toFixed(1)+'" width="60" height="'+sandBot+'" fill="url(#hgs)"/>'+(fr<1?'<line class="hgflow" x1="30" y1="52" x2="30" y2="'+(104-+sandBot).toFixed(1)+'"/>':'')+
       '<path class="hgglass" d="M8 6h44c0 22-18 28-18 49 0 21 18 27 18 49H8c0-22 18-28 18-49C26 34 8 28 8 6z"/><path class="hgcap" d="M4 4h52M4 106h52"/></svg>';
     return '<div class="frclock">'+hg+'<div><p class="eyebrow">Freiheits-Uhr</p><p class="frbig"><b>'+ft.y+'</b> J. <b>'+ft.m+'</b> M. <b>'+ft.d+'</b> T.</p><p class="frsub">So lange könntest du von deinem Vermögen leben – ganz ohne Gehalt.</p>'+
-      (dd!=null?'<p class="frdelta '+(dd>=0?'up':'down')+'">'+(dd>=0?'+':'−')+nf0.format(Math.abs(Math.round(dd)))+' Tage Freiheit im '+MONFULL[+last.ym.slice(5)-1]+'</p>':'')+
+      (dd!=null?'<p class="frdelta '+(dd>=0?'up':'down')+'">'+MONFULL[+last.ym.slice(5)-1]+': '+nf0.format(Math.abs(Math.round(dd)))+' Tage '+(dd>=0?'dazugewonnen':'weniger')+'</p><p class="frsub sm">weil dein Vermögen zum Vormonat um '+eur(Math.abs(last.total-prev.total))+' '+(dd>=0?'gewachsen':'gesunken')+' ist – das entspricht '+nf0.format(Math.abs(Math.round(dd)))+' Tagen deiner Ausgaben</p>':'')+
       '<p class="frsub sm">'+pct(fr*100)+' der Sanduhr bis zur finanziellen Freiheit ('+eur(fz)+')</p></div></div>'; }
 
   /* ===== Vermögensvergleich (Bundesbank PHF) ===== */
@@ -5211,7 +5252,7 @@ body{margin:0;background:var(--bg)}
   function ncdf(z){ var t=1/(1+.2316419*Math.abs(z)), d=.3989423*Math.exp(-z*z/2), p=d*t*(.3193815+t*(-.3565638+t*(1.781478+t*(-1.821256+t*1.330274)))); return z>0?1-p:p; }
   function phfAgePct(v,g){ if(v<=0)return 3; var mu=Math.log(g[2]), sg=Math.sqrt(2*Math.log(g[3]/g[2])); return Math.max(1,Math.min(99,ncdf((Math.log(v)-mu)/sg)*100)); }
   function phfAllPct(v){ if(v<=900)return Math.max(1,v/900*10); for(var i=1;i<PHF_ALL.length;i++){ if(v<=PHF_ALL[i][1]){ var a=PHF_ALL[i-1],b=PHF_ALL[i]; return a[0]+(v-a[1])/(b[1]-a[1])*10; } } var sg=Math.sqrt(2*Math.log(316500/106600)), z=(Math.log(v)-Math.log(106600))/sg; return Math.max(90,Math.min(99.5,ncdf(z)*100)); }
-  function renderCmp(S){ var el=$('cmpcard'); if(!el)return; var g=docs['settings/main']||{}, by=+g.byear||0, wc=S.filter(function(q){return q.total>0;}), last=wc[wc.length-1];
+  function renderCmp(S,tgt){ var el=tgt||$('cmpcard'); if(!el)return; var g=docs['settings/main']||{}, by=+g.byear||0, wc=S.filter(function(q){return q.total>0;}), last=wc[wc.length-1];
     var h='<h2 class="h2i"><span class="ib sm">'+ico('users')+'</span>Wo stehst du?</h2>';
     if(!by||el.__edit){ el.innerHTML=h+'<p class="tasub">Gib einmal dein Geburtsjahr ein. Dann vergleicht das Cockpit dein Vermögen mit den Haushalten deiner Altersgruppe in Deutschland.</p><div class="inline"><label class="f">Geburtsjahr<input class="num" type="text" inputmode="numeric" id="byear" maxlength="4" placeholder="z. B. 1992" value="'+(by||'')+'"></label><button type="button" class="btn primary" id="byearsave">Speichern</button></div><p class="msg" id="cmpmsg" role="status"></p>'; return; }
     if(!last){ el.innerHTML=h+'<p class="empty">Noch keine Vermögensdaten.</p>'; return; }
@@ -5220,9 +5261,58 @@ body{margin:0;background:var(--bg)}
     el.innerHTML=h+'<p class="cmpbig">Vor <b>'+pa+'&nbsp;%</b></p><p class="cmpsub">der Haushalte im Alter von '+grp[0]+(grp[1]<120?'–'+grp[1]:'+')+' Jahren</p>'+
       '<div class="cmpbar"><i class="cm med" style="left:'+pos(grp[2])+'%"><span>Median<br>'+eur(grp[2])+'</span></i><i class="cm avg" style="left:'+pos(grp[3])+'%"><span>Ø<br>'+eur(grp[3])+'</span></i><i class="cm you" style="left:'+pos(v)+'%"><span>Du</span></i></div>'+
       '<div class="mini3"><div><span>Gesamt</span><b>vor '+pl+'&nbsp;%</b><em>ganz Deutschland</em></div><div><span>Faktor</span><b>'+nf1.format(v/grp[2]).replace(/,0$/,'')+'×</b><em>vom Median</em></div><div><span>Alter</span><b>'+age+'</b><em><button type="button" class="linkbtn" id="byedit">ändern</button></em></div></div>'+
-      '<p class="tasub">Quelle: Deutsche Bundesbank, Vermögensbefragung PHF 2021 (Nettovermögen je Haushalt, inkl. Immobilien und Fahrzeuge, abzüglich Schulden). Der Rang in der Altersgruppe ist aus Median und Durchschnitt geschätzt. Neuere Gesamtzahl 2023: Median 103.200 €.</p>'; }
-  async function saveByear(){ var v=+($('byear').value||'').replace(/\D/g,''), y=new Date().getFullYear(); if(!(v>=y-100&&v<=y-16)){ say('cmpmsg','Bitte ein gültiges Geburtsjahr eingeben.','bad'); return; }
-    try{ await write('settings/main',Object.assign({},docs['settings/main']||{},{byear:v})); $('cmpcard').__edit=false; renderAll(); }catch(e){ say('cmpmsg',failText(),'bad'); } }
+      '<a class="vglink" href="#vergleiche">Alle Vergleiche ansehen →</a><p class="tasub">Quelle: Deutsche Bundesbank, Vermögensbefragung PHF 2021 (Nettovermögen je Haushalt, inkl. Immobilien und Fahrzeuge, abzüglich Schulden). Der Rang in der Altersgruppe ist aus Median und Durchschnitt geschätzt. Neuere Gesamtzahl 2023: Median 103.200 €.</p>'; }
+  async function saveByear(){ var bi=[].filter.call(document.querySelectorAll('#byear'),function(e){return e.offsetParent!==null;})[0]||$('byear'), v=+(bi.value||'').replace(/\D/g,''), y=new Date().getFullYear(); if(!(v>=y-100&&v<=y-16)){ say('cmpmsg','Bitte ein gültiges Geburtsjahr eingeben.','bad'); return; }
+    try{ await write('settings/main',Object.assign({},docs['settings/main']||{},{byear:v})); $('cmpcard').__edit=false; var vd=$('vgde'); if(vd)vd.__edit=false; renderAll(); if(!$('page-vergleiche').hidden)renderVg(); }catch(e){ say('cmpmsg',failText(),'bad'); } }
+
+
+  /* ===== Projektion: Freiheit mit X Jahren ===== */
+  function planSave(){ var S=series().filter(function(q){return q.total>0;}); if(!S.length)return 0; var L=S[S.length-1], E=S.slice(-12).map(function(q){return q.ein;}).filter(function(v){return v>0;}), f=fcPace();
+    var a=E.length?E.reduce(function(x,y){return x+y;},0)/E.length:0, b=f?f.per-L.total*0.05/12:0; return Math.max(0,a,b); }
+  function projMonths(v,target,sr){ var r=0.05/12, m=0; if(v>=target)return 0; if(!(sr>0)&&v<=0)return null; while(v<target&&m<900){ v=v*(1+r)+sr; m++; } return m>=900?null:m; }
+  function projAt(v,months,sr){ var r=0.05/12; for(var i=0;i<months;i++)v=v*(1+r)+sr; return v; }
+  function lifeLine(S,lc){ var g=docs['settings/main']||{}, by=+g.byear||0, wc=S.filter(function(q){return q.total>0;}), L=wc[wc.length-1]; if(!L)return '';
+    if(!by)return '<div class="lifeln empty"><p class="eyebrow">Freiheit mit … Jahren</p><p class="frsub">Trag in der Karte „Wo stehst du?“ dein Geburtsjahr ein – dann siehst du, in welchem Alter du frei bist.</p></div>';
+    var sr=planSave(), n=new Date(), age=n.getFullYear()-by+(n.getMonth()/12), fz=lc?lc.v*12*25:null, mF=fz?projMonths(L.total,fz,sr):null, mM=projMonths(L.total,1e6,sr), m67=Math.max(0,Math.round((67-age)*12)), v67=projAt(L.total,m67,sr);
+    var aF=mF!=null?age+mF/12:null, aM=mM!=null?age+mM/12:null, hi=Math.max(67,aF||0,aM||0)+2, lo=Math.floor(age), pos=function(a){return ((a-lo)/(hi-lo)*100).toFixed(1);};
+    var mk=function(a,cls,lbl,sub){ return a==null?'':'<i class="lm '+cls+'" style="left:'+pos(a)+'%"><span><b>'+lbl+'</b>'+sub+'</span></i>'; };
+    return '<div class="lifeln"><p class="eyebrow">Dein Lebensweg</p><p class="lfbig">'+(aF!=null?'Frei mit <b>'+Math.floor(aF)+'</b>':(fz?'Freiheit: Tempo unklar':'Ausgaben fehlen'))+(aM!=null?' · Million mit <b>'+Math.floor(aM)+'</b>':'')+'</p>'+
+      '<div class="lfbar"><i class="lffill" style="width:'+pos(aF!=null?Math.min(aF,hi):age)+'%"></i>'+mk(age,'now','Heute',Math.floor(age)+' J.')+mk(aF,'free','Frei',(aF!=null?Math.floor(aF)+' J.':''))+mk(aM,'mio','1 Mio.',(aM!=null?Math.floor(aM)+' J.':''))+mk(67,'rent','Rente','67 J.')+'</div>'+
+      '<p class="frsub sm">Mit 67 hättest du rechnerisch etwa <b>'+eur(Math.round(v67/10000)*10000)+'</b>. Annahme: Ø '+eur(sr)+' Sparrate pro Monat und 5 % Rendite im Jahr.</p></div>'; }
+
+  /* ===== Vergleiche: weltweit, Gehalt, Mitarbeiter ===== */
+  var GW_USD=1.17, GW=[[0,0],[10000,42.1],[100000,83.2],[1000000,98.5]];
+  function gwPct(eurV){ var u=eurV*GW_USD; if(u<=0)return 0; if(u<10000)return u/10000*42.1; for(var i=2;i<GW.length;i++){ if(u<=GW[i][0]){ var a=GW[i-1],b=GW[i], t=Math.log(u/a[0])/Math.log(b[0]/a[0]); return a[1]+t*(b[1]-a[1]); } } return 98.5+Math.min(1.4,Math.log10(u/1e6)*1.4); }
+  var SAL=[[0,0],[33828,10],[44215,30],[54066,50],[80000,80],[100719,90],[219110,99]];
+  function salPct(v){ if(v<=0)return 0; if(v<SAL[1][0])return v/SAL[1][0]*10; for(var i=2;i<SAL.length;i++){ if(v<=SAL[i][0]){ var a=SAL[i-1],b=SAL[i], t=Math.log(v/a[0])/Math.log(b[0]/a[0]); return a[1]+t*(b[1]-a[1]); } } return 99.5; }
+  function jBrutto(){ var g=docs['settings/main']||{}; if(+g.jbrutto>0)return {v:+g.jbrutto,src:'eigen'}; try{ var gl=ghSeries().filter(function(o){return o.b>=1000;}).slice(-12); if(gl.length===12){ var sb=0; gl.forEach(function(o){sb+=o.b;}); return {v:sb,src:'gehalt'}; } }catch(e){} return null; }
+  function wkHours(){ var g=docs['settings/main']||{}; return +g.hours>0?+g.hours:40; }
+  function pctTxt(p){ return p>=99?'Top 1 %':p>=50?'Top '+nf0.format(Math.max(1,Math.round(100-p)))+' %':'vor '+nf0.format(Math.round(p))+' %'; }
+  function renderVg(){ var S=series(), wc=S.filter(function(q){return q.total>0;}), L=wc[wc.length-1];
+    try{ renderCmp(S,$('vgde')); }catch(e){}
+    var w=$('vgworld'), hW='<h2 class="h2i"><span class="ib sm">'+ico('globe')+'</span>Weltweit</h2>';
+    if(w){ if(!L)w.innerHTML=hW+'<p class="empty">Noch keine Vermögensdaten.</p>'; else { var p=gwPct(L.total), bands=[['über 1 Mio. $',1.5,'b4'],['100.000 – 1 Mio. $',15.3,'b3'],['10.000 – 100.000 $',41.1,'b2'],['unter 10.000 $',42.1,'b1']], u=L.total*GW_USD, my=u>=1e6?'b4':u>=1e5?'b3':u>=1e4?'b2':'b1';
+      w.innerHTML=hW+'<p class="cmpbig">Reicher als <b>'+nf0.format(Math.min(99.9,p).toFixed(0))+'&nbsp;%</b></p><p class="cmpsub" style="margin-bottom:14px">aller Erwachsenen auf der Welt · '+pctTxt(p)+'</p>'+
+        '<div class="pyr">'+bands.map(function(b,i){ return '<div class="pyb '+b[2]+(b[2]===my?' me':'')+'" style="--w:'+(34+i*22)+'%"><span>'+b[0]+'</span><em>'+nf1.format(b[1])+' % der Erwachsenen</em>'+(b[2]===my?'<b>Du</b>':'')+'</div>'; }).join('')+'</div>'+
+        '<p class="tasub">Quelle: UBS Global Wealth Report 2026 (Vermögenspyramide Ende 2025, 3,85 Mrd. Erwachsene). Umrechnung mit ca. 1,17 $ pro €. Rang innerhalb der Stufen geschätzt.</p>'; } }
+    var sl=$('vgsal'), hS='<h2 class="h2i"><span class="ib sm">'+ico('wallet')+'</span>Gehalt im Vergleich</h2>', jb=jBrutto();
+    if(sl){ if(!jb||sl.__edit){ sl.innerHTML=hS+'<p class="tasub">Trag dein Bruttojahresgehalt ein – inklusive Provision und Sonderzahlungen. Es wird nur für die Vergleiche hier genutzt.</p><div class="inline"><label class="f">Brutto pro Jahr<input class="num" type="text" inputmode="decimal" id="jbrutto" placeholder="z. B. 60.000" value="'+(jb?nf0.format(jb.v):'')+'"></label><button type="button" class="btn primary" id="jbsave">Speichern</button></div><p class="msg" id="jbmsg" role="status"></p>'; }
+      else { var sp=salPct(jb.v), mx=Math.max(jb.v,110000)*1.08, ps=function(x){return Math.min(100,x/mx*100).toFixed(1);};
+        sl.innerHTML=hS+'<p class="cmpbig">Mehr als <b>'+nf0.format(Math.round(sp))+'&nbsp;%</b></p><p class="cmpsub">der Vollzeitbeschäftigten in Deutschland verdienen weniger als du</p>'+
+          '<div class="cmpbar"><i class="cm med" style="left:'+ps(54066)+'%"><span>Median<br>54.066 €</span></i><i class="cm avg" style="left:'+ps(100719)+'%"><span>Top 10 %<br>100.719 €</span></i><i class="cm you" style="left:'+ps(jb.v)+'%"><span>Du</span></i></div>'+
+          '<div class="mini3"><div><span>Dein Brutto</span><b>'+eur(jb.v)+'</b><em>'+(jb.src==='gehalt'?'letzte 12 Monate':'pro Jahr')+'</em></div><div><span>Faktor</span><b>'+nf1.format(jb.v/54066).replace(/,0$/,'')+'×</b><em>vom Median</em></div><div><span>Ändern</span><b><button type="button" class="linkbtn" id="jbedit">Betrag</button></b><em>jederzeit</em></div></div>'+
+          '<p class="tasub">Quelle: Statistisches Bundesamt, Bruttojahresverdienste 2025 von Vollzeitbeschäftigten inkl. Sonderzahlungen (Median 54.066 €, untere 10 % bis 33.828 €, obere 10 % ab 100.719 €, oberstes 1 % ab 219.110 €).</p>'; } }
+    var jbx=$('vgjob'), hJ='<h2 class="h2i"><span class="ib sm">'+ico('briefcase')+'</span>Dein Geld als Mitarbeiter</h2>';
+    if(jbx){ if(!L||!jb){ jbx.innerHTML=hJ+'<p class="tasub">Sobald dein Bruttojahresgehalt oben eingetragen ist, siehst du hier, wie viele Stunden pro Woche dein Vermögen schon für dich arbeitet.</p>'; }
+      else { var wh=wkHours(), hr=jb.v/(wh*52), earn=L.total*0.04, hpw=earn/hr/52, fr=Math.min(1,hpw/wh), need=wh*52*hr/0.04, slots=Math.round(wh/5), filled=hpw/5;
+        var dots=''; for(var i=0;i<slots;i++){ var f=Math.max(0,Math.min(1,filled-i)); dots+='<i style="--f:'+(f*100).toFixed(0)+'%"></i>'; }
+        jbx.innerHTML=hJ+'<p class="cmpbig"><b>'+nf1.format(hpw).replace(/,0$/,'')+'&nbsp;Std.</b> pro Woche</p><p class="cmpsub" style="margin-bottom:14px">arbeitet dein Vermögen schon für dich – zu deinem Stundenlohn von '+eur2(hr)+' brutto.</p>'+
+          '<div class="jobdots" aria-hidden="true">'+dots+'</div><p class="frsub sm">Jeder Block = 5 Stunden deiner '+nf1.format(wh).replace(/,0$/,'')+'-Stunden-Woche</p>'+
+          '<div class="mini3"><div><span>Pro Jahr</span><b>'+eur(earn)+'</b><em>4-%-Regel</em></div><div><span>Teilzeit</span><b>'+pct(fr*100)+'</b><em>deiner Stelle</em></div><div class="hl"><span>Vollzeit ab</span><b>'+eur(need)+'</b><em>Vermögen</em></div></div>'+
+          '<p class="tasub">Dein Vermögen „verdient“ nach der 4-%-Regel 4 % pro Jahr. Ab '+eur(need)+' ersetzt es dein komplettes Bruttogehalt.</p>'; } }
+  }
+  async function saveJb(){ var v=num($('jbrutto').value); if(!(v>=1000&&v<1e8)){ say('jbmsg','Bitte einen Jahresbetrag eingeben.','bad'); return; }
+    try{ await write('settings/main',Object.assign({},docs['settings/main']||{},{jbrutto:v})); $('vgsal').__edit=false; renderVg(); }catch(e){ say('jbmsg',failText(),'bad'); } }
 
   /* ===== Lebende Skyline: wächst mit dem Vermögen bis zur Million, Licht nach Tageszeit ===== */
   var SKY={n:28,b:null};
@@ -5351,7 +5441,7 @@ body{margin:0;background:var(--bg)}
 
   /* ===== iOS-Shell: Navigationsleiste, Tab-Bar, Mehr-Sheet ===== */
   var TB_MAIN=['start','uebersicht','einnahmen','ausblick'];
-  var TB_LBL={start:'Start',uebersicht:'Übersicht',einnahmen:'Gehalt',notgroschen:'Notgroschen',ausblick:'Ausblick',rendite:'Rendite',ertraege:'Erträge',freistellung:'Freistellung',fixkosten:'Fixkosten',sparplan:'Sparplan',rebalancing:'Rebalancing',kaufziele:'Kaufziele'};
+  var TB_LBL={vergleiche:'Vergleiche',start:'Start',uebersicht:'Übersicht',einnahmen:'Gehalt',notgroschen:'Notgroschen',ausblick:'Ausblick',rendite:'Rendite',ertraege:'Erträge',freistellung:'Freistellung',fixkosten:'Fixkosten',sparplan:'Sparplan',rebalancing:'Rebalancing',kaufziele:'Kaufziele'};
   var TB_ICO={start:'home',uebersicht:'pie',einnahmen:'wallet',ausblick:'target'};
   var MORE_COL={notgroschen:'#30B0C7',rendite:'#30D158',ertraege:'#FF9F0A',freistellung:'#5E5CE6',fixkosten:'#FF453A',sparplan:'#0A84FF',rebalancing:'#BF5AF2',kaufziele:'#FF375F'};
   function curPage(){ var h=(location.hash||'#start').slice(1); return TB_LBL[h]?h:'start'; }
@@ -5400,7 +5490,11 @@ body{margin:0;background:var(--bg)}
     el.addEventListener('touchend',function(){ if(y0==null)return; y0=null; var v=dy/Math.max(1,Date.now()-t0);
       if(dy>90||(dy>30&&v>.5)){ el.style.transition='transform .26s cubic-bezier(.4,0,1,1)'; el.style.transform='translateY(110%)'; setTimeout(function(){ closeFn(); el.style.transition=''; el.style.transform=''; el.style.animation=''; },250); }
       else { el.style.transition='transform .3s cubic-bezier(.2,.9,.3,1)'; el.style.transform=''; setTimeout(function(){el.style.transition='';},320); } }); }
+  function syncMirror(){ var c=$('sync'), st=$('pnlst'), sb=$('pnlsub'), g=$('setbtn'); if(!c)return;
+    if(st){ st.className=c.className; st.innerHTML=c.innerHTML; }
+    if(sb&&c.title)sb.textContent=c.title; if(g)g.classList.toggle('syncbad',c.classList.contains('bad')); }
   function sheetsInit(){
+    try{ var sc=$('sync'); if(sc){ new MutationObserver(syncMirror).observe(sc,{attributes:true,childList:true,subtree:true}); syncMirror(); } }catch(e){}
     var tr=document.querySelector('.topr'); if(!tr)return;
     new MutationObserver(function(){ sheetsCheck(); var sp=$('setpop'), lm=$('lkmenu');
       if(sp)swipeClose(sp,function(){ sp.hidden=true; var b=$('setbtn'); if(b)b.setAttribute('aria-expanded','false'); sheetsCheck(); },isSheetMode);
@@ -5496,7 +5590,9 @@ body{margin:0;background:var(--bg)}
   document.querySelectorAll('#ghrange button').forEach(function(bt){ bt.addEventListener('click',function(){ ghRange=bt.getAttribute('data-r'); document.querySelectorAll('#ghrange button').forEach(function(x){x.setAttribute('aria-pressed',x===bt?'true':'false');}); ghChart.draw(); }); });
   $('lifecostsave').addEventListener('click',saveLifeCost);
   (function(){var pb=$('pybtn'); pb.setAttribute('aria-pressed',pyOn?'true':'false'); pb.addEventListener('click',function(){pyOn=!pyOn; try{localStorage.setItem('vb-py',pyOn?'1':'0');}catch(e){} pb.setAttribute('aria-pressed',pyOn?'true':'false'); mainChart.draw();});})();
-  accInit(); insInit(); lockInit(); funInit(); rbInit(); wlInit(); setInit(); try{sheetsInit();}catch(e){} try{heuteInit();}catch(e){} try{dscInit();}catch(e){}
+  accInit(); insInit(); lockInit(); funInit(); rbInit(); wlInit(); setInit(); try{sheetsInit();}catch(e){} try{syncMirror();}catch(e){} try{heuteInit();}catch(e){} try{dscInit();}catch(e){}
+    try{ var vp=$('page-vergleiche'); vp.addEventListener('click',function(ev){ if(ev.target.closest('#jbsave'))saveJb(); else if(ev.target.closest('#jbedit')){ $('vgsal').__edit=true; renderVg(); } else if(ev.target.closest('#byearsave'))saveByear(); else if(ev.target.closest('#byedit')){ $('vgde').__edit=true; renderVg(); } });
+      vp.addEventListener('keydown',function(ev){ if(ev.key!=='Enter')return; if(ev.target.id==='jbrutto')saveJb(); if(ev.target.id==='byear')saveByear(); }); }catch(e){}
     try{ var cc=$('cmpcard'); cc.addEventListener('click',function(ev){ if(ev.target.closest('#byearsave'))saveByear(); else if(ev.target.closest('#byedit')){ cc.__edit=true; renderCmp(series()); } }); cc.addEventListener('keydown',function(ev){ if(ev.key==='Enter'&&ev.target.id==='byear')saveByear(); }); }catch(e){} var skyW=innerWidth>=900; window.addEventListener('resize',function(){ if((innerWidth>=900)!==skyW){ skyW=innerWidth>=900; try{renderSky();}catch(e){} } }); setInterval(function(){ try{ var sk=$('sky'); if(sk&&!sk.classList.contains(skyPhase()))renderSky(); }catch(e){} },300000); setTimeout(checkUpdate,2500); document.addEventListener('visibilitychange',function(){ if(!document.hidden){ setTimeout(checkUpdate,1500); try{ var hd=$('heute'); if(hd&&hd.getAttribute('data-d')!==hDay()){ renderHeute(); tbBadges(); } var sk=$('sky'); if(sk&&!sk.classList.contains(skyPhase()))renderSky(); }catch(e){} } }); tipInit(); tipsInit(); todoInit(); sectInit();
   $('taedit').addEventListener('click',function(){ var f=$('taform'); f.hidden=!f.hidden; });
   document.addEventListener('click',function(ev){ var b=ev.target.closest('[data-y]'); if(b&&(b.closest('#yrchips')||b.closest('#yrteaser'))){ openYear(+b.getAttribute('data-y')); } });
