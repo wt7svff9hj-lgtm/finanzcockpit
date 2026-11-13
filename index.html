@@ -1877,6 +1877,10 @@ html.scrolled .iosbar .topr>#sync{top:50%;right:auto;left:0;transform:translateY
 .pyb.me b{position:absolute;right:-8px;top:-9px;background:var(--acc1);color:#04140D;font-size:11px;font-weight:800;padding:2px 8px;border-radius:10px}
 .jobdots{display:flex;gap:6px;margin:4px 0 6px}
 .jobdots i{flex:1;height:30px;border-radius:8px;background:linear-gradient(to right,var(--acc1) var(--f),color-mix(in srgb,var(--fg) 9%,transparent) var(--f))}
+.jobdots.rev i{background:linear-gradient(to right,color-mix(in srgb,var(--fg) 16%,transparent) var(--f),var(--acc1) var(--f))}
+.jobleg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--muted);margin:2px 0 10px}.jobleg i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px;vertical-align:-1px}.jobleg i.w{background:color-mix(in srgb,var(--fg) 16%,transparent)}.jobleg i.g{background:var(--acc1)}
+.jobfa{margin:0 0 4px;font-size:14.5px;color:var(--muted)}.jobfa b{color:var(--fg)}
+.cmpsub b{color:var(--fg)}
 
 /* v1.9 Freiheit als eigene Seite */
 .frhero{padding:22px 22px 18px!important;background:radial-gradient(120% 90% at 0% 0%,color-mix(in srgb,#FFD27A 13%,transparent),transparent 55%),radial-gradient(100% 80% at 100% 100%,color-mix(in srgb,var(--acc1) 16%,transparent),transparent 60%),var(--surface)!important}
@@ -4625,7 +4629,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='2.0.3', APP_DATE='13.11.2026';
+  var APP_VERSION='2.0.4', APP_DATE='13.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
@@ -5420,11 +5424,13 @@ body{margin:0;background:var(--bg)}
     var jbx=$('vgjob'), hJ='<h2 class="h2i"><span class="ib sm">'+ico('briefcase')+'</span>Dein Geld als Mitarbeiter</h2>';
     if(jbx){ if(!L||!jb){ jbx.innerHTML=hJ+'<p class="tasub">Sobald dein Bruttojahresgehalt oben eingetragen ist, siehst du hier, wie viele Stunden pro Woche dein Vermögen schon für dich arbeitet.</p>'; }
       else { var rr=rdRate(), wh=wkHours(), hr=jb.v/(wh*52), rate=rr?rr.r:0.07, earn=L.total*rate, hpw=earn/hr/52, h4=L.total*0.04/hr/52, fr=Math.min(1,hpw/wh), need=jb.v/rate, slots=Math.round(wh/5), filled=hpw/5;
-        var dots=''; for(var i=0;i<slots;i++){ var f=Math.max(0,Math.min(1,filled-i)); dots+='<i style="--f:'+(f*100).toFixed(0)+'%"></i>'; }
-        jbx.innerHTML=hJ+'<p class="cmpbig"><b>'+nf1.format(hpw).replace(/,0$/,'')+'&nbsp;Std.</b> pro Woche</p><p class="cmpsub" style="margin-bottom:14px">arbeitet dein Vermögen schon für dich – mit erwarteten '+eur(earn)+' Rendite im Jahr, gemessen an deinem Stundenlohn von '+eur2(hr)+' brutto.</p>'+
-          '<div class="jobdots" aria-hidden="true">'+dots+'</div><p class="frsub sm">Jeder Block = 5 Stunden deiner '+nf1.format(wh).replace(/,0$/,'')+'-Stunden-Woche</p>'+
-          '<div class="mini3"><div><span>Rendite</span><b>'+pct(rate*100)+'</b><em>'+(rr?'Ø deiner Anlagen':'Annahme')+'</em></div><div><span>Entnehmbar</span><b>'+nf1.format(h4).replace(/,0$/,'')+' Std.</b><em>4-%-Regel</em></div><div class="hl"><span>Vollzeit ab</span><b>'+eur(need)+'</b><em>Vermögen</em></div></div>'+
-          '<p class="tasub">'+(rr?'Die Rendite ist der gewichtete Durchschnitt aus deinem Reiter „Rendite“ ('+rr.n+' Positionen, '+eur(rr.a)+' erfasst). ':'Noch keine Renditen im Reiter „Rendite“ – gerechnet wird mit 7 % im Jahr. ')+'„Entnehmbar“ zeigt, wie viele Stunden dauerhaft drin wären, ohne das Vermögen aufzuzehren – auch in schlechten Börsenjahren.</p>'; } }
+        var left=Math.max(0,wh-hpw), dmin=Math.round(Math.min(hpw,wh)/5*60), dtxt=dmin>=60?Math.floor(dmin/60)+' Std. '+(dmin%60?dmin%60+' Min.':''):dmin+' Min.', fmt=function(v){return nf1.format(v).replace(/,0$/,'');};
+        var dots=''; for(var i=0;i<slots;i++){ var free=Math.max(0,Math.min(1,(i+1)-(wh-hpw)/5)); dots+='<i style="--f:'+((1-free)*100).toFixed(0)+'%"></i>'; }
+        jbx.innerHTML=hJ+'<p class="cmpbig"><b>−'+fmt(Math.min(hpw,wh))+'&nbsp;Std.</b> pro Woche</p><p class="cmpsub" style="margin-bottom:14px">'+(hpw>=wh?'Dein Geld übernimmt schon deine komplette Woche – du könntest aufhören zu arbeiten.':'könntest du schon weniger arbeiten, weil dein Geld sie für dich übernimmt. Deine Woche hätte nur noch <b>'+fmt(left)+' statt '+fmt(wh)+' Stunden</b>.')+'</p>'+
+          '<div class="jobdots rev" aria-hidden="true">'+dots+'</div><div class="jobleg"><span><i class="w"></i>musst du noch arbeiten</span><span><i class="g"></i>übernimmt dein Geld</span></div>'+
+          '<p class="jobfa">= jeden Arbeitstag <b>'+dtxt+' früher Feierabend</b></p>'+
+          '<div class="mini3"><div><span>Rendite</span><b>'+pct(rate*100)+'</b><em>'+(rr?'Ø deiner Anlagen':'Annahme')+'</em></div><div><span>Vorsichtig</span><b>−'+fmt(h4)+' Std.</b><em>4-%-Regel</em></div><div class="hl"><span>Frei ab</span><b>'+eur(need)+'</b><em>Vermögen</em></div></div>'+
+          '<p class="tasub">Gerechnet mit der erwarteten Rendite ('+eur(earn)+' im Jahr'+(rr?', gewichteter Durchschnitt aus deinem Reiter „Rendite“':', Annahme 7 %')+') und deinem Stundenlohn von '+eur2(hr)+' brutto. „Vorsichtig“ zeigt, wie viele Stunden du dauerhaft weniger arbeiten könntest, ohne das Vermögen aufzuzehren – auch in schlechten Börsenjahren.</p>'; } }
   }
   async function saveJb(){ var v=num($('jbrutto').value); if(!(v>=1000&&v<1e8)){ say('jbmsg','Bitte einen Jahresbetrag eingeben.','bad'); return; }
     try{ await write('settings/main',Object.assign({},docs['settings/main']||{},{jbrutto:v})); $('vgsal').__edit=false; renderVg(); }catch(e){ say('jbmsg',failText(),'bad'); } }
