@@ -1797,6 +1797,47 @@ header.top .logo{box-shadow:0 6px 22px -4px color-mix(in srgb,var(--bg) 90%,tran
 #sky .newb>rect:not(.wn):not(.snowcap){animation:newb 1.4s ease-in-out 1.5s 3}
 @keyframes newb{50%{fill:color-mix(in srgb,var(--acc1) 55%,var(--bg))}}
 @media (prefers-reduced-motion:reduce){#sky .snow,#sky .leaf,#sky .bird,#sky .fw{display:none}}
+
+/* v1.7: Kopfzeile aufgeräumt */
+.iosbar .topr{justify-content:flex-end!important;gap:8px}
+.iosbar .topr .chip{margin-right:0!important;order:0}
+.iosbar #dscbtn{order:1}.iosbar #setbtn{order:2}
+.chip.sy{width:36px!important;height:36px!important;padding:0!important;gap:0!important;justify-content:center;border-radius:50%!important}
+.chip.sy .syt{max-width:0!important;opacity:0!important}
+.chip.sy .syi{width:22px;height:22px}
+.chip.sy .syi .ic{width:17px;height:17px}
+.chip.sy.ok{border-color:var(--up)!important;box-shadow:0 0 0 3px color-mix(in srgb,var(--up) 14%,transparent),0 0 14px -2px color-mix(in srgb,var(--up) 50%,transparent)}
+.chip.sy.bad{border-color:var(--down)!important}
+:root{--barh:46px}
+body{padding-top:calc(env(safe-area-inset-top,0px) + 52px)!important}
+@media (max-width:430px){ .iosbar .iconbtn,.chip.sy{width:34px!important;height:34px!important} .iosbar .topr{gap:6px} }
+@media (min-width:1100px){ body{padding-top:calc(env(safe-area-inset-top,0px) + 8px)!important} main.wrap>header.top{min-height:calc(var(--barh) + 8px);align-items:center!important;padding-right:150px!important} }
+#dscbtn.on{background:color-mix(in srgb,var(--acc1) 18%,transparent);color:var(--acc1)}
+/* Diskret */
+html.discreet .dscm{filter:blur(7px);transition:filter .25s}
+html.discreet .dscm.peek{filter:none}
+html.discreet input.dscm:focus{filter:none}
+/* Freiheits-Uhr */
+.frclock{display:flex;gap:16px;align-items:center;padding:4px 0 14px;margin-bottom:14px;border-bottom:1px solid var(--line2)}
+.frclock .hg{width:54px;height:100px;flex:none}
+.hg .hgglass{fill:color-mix(in srgb,var(--fg) 5%,transparent);stroke:color-mix(in srgb,var(--fg) 40%,transparent);stroke-width:1.6}
+.hg .hgcap{stroke:color-mix(in srgb,var(--fg) 55%,transparent);stroke-width:3;stroke-linecap:round}
+.hg .hgflow{stroke:#FFD27A;stroke-width:1.6;stroke-dasharray:2 4;animation:hgf .8s linear infinite}
+@keyframes hgf{to{stroke-dashoffset:-6}}
+.frbig{margin:2px 0 4px;font-size:15px;color:var(--muted)}.frbig b{font-size:30px;font-weight:800;letter-spacing:-.03em;color:var(--fg)}
+.frsub{margin:0;font-size:13.5px;color:var(--muted);line-height:1.4}.frsub.sm{font-size:12px;margin-top:6px}
+.frdelta{display:inline-block;margin:8px 0 0;padding:3px 10px;border-radius:12px;font-size:12.5px;font-weight:700}
+.frdelta.up{background:color-mix(in srgb,var(--up) 14%,transparent);color:var(--up)}.frdelta.down{background:color-mix(in srgb,var(--down) 14%,transparent);color:var(--down)}
+/* Vergleich */
+.cmpbig{margin:6px 0 0;font-size:16px;color:var(--muted)}.cmpbig b{font-size:40px;font-weight:800;letter-spacing:-.04em;background:linear-gradient(135deg,var(--fg),var(--acc1));-webkit-background-clip:text;background-clip:text;color:transparent}
+.cmpsub{margin:0 0 30px;font-size:14px;color:var(--muted)}
+.cmpbar{position:relative;height:8px;border-radius:4px;background:linear-gradient(90deg,color-mix(in srgb,var(--fg) 10%,transparent),color-mix(in srgb,var(--acc1) 35%,transparent));margin:0 14px 46px}
+.cm{position:absolute;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--surface);border:2px solid var(--muted)}
+.cm span{position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:10.5px;font-style:normal;color:var(--muted);text-align:center;line-height:1.2}
+.cm.med span,.cm.avg span{top:14px}
+.cm.you{width:18px;height:18px;margin:-9px 0 0 -9px;background:var(--acc1);border:3px solid var(--surface);box-shadow:0 0 0 2px var(--acc1),0 0 14px var(--acc1)}
+.cm.you span{bottom:22px;font-size:12px;font-weight:800;color:var(--acc1)}
+@media (min-width:1100px){ .insights[data-n="4"],.insights[data-n="2"]{grid-template-columns:repeat(2,minmax(0,1fr))!important} .insights[data-n="1"]{grid-template-columns:1fr!important} }
 [hidden]{display:none!important}
 body{margin:0;background:var(--bg)}
 .encbox{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--up-bg);border:1px solid color-mix(in srgb,var(--up) 35%,transparent);margin:10px 0}.encbox .ib{font-size:18px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--surface)}.encbox b{display:block;color:var(--up)}.encbox small{font-size:12.5px;color:var(--muted)}
@@ -1813,7 +1854,7 @@ body{margin:0;background:var(--bg)}
         <p class="sub" id="stand">Lade Daten …</p>
       </div>
     </div>
-    <div class="topr"><span class="chip" id="sync">startet</span><button type="button" class="iconbtn" id="setbtn" aria-label="Einstellungen" aria-expanded="false"></button><button type="button" class="iconbtn" id="lockbtn" aria-label="App-Sperre" hidden></button><button type="button" class="iconbtn" id="accbtn" hidden aria-label="Akzentfarbe wählen" aria-expanded="false"></button><button type="button" class="iconbtn" id="themebtn" aria-label="Darstellung wechseln" hidden></button><div class="accpop" id="accpop" hidden></div></div>
+    <div class="topr"><span class="chip" id="sync">startet</span><button type="button" class="iconbtn" id="dscbtn" aria-label="Beträge verbergen" aria-pressed="false"></button><button type="button" class="iconbtn" id="setbtn" aria-label="Einstellungen" aria-expanded="false"></button><button type="button" class="iconbtn" id="lockbtn" aria-label="App-Sperre" hidden></button><button type="button" class="iconbtn" id="accbtn" hidden aria-label="Akzentfarbe wählen" aria-expanded="false"></button><button type="button" class="iconbtn" id="themebtn" aria-label="Darstellung wechseln" hidden></button><div class="accpop" id="accpop" hidden></div></div>
   </header>
 
   <nav class="nav" aria-label="Bereiche">
@@ -1846,6 +1887,7 @@ body{margin:0;background:var(--bg)}
     <div class="insights" id="insights">
       <section class="card ins" id="dashreview" hidden></section>
       <section class="card ins" id="dashms" hidden></section>
+      <section class="card ins" id="cmpcard"></section>
       <section class="card ins" id="freecard">
         <h2>Finanzielle Freiheit</h2>
         <div id="freebox"></div>
@@ -3503,6 +3545,7 @@ body{margin:0;background:var(--bg)}
   function ico(n){var d=ICO[n]; return d?'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+'</svg>':'';}
   var CAT_ICO={etf:'etf',aktien:'pie',notgroschen:'shield',edelmetalle:'coin',tagesgeld:'percent',bargeld:'note',paypal:'wallet',verliehen:'swap',kaution:'key'};
   ['city','bag','clock','flag','trend','rocket','spark','book','quote','bell','shield','trophy','bulb','target','pie','etf','cal'].forEach(function(k){ if(ICO[k])return; ICO[k]={city:'<path d="M3 21h18M5 21V10h5v11M10 21V4h6v17M16 21v-8h4v8"/>',bag:'<path d="M6 8h12l-1 13H7zM9 8a3 3 0 0 1 6 0"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',flag:'<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',trend:'<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>',rocket:'<path d="M12 15l-3-3c1.5-4.5 5-8 10-8 0 5-3.5 8.5-8 10z"/><path d="M9 12H5l2-4h4M12 15v4l4-2v-4"/>',spark:'<path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/>',book:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/>',quote:'<path d="M7 17c-2 0-3-1.5-3-3.5C4 10 6 7 9 6M17 17c-2 0-3-1.5-3-3.5 0-3.5 2-6.5 5-7.5"/>',bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/>',shield:'<path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/>',trophy:'<path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8"/>',bulb:'<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/>',target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',pie:'<path d="M12 3a9 9 0 1 0 9 9h-9z"/>',etf:'<path d="M4 19h16M6 16l4-5 3 3 5-7"/>',cal:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>'}[k]; });
+  ICO.eye='<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'; ICO.eyeoff='<path d="M3 3l18 18M10.6 5.1A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4M6.6 6.6C3.9 8.4 2 12 2 12s3.6 7 10 7c1.7 0 3.2-.5 4.5-1.2M9.9 9.9a3 3 0 0 0 4.2 4.2"/>'; ICO.hourglass='<path d="M6 3h12M6 21h12M7 3c0 5 5 6 5 9s-5 4-5 9M17 3c0 5-5 6-5 9s5 4 5 9"/>'; ICO.users='<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.5 3.3-5.5 6.5-5.5s5.9 2 6.5 5.5M16 4.8a3.3 3.3 0 0 1 0 6.4M18.5 14.8c1.7.8 2.8 2.6 3 5.2"/>';
   ICO.cloud='<path d="M7.5 18.5h9.5a4 4 0 0 0 .6-7.96A5.8 5.8 0 0 0 6.4 9.9a4.3 4.3 0 0 0 1.1 8.6z"/><path d="M9.6 14l1.8 1.8 3.4-3.6"/>'; ICO.alert='<circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.6v.01"/>';
   var NAV_ICO={start:'check',uebersicht:'home',einnahmen:'wallet',notgroschen:'shield',ausblick:'target',kaufziele:'bag',rebalancing:'pie',rendite:'percent',ertraege:'bars',freistellung:'doc',fixkosten:'loop',sparplan:'cal'};
   var TASK_ICO={0:'home',1:'shield',2:'target',3:'loop',4:'cal',5:'percent',6:'bars',9:'doc',11:'note'};
@@ -3708,7 +3751,7 @@ body{margin:0;background:var(--bg)}
     try{ var sy=String(cy), inv=0, net=0; series().forEach(function(q){ if(q.ym.slice(0,4)!==sy||!(q.ein>0))return; var g=docs['gehalt/'+sy]||{}, nn2=g.n?+g.n[q.ym.slice(5)]:0; if(nn2>=300){inv+=q.ein; net+=nn2;} });
       T+=net>0?tile('#einnahmen','percent','Sparquote '+sy,pct(inv/net*100),eur(inv)+' investiert',inv/net>=.2?'ok':'',{pc:inv/net*100/0.5,cls:inv/net>=.2?'ok':''}):tile('#einnahmen','percent','Sparquote','–','Gehalt + ETF-Einzahlung nötig','',null); }catch(e){}
     $('dashtiles').innerHTML=T;
-    var S2=series(); try{renderReview(S2);}catch(e){} try{renderMs(S2);}catch(e){} try{renderFree(S2);}catch(e){} try{renderYrTeaser();renderYrChips();}catch(e){} try{insDots();}catch(e){}
+    var S2=series(); try{renderReview(S2);}catch(e){} try{renderMs(S2);}catch(e){} try{renderFree(S2);}catch(e){} try{renderCmp(S2);}catch(e){} try{renderYrTeaser();renderYrChips();}catch(e){} try{insDots();}catch(e){}
   }
 
   /* ===== Zielaufteilung ===== */
@@ -3800,7 +3843,7 @@ body{margin:0;background:var(--bg)}
     var cost=lc.v, tot=last.total, cov=tot*0.04/12/cost*100, months=tot/cost, yrs=Math.floor(months/12), mo=Math.floor(months%12), fz=cost*12*25, rest=Math.max(0,fz-tot);
     var pace=fcPace(), eta=null; if(pace&&pace.per>0&&rest>0){var mm=Math.ceil(rest/pace.per); eta=ymFromIdx(ymIdx(last.ym)+mm);}
     var ring=Math.min(100,cov), C=2*Math.PI*44;
-    box.innerHTML='<div class="frtop"><svg viewBox="0 0 110 110" class="frring" aria-hidden="true"><circle cx="55" cy="55" r="44" fill="none" stroke="var(--surface2)" stroke-width="11"/><circle cx="55" cy="55" r="44" fill="none" stroke="url(#frg)" stroke-width="11" stroke-linecap="round" stroke-dasharray="'+(C*ring/100).toFixed(1)+' '+C.toFixed(1)+'" transform="rotate(-90 55 55)" class="frarc"/><defs><linearGradient id="frg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--acc1)"/><stop offset="1" stop-color="var(--acc2)"/></linearGradient></defs></svg>'+
+    box.innerHTML=freeClock(S,lc)+'<div class="frtop"><svg viewBox="0 0 110 110" class="frring" aria-hidden="true"><circle cx="55" cy="55" r="44" fill="none" stroke="var(--surface2)" stroke-width="11"/><circle cx="55" cy="55" r="44" fill="none" stroke="url(#frg)" stroke-width="11" stroke-linecap="round" stroke-dasharray="'+(C*ring/100).toFixed(1)+' '+C.toFixed(1)+'" transform="rotate(-90 55 55)" class="frarc"/><defs><linearGradient id="frg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--acc1)"/><stop offset="1" stop-color="var(--acc2)"/></linearGradient></defs></svg>'+
       '<div class="frc"><b>'+nf0.format(Math.round(cov))+'&nbsp;%</b><small>frei</small></div>'+
       '<div class="frtxt"><p class="eyebrow">4-%-Regel</p><p>Dauerhaft <b>'+eur(tot*0.04/12)+'</b> pro Monat – das deckt '+pct(cov)+' deiner Ausgaben ('+eur(cost)+').</p></div></div>'+
       '<div class="mini3">'+
@@ -3848,7 +3891,7 @@ body{margin:0;background:var(--bg)}
   function insDots(){
     var c=$('insights'), d=$('idots'); if(!c||!d)return;
     if(!c.__touched)c.scrollLeft=0;
-    var cards=[].filter.call(c.children,function(x){return !x.hidden;});
+    var cards=[].filter.call(c.children,function(x){return !x.hidden;}); c.setAttribute('data-n',cards.length);
     var w=cards.length?cards[0].offsetWidth+12:1, i=Math.round(c.scrollLeft/w);
     d.innerHTML=cards.map(function(x,k){return '<button type="button" data-k="'+k+'" class="'+(k===i?'on':'')+'" aria-label="Karte '+(k+1)+'"></button>';}).join('');
   }
@@ -4468,7 +4511,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='1.6.1', APP_DATE='10.11.2026';
+  var APP_VERSION='1.7.0', APP_DATE='13.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
@@ -5136,6 +5179,51 @@ body{margin:0;background:var(--bg)}
 
 
 
+
+  /* ===== Diskret-Modus ===== */
+  var DSC={on:false,mo:null,t:null};
+  function dscMark(){ var root=document.body, w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:function(n){ return /\d[\d.,\s]*\s?€|€\s?\d/.test(n.nodeValue)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT; }}), n;
+    while((n=w.nextNode())){ var e=n.parentNode; if(e&&e.classList&&!e.closest('#lockscr,.iosbar')) e.classList.add('dscm'); else if(e&&e.setAttribute&&e.namespaceURI&&e.namespaceURI.indexOf('svg')>-1&&!e.closest('#sky')) e.setAttribute('class',((e.getAttribute('class')||'')+' dscm').trim()); }
+    document.querySelectorAll('input.num').forEach(function(i){ i.classList.add('dscm'); }); }
+  function dscSet(on,quiet){ DSC.on=on; document.documentElement.classList.toggle('discreet',on); try{localStorage.setItem('vb-dsc',on?'1':'0');}catch(e){}
+    var b=$('dscbtn'); if(b){ b.innerHTML=ico(on?'eyeoff':'eye'); b.setAttribute('aria-pressed',on?'true':'false'); b.setAttribute('aria-label',on?'Beträge zeigen':'Beträge verbergen'); b.classList.toggle('on',on); }
+    if(on){ dscMark(); if(!DSC.mo){ DSC.mo=new MutationObserver(function(){ if(DSC.t)return; DSC.t=setTimeout(function(){DSC.t=null; if(DSC.on)dscMark();},120); }); DSC.mo.observe(document.body,{childList:true,subtree:true,characterData:true}); } }
+    else if(DSC.mo){ DSC.mo.disconnect(); DSC.mo=null; }
+    if(!quiet){ try{toast(on?'🙈 Beträge verborgen':'👀 Beträge sichtbar');}catch(e){} } }
+  function dscInit(){ var b=$('dscbtn'); if(!b)return; b.addEventListener('click',function(ev){ ev.stopPropagation(); dscSet(!DSC.on); }); var on=false; try{on=localStorage.getItem('vb-dsc')==='1';}catch(e){} dscSet(on,true);
+    document.addEventListener('touchstart',function(e){ if(e.touches.length===2&&DSC.on){ var x=e.target.closest('.dscm'); if(x){ x.classList.add('peek'); setTimeout(function(){x.classList.remove('peek');},1500);} } },{passive:true}); }
+
+  /* ===== Freiheits-Uhr ===== */
+  function freeTime(tot,cost){ var days=Math.max(0,tot/cost*30.4375), y=Math.floor(days/365.25), r=days-y*365.25, m=Math.floor(r/30.4375), d=Math.floor(r-m*30.4375); return {days:days,y:y,m:m,d:d}; }
+  function freeClock(S,lc){ var wc=S.filter(function(q){return q.total>0;}), last=wc[wc.length-1], prev=wc[wc.length-2]; if(!last||!lc)return '';
+    var ft=freeTime(last.total,lc.v), fz=lc.v*12*25, fr=Math.min(1,last.total/fz), dd=prev&&ymIdx(last.ym)-ymIdx(prev.ym)===1?(last.total-prev.total)/lc.v*30.4375:null;
+    var top=(1-fr), sandTop=(46*top).toFixed(1), sandBot=(46*fr).toFixed(1);
+    var hg='<svg class="hg" viewBox="0 0 60 110" aria-hidden="true"><defs><clipPath id="hgt"><path d="M8 6h44c0 22-18 28-18 49H26C26 34 8 28 8 6z"/></clipPath><clipPath id="hgb"><path d="M26 55h8c0 21 18 27 18 49H8c0-22 18-28 18-49z"/></clipPath><linearGradient id="hgs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD27A"/><stop offset="1" stop-color="var(--acc1)"/></linearGradient></defs>'+
+      '<rect clip-path="url(#hgt)" x="0" y="'+(55-+sandTop).toFixed(1)+'" width="60" height="'+sandTop+'" fill="url(#hgs)" opacity=".9"/><rect clip-path="url(#hgb)" x="0" y="'+(104-+sandBot).toFixed(1)+'" width="60" height="'+sandBot+'" fill="url(#hgs)"/>'+(fr<1?'<line class="hgflow" x1="30" y1="52" x2="30" y2="'+(104-+sandBot).toFixed(1)+'"/>':'')+
+      '<path class="hgglass" d="M8 6h44c0 22-18 28-18 49 0 21 18 27 18 49H8c0-22 18-28 18-49C26 34 8 28 8 6z"/><path class="hgcap" d="M4 4h52M4 106h52"/></svg>';
+    return '<div class="frclock">'+hg+'<div><p class="eyebrow">Freiheits-Uhr</p><p class="frbig"><b>'+ft.y+'</b> J. <b>'+ft.m+'</b> M. <b>'+ft.d+'</b> T.</p><p class="frsub">So lange könntest du von deinem Vermögen leben – ganz ohne Gehalt.</p>'+
+      (dd!=null?'<p class="frdelta '+(dd>=0?'up':'down')+'">'+(dd>=0?'+':'−')+nf0.format(Math.abs(Math.round(dd)))+' Tage Freiheit im '+MONFULL[+last.ym.slice(5)-1]+'</p>':'')+
+      '<p class="frsub sm">'+pct(fr*100)+' der Sanduhr bis zur finanziellen Freiheit ('+eur(fz)+')</p></div></div>'; }
+
+  /* ===== Vermögensvergleich (Bundesbank PHF) ===== */
+  var PHF_AGE=[[16,24,11400,32000],[25,34,18700,112900],[35,44,65200,213300],[45,54,154700,441200],[55,64,229300,424500],[65,74,231000,372000],[75,120,129500,343600]];
+  var PHF_ALL=[[0,0],[10,900],[20,6900],[30,18800],[40,43800],[50,106600],[60,185400],[70,297000],[80,430700],[90,725900]];
+  function ncdf(z){ var t=1/(1+.2316419*Math.abs(z)), d=.3989423*Math.exp(-z*z/2), p=d*t*(.3193815+t*(-.3565638+t*(1.781478+t*(-1.821256+t*1.330274)))); return z>0?1-p:p; }
+  function phfAgePct(v,g){ if(v<=0)return 3; var mu=Math.log(g[2]), sg=Math.sqrt(2*Math.log(g[3]/g[2])); return Math.max(1,Math.min(99,ncdf((Math.log(v)-mu)/sg)*100)); }
+  function phfAllPct(v){ if(v<=900)return Math.max(1,v/900*10); for(var i=1;i<PHF_ALL.length;i++){ if(v<=PHF_ALL[i][1]){ var a=PHF_ALL[i-1],b=PHF_ALL[i]; return a[0]+(v-a[1])/(b[1]-a[1])*10; } } var sg=Math.sqrt(2*Math.log(316500/106600)), z=(Math.log(v)-Math.log(106600))/sg; return Math.max(90,Math.min(99.5,ncdf(z)*100)); }
+  function renderCmp(S){ var el=$('cmpcard'); if(!el)return; var g=docs['settings/main']||{}, by=+g.byear||0, wc=S.filter(function(q){return q.total>0;}), last=wc[wc.length-1];
+    var h='<h2 class="h2i"><span class="ib sm">'+ico('users')+'</span>Wo stehst du?</h2>';
+    if(!by||el.__edit){ el.innerHTML=h+'<p class="tasub">Gib einmal dein Geburtsjahr ein. Dann vergleicht das Cockpit dein Vermögen mit den Haushalten deiner Altersgruppe in Deutschland.</p><div class="inline"><label class="f">Geburtsjahr<input class="num" type="text" inputmode="numeric" id="byear" maxlength="4" placeholder="z. B. 1992" value="'+(by||'')+'"></label><button type="button" class="btn primary" id="byearsave">Speichern</button></div><p class="msg" id="cmpmsg" role="status"></p>'; return; }
+    if(!last){ el.innerHTML=h+'<p class="empty">Noch keine Vermögensdaten.</p>'; return; }
+    var age=new Date().getFullYear()-by, grp=PHF_AGE.filter(function(x){return age>=x[0]&&age<=x[1];})[0]||PHF_AGE[0], v=last.total, pa=Math.round(phfAgePct(v,grp)), pl=Math.round(phfAllPct(v));
+    var mx=Math.max(v,grp[3])*1.12, pos=function(x){return Math.min(100,x/mx*100).toFixed(1);};
+    el.innerHTML=h+'<p class="cmpbig">Vor <b>'+pa+'&nbsp;%</b></p><p class="cmpsub">der Haushalte im Alter von '+grp[0]+(grp[1]<120?'–'+grp[1]:'+')+' Jahren</p>'+
+      '<div class="cmpbar"><i class="cm med" style="left:'+pos(grp[2])+'%"><span>Median<br>'+eur(grp[2])+'</span></i><i class="cm avg" style="left:'+pos(grp[3])+'%"><span>Ø<br>'+eur(grp[3])+'</span></i><i class="cm you" style="left:'+pos(v)+'%"><span>Du</span></i></div>'+
+      '<div class="mini3"><div><span>Gesamt</span><b>vor '+pl+'&nbsp;%</b><em>ganz Deutschland</em></div><div><span>Faktor</span><b>'+nf1.format(v/grp[2]).replace(/,0$/,'')+'×</b><em>vom Median</em></div><div><span>Alter</span><b>'+age+'</b><em><button type="button" class="linkbtn" id="byedit">ändern</button></em></div></div>'+
+      '<p class="tasub">Quelle: Deutsche Bundesbank, Vermögensbefragung PHF 2021 (Nettovermögen je Haushalt, inkl. Immobilien und Fahrzeuge, abzüglich Schulden). Der Rang in der Altersgruppe ist aus Median und Durchschnitt geschätzt. Neuere Gesamtzahl 2023: Median 103.200 €.</p>'; }
+  async function saveByear(){ var v=+($('byear').value||'').replace(/\D/g,''), y=new Date().getFullYear(); if(!(v>=y-100&&v<=y-16)){ say('cmpmsg','Bitte ein gültiges Geburtsjahr eingeben.','bad'); return; }
+    try{ await write('settings/main',Object.assign({},docs['settings/main']||{},{byear:v})); $('cmpcard').__edit=false; renderAll(); }catch(e){ say('cmpmsg',failText(),'bad'); } }
+
   /* ===== Lebende Skyline: wächst mit dem Vermögen bis zur Million, Licht nach Tageszeit ===== */
   var SKY={n:28,b:null};
   function skyOn(){ try{ return localStorage.getItem('vb-sky')!=='0'; }catch(e){ return true; } }
@@ -5220,6 +5308,7 @@ body{margin:0;background:var(--bg)}
     G.push(function(){ var o=S[0], m=li-ymIdx(o.ym); if(m<6)return null; return {ic:'rocket',k:'Seit dem Start',big:eurS(L.total-o.total),t:'aufgebaut seit '+label(o.ym)+' – '+m+' Monate dranbleiben zahlen sich aus.'}; });
     G.push(function(){ var E=S.slice(-6).map(function(q){return q.ein;}).filter(function(v){return v>0;}); if(E.length<2)return null; var sr=E.reduce(function(a,b){return a+b;},0)/E.length, r=0.06/12, n=240, fv=L.total*Math.pow(1+r,n)+sr*(Math.pow(1+r,n)-1)/r; return {ic:'spark',k:'In 20 Jahren',big:'≈ '+eur(Math.round(fv/10000)*10000),t:'mit Ø '+eur(sr)+' Sparrate und 6 % Rendite im Jahr – rein rechnerisch, ohne Garantie.'}; });
     G.push(function(){ var pd=null; for(var i=S.length-1;i>=0;i--){ if(+S[i].ym.slice(0,4)<+L.ym.slice(0,4)){pd=S[i];break;} } if(!pd)return null; return {ic:'cal',k:'Seit Jahresbeginn',big:eurS(L.total-pd.total),t:'Dein Plus seit '+label(pd.ym)+'. Das Jahr läuft gut für dich, wenn hier ein Plus steht.'}; });
+    G.push(function(){ var lc=lifeCost(); if(!lc)return null; var ft=freeTime(L.total,lc.v); return {ic:'hourglass',k:'Freiheits-Uhr',big:ft.y+' J. '+ft.m+' M. '+ft.d+' T.',t:'So lange könntest du heute von deinem Vermögen leben – ohne einen Tag zu arbeiten.'}; });
     G.push(function(){ if(!L.cats)return null; var e=+L.cats.etf||0; if(!(e>0))return null; return {ic:'pie',k:'Investiert',big:pct(e/L.total*100),t:'deines Vermögens arbeiten in ETFs für dich. Der Rest liegt sicher als Reserve.'}; });
     for(var j=0;j<G.length;j++){ var o=G[(dn*5+j)%G.length](); if(o)return o; } return null;
   }
@@ -5407,7 +5496,8 @@ body{margin:0;background:var(--bg)}
   document.querySelectorAll('#ghrange button').forEach(function(bt){ bt.addEventListener('click',function(){ ghRange=bt.getAttribute('data-r'); document.querySelectorAll('#ghrange button').forEach(function(x){x.setAttribute('aria-pressed',x===bt?'true':'false');}); ghChart.draw(); }); });
   $('lifecostsave').addEventListener('click',saveLifeCost);
   (function(){var pb=$('pybtn'); pb.setAttribute('aria-pressed',pyOn?'true':'false'); pb.addEventListener('click',function(){pyOn=!pyOn; try{localStorage.setItem('vb-py',pyOn?'1':'0');}catch(e){} pb.setAttribute('aria-pressed',pyOn?'true':'false'); mainChart.draw();});})();
-  accInit(); insInit(); lockInit(); funInit(); rbInit(); wlInit(); setInit(); try{sheetsInit();}catch(e){} try{heuteInit();}catch(e){} var skyW=innerWidth>=900; window.addEventListener('resize',function(){ if((innerWidth>=900)!==skyW){ skyW=innerWidth>=900; try{renderSky();}catch(e){} } }); setInterval(function(){ try{ var sk=$('sky'); if(sk&&!sk.classList.contains(skyPhase()))renderSky(); }catch(e){} },300000); setTimeout(checkUpdate,2500); document.addEventListener('visibilitychange',function(){ if(!document.hidden){ setTimeout(checkUpdate,1500); try{ var hd=$('heute'); if(hd&&hd.getAttribute('data-d')!==hDay()){ renderHeute(); tbBadges(); } var sk=$('sky'); if(sk&&!sk.classList.contains(skyPhase()))renderSky(); }catch(e){} } }); tipInit(); tipsInit(); todoInit(); sectInit();
+  accInit(); insInit(); lockInit(); funInit(); rbInit(); wlInit(); setInit(); try{sheetsInit();}catch(e){} try{heuteInit();}catch(e){} try{dscInit();}catch(e){}
+    try{ var cc=$('cmpcard'); cc.addEventListener('click',function(ev){ if(ev.target.closest('#byearsave'))saveByear(); else if(ev.target.closest('#byedit')){ cc.__edit=true; renderCmp(series()); } }); cc.addEventListener('keydown',function(ev){ if(ev.key==='Enter'&&ev.target.id==='byear')saveByear(); }); }catch(e){} var skyW=innerWidth>=900; window.addEventListener('resize',function(){ if((innerWidth>=900)!==skyW){ skyW=innerWidth>=900; try{renderSky();}catch(e){} } }); setInterval(function(){ try{ var sk=$('sky'); if(sk&&!sk.classList.contains(skyPhase()))renderSky(); }catch(e){} },300000); setTimeout(checkUpdate,2500); document.addEventListener('visibilitychange',function(){ if(!document.hidden){ setTimeout(checkUpdate,1500); try{ var hd=$('heute'); if(hd&&hd.getAttribute('data-d')!==hDay()){ renderHeute(); tbBadges(); } var sk=$('sky'); if(sk&&!sk.classList.contains(skyPhase()))renderSky(); }catch(e){} } }); tipInit(); tipsInit(); todoInit(); sectInit();
   $('taedit').addEventListener('click',function(){ var f=$('taform'); f.hidden=!f.hidden; });
   document.addEventListener('click',function(ev){ var b=ev.target.closest('[data-y]'); if(b&&(b.closest('#yrchips')||b.closest('#yrteaser'))){ openYear(+b.getAttribute('data-y')); } });
   $('checks').addEventListener('change',function(ev){var t=ev.target; if(t&&t.getAttribute('data-i')!=null){toggleCheck(+t.getAttribute('data-i'),t.checked);}});
