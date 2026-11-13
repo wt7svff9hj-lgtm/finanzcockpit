@@ -1810,12 +1810,12 @@ header.top .logo{box-shadow:0 6px 22px -4px color-mix(in srgb,var(--bg) 90%,tran
 .chip.sy.bad{border-color:var(--down)!important}
 :root{--barh:46px}
 body{padding-top:calc(env(safe-area-inset-top,0px) + 8px)!important}
-main.wrap>header.top{min-height:var(--barh);align-items:center!important;padding-right:92px!important;box-sizing:border-box}
+main.wrap>header.top{min-height:calc(var(--barh) + 46px);align-items:flex-start!important;padding-top:2px!important;padding-right:92px!important;box-sizing:border-box}
 header.top h1{font-size:clamp(24px,7.2vw,32px)}
 @media (max-width:360px){ header.top h1{font-size:21px} }
 header.top .logo{width:clamp(38px,11vw,46px);height:clamp(38px,11vw,46px)}
 @media (max-width:430px){ .iosbar .iconbtn,.chip.sy{width:34px!important;height:34px!important} .iosbar .topr{gap:6px} }
-@media (min-width:1100px){ body{padding-top:calc(env(safe-area-inset-top,0px) + 8px)!important} main.wrap>header.top{min-height:calc(var(--barh) + 8px);align-items:center!important;padding-right:150px!important} }
+@media (min-width:1100px){ body{padding-top:calc(env(safe-area-inset-top,0px) + 8px)!important} main.wrap>header.top{min-height:calc(var(--barh) + 46px);align-items:flex-start!important;padding-right:150px!important} }
 #dscbtn.on{background:color-mix(in srgb,var(--acc1) 18%,transparent);color:var(--acc1)}
 /* Diskret */
 html.discreet .dscm{filter:blur(max(7px,.42em));transition:filter .25s;-webkit-user-select:none;user-select:none}
@@ -1906,7 +1906,7 @@ html.scrolled .iosbar .topr>#minibtn{top:50%;right:auto;left:42px;transform:tran
 html.mini main>.wrap:not(#page-mini),html.mini main>nav.nav,html.mini .tabbar{display:none!important}
 html.mini #page-mini{display:flex!important;flex-direction:column;gap:14px}
 html.mini body{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 30px)!important}
-html.mini main>header.top{margin-bottom:34px}
+
 .mnhero{padding:20px!important}
 .mnhero .eyebrow{margin:0}
 .mnbig{margin:4px 0 10px;font-size:44px;font-weight:800;letter-spacing:-.04em;line-height:1.05}
@@ -4625,7 +4625,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='2.0.1', APP_DATE='13.11.2026';
+  var APP_VERSION='2.0.2', APP_DATE='13.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
