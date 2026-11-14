@@ -2216,6 +2216,23 @@ p.eyebrow .exi{margin:0 0 0 6px;vertical-align:-1px}
 .kzmean li em{font-style:normal;font-size:12px;font-weight:700;color:var(--lc);padding:3px 8px;border-radius:9px;background:color-mix(in srgb,var(--lc) 14%,transparent);white-space:nowrap}
 .kzmean li.lv-g{--lc:#30D158}.kzmean li.lv-y{--lc:#E8B53A}.kzmean li.lv-o{--lc:#F08A3C}.kzmean li.lv-r{--lc:#FF453A}
 .kzbaro .btx b{line-height:1.12}
+
+/* Skala für Score-Deutung */
+.scl{margin:10px 0 12px}
+.sclbar{position:relative;display:flex;gap:3px;height:10px;margin-top:26px}
+.sclbar i{border-radius:5px;opacity:.85}
+.sclbar u{position:absolute;top:-25px;transform:translateX(-50%);text-decoration:none;display:flex;flex-direction:column;align-items:center}
+.sclbar u b{font-size:12px;font-weight:800;color:var(--fg);background:var(--surface);border:1.5px solid var(--fg);border-radius:8px;padding:1px 6px;line-height:1.3}
+.sclbar u::after{content:"";width:2px;height:18px;background:var(--fg);border-radius:1px;margin-top:1px}
+.scllab{display:flex;gap:3px;margin-top:6px}
+.scllab span{font-size:10.5px;line-height:1.25;color:var(--muted);text-align:center;min-width:0}
+.scllab span small{display:block;font-size:9.5px;opacity:.75}
+.scllab span.on{color:var(--fg);font-weight:800}
+.fsx .fsxv b,.fsx p b{display:inline;font-size:inherit;margin:0}
+.fsxv{display:block;margin:0 0 8px;font-size:13.5px;line-height:1.5;color:var(--fg)}
+.fsxv.muted{color:var(--muted)}
+.fsx .fsxr{color:var(--muted);font-size:13.5px;line-height:1.5;margin:0 0 8px}
+.glit .fsxv{font-size:14.5px}.glme{display:block;font-size:15px;margin-bottom:2px}
 [hidden]{display:none!important}
 body{margin:0;background:var(--bg)}
 .encbox{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--up-bg);border:1px solid color-mix(in srgb,var(--up) 35%,transparent);margin:10px 0}.encbox .ib{font-size:18px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--surface)}.encbox b{display:block;color:var(--up)}.encbox small{font-size:12.5px;color:var(--muted)}
@@ -4070,7 +4087,7 @@ body{margin:0;background:var(--bg)}
     var svg='<svg class="baro" viewBox="0 0 200 112" aria-hidden="true"><defs><linearGradient id="bg'+g.id+'" x1="0" x2="1"><stop offset="0" stop-color="#FF453A"/><stop offset=".35" stop-color="#F08A3C"/><stop offset=".6" stop-color="#E8B53A"/><stop offset="1" stop-color="#30D158"/></linearGradient></defs>'+
       '<path d="M18 100a82 82 0 0 1 164 0" fill="none" stroke="url(#bg'+g.id+')" stroke-width="14" stroke-linecap="round"/>'+
       '<g transform="rotate('+ang.toFixed(1)+' 100 100)"><line x1="100" y1="100" x2="100" y2="32" class="bneedle"/></g><circle cx="100" cy="100" r="8" class="bhub"/></svg>';
-    return '<div class="kzbaro lv-'+L[0]+'"><div class="bgauge">'+svg+'<b>'+sc+'</b><small>von 100</small></div><div class="btx"><span>Kann ich mir das leisten?'+gi('baro')+'</span><b>'+L[1]+'</b><p>'+L[2]+'</p><em>'+when+'</em></div></div>'+
+    return '<div class="kzbaro lv-'+L[0]+'"><div class="bgauge">'+svg+'<b>'+sc+'</b><small>von 100</small></div><div class="btx"><span>Kann ich mir das leisten?'+gi('baro').replace('data-gl="baro"','data-gl="baro" data-glv="'+sc+'" data-glw="'+encodeURIComponent(wt)+'"')+'</span><b>'+L[1]+'</b><p>'+L[2]+'</p><em>'+when+'</em></div></div>'+
       '<p class="kzlh">Was der Kauf für dich bedeutet</p><ul class="kzmean">'+P.map(function(q){ var r=rt(q.s); return '<li class="lv-'+r[0]+'"><i></i><span>'+q.txt+gi(q.g)+'</span><em>'+r[1]+'</em></li>'; }).join('')+'</ul>'+(tip?'<p class="kzline">'+ico('target')+'<span>'+tip+'</span></p>':''); }
 
   function kzSummary(W){ var el=$('kzsum'); if(!el)return; var open=kz.items.filter(function(g){return !g.done&&!g.drop&&g.price>0;}), sum=open.reduce(function(a,g){return a+g.price;},0), f=fcPace(), bud=f&&f.per>0?f.per*12*0.1:null, lng=open.filter(kzIsLang).length;
@@ -4097,7 +4114,7 @@ body{margin:0;background:var(--bg)}
       ['ziel','Ziel-Vermögen & Bedingungen','Optional kannst du festlegen, dass du erst ab einem bestimmten Vermögen kaufst, z. B. „Rennrad erst ab 150.000 €“. Zusätzlich gehen eigene Bedingungen wie „3.000 km gefahren“.','Die Prozentzahl auf der Karte zeigt die Bedingung, die am weitesten zurückliegt. Darunter steht „Bremst: …“. Sind alle erfüllt, steht dort „Bereit zum Kauf“.'],
       ['sort','Reihenfolge & Bereiche','Oben stehen die Ziele, die am realistischsten sind, sortiert nach Fortschritt und Leistbarkeit. Langfristige Lebensziele bekommen einen eigenen Bereich.','Gekaufte und verworfene Ziele wandern ausgegraut nach unten. „Verworfen“ zeigt dir, was das nicht ausgegebene Geld bis 67 werden kann.'],
       ['annahmen','Annahmen der App','Alle Hochrechnungen nutzen 5 % Rendite pro Jahr, 2 % Inflation und deine durchschnittliche Sparrate. Die Rechnungen sind bewusst einfach gehalten.','Das sind Orientierungswerte, keine Garantie und keine Anlageberatung.'] ]; }
-  function glOpen(k){ if($('glsheet'))return; var D=glData(), bd=document.createElement('div'); bd.className='sheetbd'; bd.id='glsheet';
+  function glOpen(k,v,w){ if($('glsheet'))return; var D=glData(); if(k==='baro'&&v!=null&&!isNaN(v)){ v=+v; var bb=bandOf(v,KB_B); D=D.map(function(d){ return d[0]!=='baro'?d:[d[0],d[1],'<b class="glme">Dein Wert: '+v+' von 100</b>'+scaleHtml(v,KB_B)+'<span class="fsxv"><b>'+bb[2]+' ('+bb[0]+(bb[1]===100?'–100':'–'+(bb[1]-1))+'):</b> '+bb[4]+'</span>'+(v<100&&w?'<span class="fsxv"><b>Warum nicht 100?</b> Am meisten drückt: '+w+'.</span>':'')+'<span class="fsxv">'+d[2]+'</span>',d[3]]; }); } var bd=document.createElement('div'), bd=document.createElement('div'); bd.className='sheetbd'; bd.id='glsheet';
     bd.innerHTML='<div class="sheet glsh" role="dialog" aria-modal="true" aria-label="Begriffe erklärt"><i class="grab"></i><div class="shhd"><b>Begriffe erklärt</b><button type="button" class="shdone">Fertig</button></div>'+
       '<div class="gllist">'+D.map(function(d){ return '<details class="glit'+(d[0]===k?' hl':'')+'" data-k="'+d[0]+'"'+(d[0]===k?' open':'')+'><summary><span>'+d[1]+'</span><i class="mchev">›</i></summary><p>'+d[2]+'</p><p class="glex">'+d[3]+'</p></details>'; }).join('')+'</div></div>';
     document.body.appendChild(bd); void bd.offsetWidth; bd.classList.add('in'); sheetsCheck();
@@ -4105,7 +4122,7 @@ body{margin:0;background:var(--bg)}
     function cl(){ if(bd.__d)return; bd.__d=1; bd.id=''; bd.classList.remove('in'); setTimeout(function(){bd.remove(); sheetsCheck();},380); sheetsCheck(); }
     bd.addEventListener('click',function(ev){ if(ev.target===bd||ev.target.closest('.shdone'))cl(); });
     swipeClose(sh,cl,function(){ return gl.scrollTop<=2; }); }
-  document.addEventListener('click',function(ev){ var b=ev.target.closest&&ev.target.closest('[data-gl]'); if(!b)return; ev.preventDefault(); ev.stopPropagation(); glOpen(b.getAttribute('data-gl')); },true);
+  document.addEventListener('click',function(ev){ var b=ev.target.closest&&ev.target.closest('[data-gl]'); if(!b)return; ev.preventDefault(); ev.stopPropagation(); glOpen(b.getAttribute('data-gl'),b.getAttribute('data-glv'),decodeURIComponent(b.getAttribute('data-glw')||'')); },true);
 
   function kzCalc(){
     var W=kzWealth(); setT('kz-w',eur(W)); try{kzSummary(W);}catch(e){}
@@ -5027,7 +5044,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='2.8.5', APP_DATE='13.11.2026';
+  var APP_VERSION='2.8.6', APP_DATE='15.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
@@ -5901,6 +5918,12 @@ body{margin:0;background:var(--bg)}
     var obs=function(){ ['page-vergleiche','page-analyse','page-plan'].forEach(function(id){ var pg=$(id); if(pg&&!pg.__exo){ pg.__exo=1; new MutationObserver(run).observe(pg,{childList:true,subtree:true}); } }); run(); };
     if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',obs); else setTimeout(obs,0); window.addEventListener('hashchange',run); })();
 
+
+  /* Skala mit Markierung + persönliche Deutung eines 0–100-Werts */
+  function scaleHtml(v,B){ var n=B.length, ix=0; for(var j=0;j<n;j++)if(v>=B[j][0])ix=j; var pos=(ix+Math.min(1,(v-B[ix][0])/(B[ix][1]-B[ix][0])))/n*100; return '<div class="scl"><div class="sclbar">'+B.map(function(b){ return '<i style="flex:1;background:'+b[3]+'"></i>'; }).join('')+'<u style="left:'+Math.max(3,Math.min(97,pos))+'%"><b>'+v+'</b></u></div><div class="scllab">'+B.map(function(b){ var on=v>=b[0]&&v<b[1]+(b[1]===100?1:0); return '<span style="flex:1"'+(on?' class="on"':'')+'>'+b[2]+'<small>'+b[0]+(b[1]===100?'+':'–'+(b[1]-1))+'</small></span>'; }).join('')+'</div></div>'; }
+  var FS_B=[[0,40,'Kritisch','#FF453A','Es fehlen noch Grundlagen wie ein Notgroschen oder eine regelmäßige Sparrate. Genau hier lohnt sich der Start, jeder Schritt bringt viele Punkte.'],[40,55,'Ausbaufähig','#F08A3C','Ein Teil der Basis steht. Mit ein, zwei Stellschrauben geht es deutlich nach oben.'],[55,70,'Gut','#E8B53A','Du bist auf gutem Weg. Mehrere Bereiche haben aber noch spürbar Luft.'],[70,85,'Sehr gut','#5FD38A','Eine solide Basis. Nur ein, zwei Bereiche sind noch nicht ganz rund.'],[85,100,'Exzellent','#30D158','Du bist in fast allen Bereichen stark aufgestellt. Hier geht es nur noch ums Feintuning.']];
+  var KB_B=[[0,25,'Zu groß','#FF453A','Der Kauf würde dich im Moment stark zurückwerfen. Mehr Zeit, ein höheres Ziel-Vermögen oder ein günstigeres Modell machen ihn leichter.'],[25,45,'Bewusst','#F08A3C','Der Kauf bremst dich deutlich. Er ist nicht verboten, sollte dir aber wirklich wichtig sein.'],[45,65,'Spürbar','#E8B53A','Machbar. Du merkst den Kauf aber in deinem Vermögensaufbau, meist an einem oder zwei Punkten.'],[65,85,'Gut machbar','#5FD38A','Passt gut zu deinen Finanzen. Ein Punkt ist leicht spürbar, aber unkritisch.'],[85,100,'Locker','#30D158','Der Kauf fällt in deinen Finanzen kaum auf. Gönn dir.']];
+  function bandOf(v,B){ for(var i=B.length-1;i>=0;i--)if(v>=B[i][0])return B[i]; return B[0]; }
   var FSO={};
   function fsExpl(k,R,d){ var g=docs['settings/main']||{}, lc=lifeCost(), X={
       score:['Was ist der Finanz-Score?','Eine Gesamtnote von 0 bis 100. Sie zeigt, wie gut du finanziell aufgestellt bist. Die App bildet einen gewichteten Durchschnitt aus den Bereichen darunter. Stärker zählen Vermögen fürs Alter, Sparquote und Kurs auf Freiheit.','So liest du sie: Ab 85 Exzellent, ab 70 Sehr gut, ab 55 Gut, ab 40 Ausbaufähig. Der Pfeil zeigt die Veränderung zum Vormonat. Fehlen Angaben wie das Geburtsjahr, lässt die App den Bereich einfach weg. Er zählt dann nicht gegen dich.'],
@@ -5910,7 +5933,9 @@ body{margin:0;background:var(--bg)}
       dyn:['Dynamik 12 Monate','Um wie viel Prozent dein Gesamtvermögen in den letzten 12 Monaten gewachsen ist. Neue Einzahlungen und Kursgewinne zählen beide mit.','So liest du die Zahl: Bei 0 % ist der Balken leicht gefüllt, ab +20 % ist er voll. Ein Minus kommt in schwachen Börsenjahren vor. Das ist normal und erholt sich meist wieder.'],
       mix:['Anlage-Mix','Wie viel deines Vermögens in Aktien und ETFs steckt. Der Rest liegt sicher, also im Notgroschen, in Edelmetallen oder auf dem Tagesgeld. Aktien bringen langfristig die meiste Rendite, schwanken aber stärker.','So liest du die Zahl: Zwischen 50 % und 85 % ist der Balken voll, das ist ein ausgewogener Mix. Darunter verschenkst du Rendite, darüber fehlt Puffer. Meldet die App gerade einen Rebalancing-Alarm, gibt es einen kleinen Abzug.'],
       frei:['Kurs auf Freiheit','Mit welchem Alter dein Vermögen voraussichtlich das 25-Fache deiner Jahresausgaben erreicht'+(lc?' ('+eurK(lc.v*12*25)+')':'')+'. Ab dann könntest du jedes Jahr etwa 4 % entnehmen, ohne dass das Geld ausgeht. Die App rechnet mit deiner Sparrate und 5 % Rendite hoch.','So liest du die Zahl: „mit 52“ heißt, mit 52 Jahren wärst du finanziell frei. Ist das mit 50 oder früher, ist der Balken voll, mit 70 ist er leer. Jede Erhöhung der Sparrate zieht das Alter nach vorne.'] }[k];
-    if(!X)return ''; return '<div class="fsx"><b>'+X[0]+'</b><p>'+X[1]+'</p><p class="fsxr">'+X[2]+'</p><button type="button" class="fsxc" data-fsi="'+k+'">Verstanden</button></div>'; }
+    if(!X)return ''; if(k==='score'&&R){ var bd=bandOf(R.sc,FS_B), tw=R.D.reduce(function(a,d){return a+d.w;},0), lost=R.D.map(function(d){return {l:d.l,p:(100-d.s)*d.w/tw};}).filter(function(o){return o.p>=0.5;}).sort(function(a,b){return b.p-a.p;});
+      X=['Was bedeutet deine '+R.sc+'?','<b>'+R.sc+' von 100</b> ist eine Note wie Punkte in einer Prüfung, keine Prozentzahl von deinem Geld. 100 hieße: In allen sechs Bereichen ist der Balken voll.',scaleHtml(R.sc,FS_B)+'<span class="fsxv"><b>'+bd[2]+' ('+bd[0]+(bd[1]===100?'–100':'–'+(bd[1]-1))+'):</b> '+bd[4]+'</span>'+(lost.length?'<span class="fsxv"><b>Was dir zu 100 fehlt:</b> '+lost.slice(0,3).map(function(o){return o.l+' (−'+Math.round(o.p)+')';}).join(', ')+'. Tippe auf das ⓘ beim Bereich, um zu sehen, wie du dort zulegst.</span>':'<span class="fsxv">Alle Bereiche sind voll – mehr geht nicht.</span>')+'<span class="fsxv muted">Die Bereiche zählen unterschiedlich stark: Vermögen fürs Alter, Sparquote und Kurs auf Freiheit wiegen am meisten. Fehlt eine Angabe, wird der Bereich weggelassen statt abgezogen. Der Pfeil zeigt die Veränderung zum Vormonat.</span>']; }
+    return '<div class="fsx"><b>'+X[0]+'</b><p>'+X[1]+'</p><div class="fsxr">'+X[2]+'</div><button type="button" class="fsxc" data-fsi="'+k+'">Verstanden</button></div>'; }
   document.addEventListener('click',function(ev){ var b=ev.target.closest&&ev.target.closest('#fscore [data-fsi]'); if(!b)return; ev.preventDefault(); ev.stopPropagation(); var k=b.getAttribute('data-fsi'); FSO[k]=!FSO[k]; renderScore(); var n=document.querySelector('#fscore [data-fsi="'+k+'"]'); if(n&&!FSO[k]){ try{n.focus({preventScroll:true});}catch(e){} } },true);
   function renderScore(){ var el=$('fscore'); if(!el)return; var S=series().filter(function(q){return q.total>0;}); var R=fsAt(S); if(!R){ el.hidden=true; return; } el.hidden=false;
     var P=S.length>1?fsAt(S.slice(0,-1)):null; if(P&&P.D.length<R.D.length){ var ks=P.D.map(function(d){return d.k;}), Rr=R.D.filter(function(d){return ks.indexOf(d.k)>=0;}), tw=Rr.reduce(function(a,d){return a+d.w;},0); R.cmp=Math.round(Rr.reduce(function(a,d){return a+d.s*d.w;},0)/tw); } var dd=P?(R.cmp!=null?R.cmp:R.sc)-P.sc:null, G=R.sc>=85?['Exzellent','#30D158']:R.sc>=70?['Sehr gut','#5FD38A']:R.sc>=55?['Gut','#E8B53A']:R.sc>=40?['Ausbaufähig','#F08A3C']:['Kritisch','#FF453A'];
