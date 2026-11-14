@@ -2081,6 +2081,40 @@ main .card h2{letter-spacing:-.02em}
 .pmore[open]>summary{margin-bottom:14px}
 .pmorein{display:flex;flex-direction:column;gap:14px;animation:ghin .35s ease}
 @media (min-width:1100px){ .pmorein{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start} }
+
+/* Kauf-Check */
+.kzmeta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.kzmeta .kzlangin{grid-column:1/-1}
+.kzc:not(.edit) .kzmeta{display:none}
+.kzmeta input[type=month]{width:100%;box-sizing:border-box;height:46px;border-radius:12px;border:1px solid var(--line);background:var(--surface2);color:var(--fg);padding:0 12px;font:inherit}
+.kzsec{margin:14px 4px 2px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.kzsec span{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:10px;background:color-mix(in srgb,var(--fg) 8%,transparent)}
+.kzck{margin-top:14px;padding-top:14px;border-top:1px solid var(--line2)}
+.kzck:empty{display:none}
+.kzckempty{display:flex;gap:8px;align-items:center;font-size:13.5px;color:var(--muted);margin:0}.kzckempty .ic{width:16px;height:16px;flex:none}
+.kzckh{display:flex;gap:14px;align-items:center;padding:12px 14px;border-radius:16px;background:color-mix(in srgb,var(--lv) 12%,transparent);border:1px solid color-mix(in srgb,var(--lv) 35%,transparent)}
+.kzckh.lv-g{--lv:var(--up)}.kzckh.lv-y{--lv:#E8B53A}.kzckh.lv-o{--lv:#F08A3C}.kzckh.lv-r{--lv:var(--down)}
+.kzckh b{display:block;font-size:17px;color:var(--lv)}.kzckh small{display:block;font-size:13px;color:var(--muted);margin-top:2px;line-height:1.35}
+.kzamp{display:flex;flex-direction:column;gap:4px;padding:6px 5px;border-radius:10px;background:#111;flex:none}
+.kzamp i{width:12px;height:12px;border-radius:50%;background:#333}
+.lv-r .kzamp i:nth-child(1){background:#FF453A;box-shadow:0 0 8px #FF453A}
+.lv-o .kzamp i:nth-child(1),.lv-o .kzamp i:nth-child(2){background:#F08A3C;box-shadow:0 0 8px #F08A3C}
+.lv-y .kzamp i:nth-child(2){background:#E8B53A;box-shadow:0 0 8px #E8B53A}
+.lv-g .kzamp i:nth-child(3){background:#30D158;box-shadow:0 0 8px #30D158}
+.kzgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.kzgrid div{padding:10px 12px;border-radius:14px;background:color-mix(in srgb,var(--fg) 5%,transparent)}
+.kzgrid div.hl{background:color-mix(in srgb,var(--acc1) 12%,transparent)}
+.kzgrid span{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.kzgrid b{display:block;font-size:19px;font-weight:800;letter-spacing:-.02em;margin:2px 0}.kzgrid .hl b{color:var(--acc1)}
+.kzgrid em{font-style:normal;font-size:11.5px;color:var(--muted)}
+.kzline{display:flex;gap:9px;align-items:flex-start;margin:12px 0 0;font-size:13.5px;line-height:1.45;color:var(--muted)}.kzline .ic{width:17px;height:17px;flex:none;color:var(--acc1);margin-top:1px}.kzline b{color:var(--fg)}
+.kzwhen{margin-top:12px;padding:12px 14px;border-radius:14px;border-left:3px solid var(--wc);background:color-mix(in srgb,var(--wc) 8%,transparent)}
+.kzwhen.ok{--wc:var(--up)}.kzwhen.mid{--wc:#E8B53A}.kzwhen.no{--wc:var(--down)}
+.kzwhen p{margin:0 0 6px;font-size:14px}.kzwhen ul{margin:0;padding-left:18px;font-size:13.5px;line-height:1.55;color:var(--muted)}.kzwhen li b{color:var(--fg)}
+.kzfoot{margin:10px 0 0;font-size:11.5px;color:var(--muted);line-height:1.4}
+.kzsumg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.kzsumg div{padding:10px 12px;border-radius:14px;background:color-mix(in srgb,var(--fg) 5%,transparent)}.kzsumg div.hl{background:color-mix(in srgb,var(--acc1) 12%,transparent)}
+.kzsumg span{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}.kzsumg b{display:block;font-size:18px;font-weight:800;margin:2px 0}.kzsumg .hl b{color:var(--acc1)}.kzsumg em{font-style:normal;font-size:11px;color:var(--muted)}
+.kzsumt{margin:10px 0 0;font-size:13.5px;color:var(--muted);line-height:1.45}.kzsumt b{color:var(--fg)}
 [hidden]{display:none!important}
 body{margin:0;background:var(--bg)}
 .encbox{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--up-bg);border:1px solid color-mix(in srgb,var(--up) 35%,transparent);margin:10px 0}.encbox .ib{font-size:18px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--surface)}.encbox b{display:block;color:var(--up)}.encbox small{font-size:12.5px;color:var(--muted)}
@@ -2530,7 +2564,7 @@ body{margin:0;background:var(--bg)}
   <div class="wrap" id="page-kaufziele" hidden>
     <section class="card">
       <h2>Kaufziele</h2>
-      <p class="note">Plane Anschaffungen und knüpfe sie an Bedingungen. Das Vermögen kommt automatisch aus der Übersicht (aktuell <b id="kz-w">–</b>). Weitere Bedingungen wie gefahrene Kilometer trägst du selbst nach. Ein Kauf ist „bereit“, wenn alle Bedingungen 100 % erreichen.</p>
+      <p class="note">Kleine Wünsche und große Lebensziele – mit Preis, Wunschtermin und Kauf-Check. Dein Vermögen (aktuell <b id="kz-w">–</b>) kommt automatisch aus dem Monatsstand.</p><div id="kzsum"></div>
     </section>
     <div class="stack" id="kzlist"></div>
     <button type="button" class="btn primary" id="kz-add" style="align-self:flex-start">+ Kaufziel hinzufügen</button>
@@ -3843,7 +3877,7 @@ body{margin:0;background:var(--bg)}
   function kzImgOk(v){ return typeof v==='string'&&(/^data:image\/(jpeg|png|webp);base64,/.test(v)||/^https:\/\//.test(v)||/^\/_blob\//.test(v))?v:''; }
   function kzFromDoc(){
     var d=docs['kaufziele/main'], it=(d&&Array.isArray(d.items))?d.items:[];
-    return it.map(function(g,i){return {id:kzId(g.id,'g'+i),name:String(g.name||''),icon:(typeof g.icon==='string'&&ICO.hasOwnProperty(g.icon))?g.icon:'bag',color:KZ_COLORS.some(function(c){return c[0]===g.color;})?g.color:'ink',wealth:nn(g.wealth),price:nn(g.price),done:!!g.done,img:kzImgOk(g.img),imgId:typeof g.imgId==='string'?g.imgId:'',
+    return it.map(function(g,i){return {id:kzId(g.id,'g'+i),name:String(g.name||''),icon:(typeof g.icon==='string'&&ICO.hasOwnProperty(g.icon))?g.icon:'bag',color:KZ_COLORS.some(function(c){return c[0]===g.color;})?g.color:'ink',wealth:nn(g.wealth),price:nn(g.price),done:!!g.done,when:/^\d{4}-\d{2}$/.test(g.when||'')?g.when:'',lang:!!g.lang,img:kzImgOk(g.img),imgId:typeof g.imgId==='string'?g.imgId:'',
       conds:(Array.isArray(g.conds)?g.conds:[]).map(function(c,j){return {id:kzId(c.id,'c'+j),name:String(c.name||''),cur:nn(c.cur),target:nn(c.target),unit:String(c.unit||'')};})};});
   }
   function kzWealth(){var S=series(); return S.length?S[S.length-1].total:0;}
@@ -3854,16 +3888,19 @@ body{margin:0;background:var(--bg)}
     out.forEach(function(q){q.pc=q.cur/q.target*100;});
     return out;
   }
+  function kzIsLang(g){ if(g.lang)return true; if(!g.when)return false; var n=new Date(); return (+g.when.slice(0,4)-n.getFullYear())*12+(+g.when.slice(5)-1-n.getMonth())>24; }
   function kzBuild(){
-    var h='';
-    kz.items.forEach(function(g){
+    var h='', secs=[['Bald',kz.items.filter(function(g){return !g.done&&!kzIsLang(g);})],['Langfristige Lebensziele',kz.items.filter(function(g){return !g.done&&kzIsLang(g);})],['Gekauft',kz.items.filter(function(g){return g.done;})]], multi=secs.filter(function(x){return x[1].length;}).length>1;
+    secs.forEach(function(sec){ if(!sec[1].length)return; if(multi)h+='<p class="kzsec">'+sec[0]+' <span>'+sec[1].length+'</span></p>';
+    sec[1].forEach(function(g){
       h+='<section class="card kzc'+(g.done?' isdone':'')+(kzEdit[g.id]?' edit':'')+'" data-id="'+g.id+'" style="--kc:'+kzCol(g.color)+'">'+
         (g.img?'<div class="kzimg"><img src="'+esc(g.img)+'" alt="" loading="lazy"><span class="kzimgpc" data-o="imgpc"></span><div class="kzimgact"><button type="button" data-imgset="1">Bild ändern</button><button type="button" data-imgdel="1">Entfernen</button></div></div>'
               :'<button type="button" class="kzimgadd" data-imgset="1">'+ico('camera')+'<span>Bild hinzufügen</span><small>Motivation sichtbar machen</small></button>')+
         '<div class="kzh"><button type="button" class="ib kzib" data-pick="1" aria-label="Icon wählen" aria-expanded="false">'+ico(g.icon||'bag')+'</button><input class="rname" type="text" data-f="name" value="'+esc(g.name)+'" placeholder="Kaufziel, z. B. Fahrrad" aria-label="Name des Kaufziels" autocomplete="off"></div>'+
         '<div class="kzpick" hidden><div class="kzicons">'+KZ_ICONS.map(function(q){return '<button type="button" class="kzpi'+((g.icon||'bag')===q[0]?' on':'')+'" data-ic="'+q[0]+'" title="'+q[1]+'" aria-label="'+q[1]+'">'+ico(q[0])+'</button>';}).join('')+'</div><div class="kzcol">'+KZ_COLORS.map(function(q){return '<button type="button" class="kzcd'+((g.color||'ink')===q[0]?' on':'')+'" data-col="'+q[0]+'" style="background:'+q[1]+'" title="'+q[2]+'" aria-label="'+q[2]+'"></button>';}).join('')+'</div></div>'+
         '<div class="kzhrs" data-o="hrs"></div>'+
-        '<label class="f kzprice">Preis in €<input class="num" type="text" inputmode="decimal" data-f="price" value="'+fmtN(g.price)+'" placeholder="z. B. 4.500" autocomplete="off"></label>'+
+        '<div class="kzmeta"><label class="f kzprice">Preis in €<input class="num" type="text" inputmode="decimal" data-f="price" value="'+fmtN(g.price)+'" placeholder="z. B. 4.500" autocomplete="off"></label><label class="f kzwhenin">Wunschtermin<input type="month" data-f="when" value="'+esc(g.when||'')+'" min="2026-01"></label><label class="chk kzlangin"><input type="checkbox" data-f="lang"'+(g.lang?' checked':'')+'> Langfristiges Lebensziel</label></div>'+
+        '<div class="kzck" data-o="check"></div>'+
         '<div class="kzs"><div><p class="kzp" data-o="pc">–</p><p class="muted" data-o="why"></p></div><span class="pill neutral" data-o="pill">Offen</span></div>'+
         '<div class="pbar" data-o="bar"><span style="width:0%"></span></div>'+
         '<div class="kzr"><div class="kzrt"><b>Vermögen</b><span class="muted" data-o="w-txt"></span></div><div class="pbar sm" data-o="w-bar"><span style="width:0%"></span></div><p class="muted fcl" data-o="w-fc"></p>'+
@@ -3877,12 +3914,44 @@ body{margin:0;background:var(--bg)}
           '<div class="pbar sm" data-o="c-bar"><span style="width:0%"></span></div></div>';
       });
       h+='<div class="kzf"><button type="button" class="radd" data-edit="'+g.id+'">'+(kzEdit[g.id]?'Fertig':'Bearbeiten')+'</button><button type="button" class="radd" data-cadd="'+g.id+'">+ Bedingung</button><label class="chk"><input type="checkbox" data-f="done"'+(g.done?' checked':'')+'> Gekauft</label><button type="button" class="rdel" data-gdel="'+g.id+'">Kaufziel löschen</button></div></section>';
-    });
+    }); });
     $('kzlist').innerHTML=h||'<div class="card"><p class="empty">Noch kein Kaufziel. Lege unten dein erstes an.</p></div>';
   }
   function kzFill(el,pc,none){ var f=el.firstElementChild; f.style.width=Math.max(0,Math.min(100,pc)).toFixed(0)+'%'; var ok=pc>=100-1e-9; el.classList.toggle('ok',!none&&ok); el.classList.toggle('low',!none&&!ok); }
+
+  /* ===== Kauf-Check ===== */
+  function eurM(v){ return v<100000?eur(v):eurK(v); }
+  function kzCheck(g,W){ if(!(g.price>0))return '<p class="kzckempty">'+ico('spark')+' Trag einen Preis ein – dann bekommst du den Kauf-Check mit Ampel, verpasster Rendite und dem besten Zeitpunkt.</p>';
+    if(!(W>0))return ''; var price=g.price, sr=planSave(), by=+(docs['settings/main']||{}).byear||0, now=new Date(), age=by?now.getFullYear()-by+now.getMonth()/12:null, yrs=age?Math.max(5,Math.round(67-age)):20;
+    var share=price/W*100, L=share<=3?['g','Gönn dir!','Nur '+pct(share)+' deines Vermögens – das steckst du locker weg.']:share<=7?['y','Gut überlegen','Das sind '+pct(share)+' deines Vermögens – machbar, aber spürbar.']:share<=15?['o','Großer Brocken',pct(share)+' deines Vermögens. Lieber noch etwas warten.']:['r','Würde dich zurückwerfen',pct(share)+' deines Vermögens – das kostet dich deutlich Zeit.'];
+    if(g.done)L=['g','Gekauft','Viel Freude damit! Du hast es dir verdient.'];
+    var opp=price*Math.pow(1.05,yrs), opp10=price*Math.pow(1.05,10), lc=lifeCost(), dl=null;
+    if(lc){ var fz=lc.v*12*25, m0=projMonths(W,fz,sr), m1=projMonths(Math.max(0,W-price),fz,sr); if(m0!=null&&m1!=null)dl=m1-m0; }
+    var mOk=null; for(var m=0;m<=600;m++){ if(projAt(W,m,sr)*0.03>=price){ mOk=m; break; } }
+    var mRet=null; for(var k=0;k<=600;k++){ if(projAt(W,k,sr)*0.05>=price){ mRet=k; break; } }
+    var cur=series().filter(function(q){return q.total>0;}), li=cur.length?ymIdx(cur[cur.length-1].ym):null, lab=function(mm){ return mm===0?'jetzt':label(ymFromIdx(li+mm)); };
+    var h='<div class="kzckh lv-'+L[0]+'"><span class="kzamp"><i></i><i></i><i></i></span><div><b>'+L[1]+'</b><small>'+L[2]+'</small></div></div>';
+    h+='<div class="kzgrid"><div><span>Verpasste Rendite</span><b>'+eurM(opp)+'</b><em>wären es bis '+(age?'67':'in '+yrs+' J.')+'</em></div>'+
+      '<div><span>In 10 Jahren</span><b>'+eurM(opp10)+'</b><em>wenn du es anlegst</em></div>'+
+      (dl!=null?'<div><span>Freiheit</span><b>'+(dl<=0?'±0':'+'+durTxt(dl))+'</b><em>später frei</em></div>':'<div><span>Anteil</span><b>'+pct(share)+'</b><em>deines Vermögens</em></div>')+
+      '<div class="hl"><span>Entspannt ab</span><b>'+(mOk==null?'–':lab(mOk))+'</b><em>3-%-Regel</em></div></div>';
+    if(mRet!=null)h+='<p class="kzline">'+ico('etf')+'<span>'+(mRet===0?'Deine Rendite eines Jahres (≈ 5 %) deckt den Preis schon heute – du würdest ihn aus Gewinnen bezahlen, nicht aus deiner Substanz.':'Ab <b>'+lab(mRet)+'</b> bezahlt dein Depot das aus einem Jahr Rendite – ohne deine Substanz anzutasten.')+'</span></p>';
+    if(g.when&&!g.done){ var mt=(+g.when.slice(0,4)-now.getFullYear())*12+(+g.when.slice(5)-1-now.getMonth()); if(mt>0){ var pi=price*Math.pow(1.02,mt/12), Pw=projAt(W,mt,sr), sw=pi/Pw*100, ok=sw<=3, mid=sw<=7;
+      h+='<div class="kzwhen '+(ok?'ok':mid?'mid':'no')+'"><p><b>Wunschtermin '+label(g.when)+'</b> · in '+durTxt(mt)+'</p><ul>'+
+        '<li>Preis dann voraussichtlich <b>'+eur(pi)+'</b> (2 % Inflation p. a.)</li>'+
+        '<li>Dein Vermögen dann ca. <b>'+eurK(Pw)+'</b> – der Kauf wären <b>'+pct(sw)+'</b> davon</li>'+
+        '<li>'+(ok?'✅ Perfekter Zeitpunkt – das passt entspannt.':mid?'🟡 Machbar. '+(mOk!=null&&mOk>mt?'Ganz entspannt wäre es ab '+lab(mOk)+'.':''):'🔴 Zu früh. Entspannt leistbar erst ab '+(mOk==null?'später':lab(mOk))+'.')+'</li>'+
+        '<li>Willst du es bar ansparen: <b>'+eur(pi/mt)+'</b> pro Monat zur Seite legen</li></ul></div>'; } }
+    h+='<p class="kzfoot">Verpasste Rendite = was der Kaufpreis bei 5 % im Jahr bis dahin geworden wäre. „Entspannt ab“: wenn der Preis höchstens 3 % deines Vermögens ausmacht.</p>';
+    return h; }
+  function kzSummary(W){ var el=$('kzsum'); if(!el)return; var open=kz.items.filter(function(g){return !g.done&&g.price>0;}), sum=open.reduce(function(a,g){return a+g.price;},0), f=fcPace(), bud=f&&f.per>0?f.per*12*0.1:null, lng=open.filter(kzIsLang).length;
+    var by=+(docs['settings/main']||{}).byear||0, yrs=by?Math.max(5,Math.round(67-(new Date().getFullYear()-by))):20;
+    el.innerHTML='<div class="kzsumg"><div><span>Offene Ziele</span><b>'+open.length+'</b><em>'+(lng?lng+' davon langfristig':'mit Preis')+'</em></div><div><span>Gesamtpreis</span><b>'+eurM(sum)+'</b><em>'+(W>0?pct(sum/W*100)+' deines Vermögens':'')+'</em></div><div class="hl"><span>Gönn-dir-Budget</span><b>'+(bud?eurM(bud):'–')+'</b><em>pro Jahr*</em></div></div>'+
+      (sum>0?'<p class="kzsumt">Würdest du alles anlegen statt kaufen, wären daraus bis '+(by?'67':'in '+yrs+' Jahren')+' etwa <b>'+eurM(sum*Math.pow(1.05,yrs))+'</b> geworden. Das heißt nicht „nie kaufen“ – sondern bewusst entscheiden.</p>':'')+
+      '<p class="kzfoot">* Faustregel: Bis zu 10 % deines jährlichen Vermögenszuwachses darfst du ohne schlechtes Gewissen ausgeben.</p>'; }
+
   function kzCalc(){
-    var W=kzWealth(); setT('kz-w',eur(W));
+    var W=kzWealth(); setT('kz-w',eur(W)); try{kzSummary(W);}catch(e){}
     kz.items.forEach(function(g){
       var card=document.querySelector('#kzlist [data-id="'+g.id+'"]'); if(!card)return;
       var parts=kzParts(g), min=null, lim=null;
@@ -3901,6 +3970,7 @@ body{margin:0;background:var(--bg)}
           hr.innerHTML='<span class="ib">'+ico('watch')+'</span><div><b>'+eur(g.price)+'</b><span>≈ <strong>'+nf0.format(Math.round(hrs))+' Arbeitsstunden</strong> · '+nf1.format(days).replace(/,0$/,'')+' Arbeitstage</span><small>bei '+eur2(ph)+' netto pro Stunde</small></div>'; hr.hidden=false; }
         else if(g.price>0){ hr.innerHTML='<span class="ib">'+ico('watch')+'</span><div><b>'+eur(g.price)+'</b><small>Trag dein Gehalt ein, dann siehst du hier die Arbeitsstunden.</small></div>'; hr.hidden=false; }
         else hr.hidden=true; }
+      var ck=card.querySelector('[data-o="check"]'); if(ck){ try{ ck.innerHTML=kzCheck(g,W); }catch(e){ ck.innerHTML=''; } }
       var ip=card.querySelector('[data-o="imgpc"]'); if(ip)ip.textContent=g.done?'✓ Gekauft':(min==null?'':(min>=100-1e-9?'Bereit zum Kauf':pct(min)+' geschafft'));
       var wt=card.querySelector('[data-o="w-txt"]'), wb=card.querySelector('[data-o="w-bar"]');
       if(g.wealth!=null&&g.wealth>0){ var wp=W/g.wealth*100; wt.textContent=eur(W)+' von '+eur(g.wealth)+' · '+pct(wp); kzFill(wb,wp); } else { wt.textContent='Kein Ziel-Vermögen gesetzt'; kzFill(wb,0,true); }
@@ -3922,7 +3992,7 @@ body{margin:0;background:var(--bg)}
   async function kzSave(){
     if(kzSaving){kzPend=true;return;}
     kzSaving=true; var seq=kzSeq;
-    var o={items:kz.items.map(function(g){return {id:g.id,name:g.name,icon:g.icon||'bag',color:g.color||'ink',wealth:g.wealth,price:g.price,done:g.done,img:g.img||'',imgId:g.imgId||'',conds:g.conds.map(function(c){return {id:c.id,name:c.name,cur:c.cur,target:c.target,unit:c.unit};})};}),updated:new Date().toISOString()};
+    var o={items:kz.items.map(function(g){return {id:g.id,name:g.name,icon:g.icon||'bag',color:g.color||'ink',wealth:g.wealth,price:g.price,done:g.done,when:g.when||'',lang:!!g.lang,img:g.img||'',imgId:g.imgId||'',conds:g.conds.map(function(c){return {id:c.id,name:c.name,cur:c.cur,target:c.target,unit:c.unit};})};}),updated:new Date().toISOString()};
     try{ await write('kaufziele/main',o); if(seq===kzSeq)kzDirty=false; say('kzmsg','Gespeichert.','ok'); }
     catch(e){ say('kzmsg',failText(),'bad'); }
     kzSaving=false;
@@ -4800,7 +4870,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='2.5.0', APP_DATE='13.11.2026';
+  var APP_VERSION='2.6.0', APP_DATE='13.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
@@ -6126,13 +6196,14 @@ body{margin:0;background:var(--bg)}
   $('kzlist').addEventListener('input',function(ev){
     var el=ev.target, g=kzGoal(el); if(!g)return;
     var f=el.getAttribute('data-f'), cf=el.getAttribute('data-cf');
-    if(f==='name')g.name=el.value; else if(f==='wealth')g.wealth=kzNum(el.value); else if(f==='price')g.price=kzNum(el.value);
+    if(f==='name')g.name=el.value; else if(f==='wealth')g.wealth=kzNum(el.value); else if(f==='price')g.price=kzNum(el.value); else if(f==='when')g.when=/^\d{4}-\d{2}$/.test(el.value)?el.value:'';
     else if(cf){ var c=kzCond(g,el); if(!c)return; if(cf==='name'||cf==='unit')c[cf]=el.value; else c[cf]=kzNum(el.value); }
     else return;
     kzTouch();
   });
   $('kzlist').addEventListener('change',function(ev){
     var el=ev.target, g=kzGoal(el); if(!g)return;
+    if(el.getAttribute('data-f')==='lang'){ g.lang=el.checked; kzTouch(); return; }
     if(el.getAttribute('data-f')==='done'){ g.done=el.checked; el.closest('.kzc').classList.toggle('isdone',g.done); kzTouch(); if(g.done){ try{confetti(); toast('🎉 Gekauft: '+(g.name||'Kaufziel')+' – gönn dir!');}catch(e){} } return; }
     var f=el.getAttribute('data-f'), cf=el.getAttribute('data-cf');
     if(f==='wealth'||f==='price'||cf==='cur'||cf==='target'){ el.value=el.value.trim()===''?'':fmtN(num(el.value)); }
