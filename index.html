@@ -2166,6 +2166,24 @@ html.clurgent .fscore{order:5}
 @media (max-width:370px){ .fsb{grid-template-columns:100px 1fr auto} }
 
 @media (min-width:760px){ .fsbars{display:grid;grid-template-columns:1fr 1fr;column-gap:34px;row-gap:12px} .fsb{grid-template-columns:150px 1fr auto} }
+
+/* Begriffe erklärt */
+.gli{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;margin-left:5px;border-radius:50%;border:0;padding:0;vertical-align:1px;font:italic 700 11px/1 Georgia,serif;color:var(--acc1);background:color-mix(in srgb,var(--acc1) 15%,transparent);cursor:pointer;flex:none;position:relative}
+.gli::after{content:"";position:absolute;inset:-10px}
+.glbtn{display:inline-flex;align-items:center;gap:8px;margin:10px 0 2px;padding:8px 14px 8px 8px;border-radius:20px;border:0;font:inherit;font-size:14px;font-weight:650;color:var(--acc1);background:color-mix(in srgb,var(--acc1) 11%,transparent);cursor:pointer}
+.glbtn span{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--acc1);color:#06140d;font-weight:800;font-size:13px}
+.glsh{max-height:86vh;overflow-y:auto}
+.gllist{display:flex;flex-direction:column;gap:8px;padding:4px 2px 18px}
+.glit{border-radius:14px;background:color-mix(in srgb,var(--fg) 5%,transparent);padding:0 14px;transition:background .3s}
+.glit.hl{background:color-mix(in srgb,var(--acc1) 12%,transparent);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--acc1) 45%,transparent)}
+.glit summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 0;font-weight:700;font-size:15.5px;cursor:pointer}
+.glit summary::-webkit-details-marker{display:none}
+.glit summary .mchev{font-style:normal;transition:transform .25s;color:var(--muted)}.glit[open] summary .mchev{transform:rotate(90deg)}
+.glit p{margin:0 0 10px;font-size:14.5px;line-height:1.55}
+.glit p.glex{color:var(--muted);padding:10px 12px;border-radius:10px;background:color-mix(in srgb,var(--fg) 4%,transparent);margin-bottom:14px}
+@media (min-width:1100px){ #glsheet .sheet{max-width:620px} }
+#glsheet{z-index:10002}.glsh{max-height:82vh}
+.glsh{display:flex;flex-direction:column;overflow:hidden!important}.glsh .gllist{overflow-y:auto;flex:1;min-height:0;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 [hidden]{display:none!important}
 body{margin:0;background:var(--bg)}
 .encbox{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--up-bg);border:1px solid color-mix(in srgb,var(--up) 35%,transparent);margin:10px 0}.encbox .ib{font-size:18px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--surface)}.encbox b{display:block;color:var(--up)}.encbox small{font-size:12.5px;color:var(--muted)}
@@ -2616,7 +2634,7 @@ body{margin:0;background:var(--bg)}
   <div class="wrap" id="page-kaufziele" hidden>
     <section class="card">
       <h2>Kaufziele</h2>
-      <p class="note">Kleine Wünsche und große Lebensziele – mit Preis, Wunschtermin und Kauf-Check. Dein Vermögen (aktuell <b id="kz-w">–</b>) kommt automatisch aus dem Monatsstand.</p><div id="kzsum"></div>
+      <p class="note">Kleine Wünsche und große Lebensziele – mit Preis, Wunschtermin und Kauf-Check. Dein Vermögen (aktuell <b id="kz-w">–</b>) kommt automatisch aus dem Monatsstand.</p><button type="button" class="glbtn" data-gl="all"><span>?</span>Alle Begriffe einfach erklärt</button><div id="kzsum"></div>
     </section>
     <div class="stack" id="kzlist"></div>
     <button type="button" class="btn primary" id="kz-add" style="align-self:flex-start">+ Kaufziel hinzufügen</button>
@@ -3946,7 +3964,7 @@ body{margin:0;background:var(--bg)}
   function kzBuild(){
     var act=function(g){return !g.done&&!g.drop;}, srt=function(a){ return a.slice().sort(function(x,y){ return kzScore(y)-kzScore(x); }); };
     var h='', secs=[['Bald',srt(kz.items.filter(function(g){return act(g)&&!kzIsLang(g);}))],['Langfristige Lebensziele',srt(kz.items.filter(function(g){return act(g)&&kzIsLang(g);}))],['Erledigt & verworfen',kz.items.filter(function(g){return g.done||g.drop;})]], multi=secs.filter(function(x){return x[1].length;}).length>1;
-    secs.forEach(function(sec){ if(!sec[1].length)return; if(multi)h+='<p class="kzsec">'+sec[0]+' <span>'+sec[1].length+'</span></p>';
+    secs.forEach(function(sec){ if(!sec[1].length)return; if(multi)h+='<p class="kzsec">'+sec[0]+' <span>'+sec[1].length+'</span>'+(sec[0]==='Bald'?gi('sort'):'')+'</p>';
     sec[1].forEach(function(g){
       h+='<section class="card kzc'+(g.done?' isdone':'')+(g.drop?' isdrop':'')+(kzEdit[g.id]?' edit':'')+'" data-id="'+g.id+'" style="--kc:'+kzCol(g.color)+'">'+
         (g.img?'<div class="kzimg"><img src="'+esc(g.img)+'" alt="" loading="lazy"><span class="kzimgpc" data-o="imgpc"></span><div class="kzimgact"><button type="button" data-imgset="1">Bild ändern</button><button type="button" data-imgdel="1">Entfernen</button></div></div>'
@@ -3958,7 +3976,7 @@ body{margin:0;background:var(--bg)}
         '<div class="kzck" data-o="check"></div>'+
         '<div class="kzs"><div><p class="kzp" data-o="pc">–</p><p class="muted" data-o="why"></p></div><span class="pill neutral" data-o="pill">Offen</span></div>'+
         '<div class="pbar" data-o="bar"><span style="width:0%"></span></div>'+
-        '<div class="kzr"><div class="kzrt"><b>Vermögen</b><span class="muted" data-o="w-txt"></span></div><div class="pbar sm" data-o="w-bar"><span style="width:0%"></span></div><p class="muted fcl" data-o="w-fc"></p>'+
+        '<div class="kzr"><div class="kzrt"><b>Vermögen'+gi('ziel')+'</b><span class="muted" data-o="w-txt"></span></div><div class="pbar sm" data-o="w-bar"><span style="width:0%"></span></div><p class="muted fcl" data-o="w-fc"></p>'+
         '<label class="f">Ziel-Vermögen in €<input class="num" type="text" inputmode="decimal" data-f="wealth" value="'+fmtN(g.wealth)+'" placeholder="optional" autocomplete="off"></label></div>';
       g.conds.forEach(function(c){
         h+='<div class="kzr" data-cid="'+c.id+'"><input class="rname" type="text" data-cf="name" value="'+esc(c.name)+'" placeholder="Bedingung, z. B. Kilometer gefahren" aria-label="Name der Bedingung" autocomplete="off">'+
@@ -3987,17 +4005,17 @@ body{margin:0;background:var(--bg)}
     var mRet=null; for(var k=0;k<=600;k++){ if(projAt(W,k,sr)*0.05>=price){ mRet=k; break; } }
     var cur=series().filter(function(q){return q.total>0;}), li=cur.length?ymIdx(cur[cur.length-1].ym):null, lab=function(mm){ return mm===0?'jetzt':label(ymFromIdx(li+mm)); };
     var h=g.done?'<div class="kzckh lv-'+L[0]+'"><span class="kzamp"><i></i><i></i><i></i></span><div><b>'+L[1]+'</b><small>'+L[2]+'</small></div></div>':kzBaro(g,W);
-    h+='<div class="kzgrid"><div><span>Verpasste Rendite</span><b>'+eurM(opp)+'</b><em>wären es bis '+(age?'67':'in '+yrs+' J.')+'</em></div>'+
-      '<div><span>10 Jahre</span><b>'+eurM(opp10)+'</b><em>wenn du es anlegst</em></div>'+
-      '<div class="hl"><span>Entspannt ab</span><b>'+(mOk==null?'–':lab(mOk))+'</b><em>3-%-Regel</em></div></div>';
-    if(mRet!=null)h+='<p class="kzline">'+ico('etf')+'<span>'+(mRet===0?'Deine Rendite eines Jahres (≈ 5 %) deckt den Preis schon heute – du würdest ihn aus Gewinnen bezahlen, nicht aus deiner Substanz.':'Ab <b>'+lab(mRet)+'</b> bezahlt dein Depot das aus einem Jahr Rendite – ohne deine Substanz anzutasten.')+'</span></p>';
+    h+='<div class="kzgrid"><div><span>Verpasste Rendite'+gi('opp')+'</span><b>'+eurM(opp)+'</b><em>wären es bis '+(age?'67':'in '+yrs+' J.')+'</em></div>'+
+      '<div><span>10 Jahre'+gi('zehn')+'</span><b>'+eurM(opp10)+'</b><em>wenn du es anlegst</em></div>'+
+      '<div class="hl"><span>Entspannt ab'+gi('regel3')+'</span><b>'+(mOk==null?'–':lab(mOk))+'</b><em>Kauf ≤ 3 % vom Vermögen</em></div></div>';
+    if(mRet!=null)h+='<p class="kzline">'+ico('etf')+'<span>'+(mRet===0?'Deine Rendite eines Jahres (≈ 5 %) deckt den Preis schon heute – du würdest ihn aus Gewinnen bezahlen, nicht aus deiner Substanz.':'Ab <b>'+lab(mRet)+'</b> bezahlt dein Depot das aus einem Jahr Rendite – ohne deine Substanz anzutasten.')+gi('rendite')+'</span></p>';
     if(g.when&&!g.done){ var mt=(+g.when.slice(0,4)-now.getFullYear())*12+(+g.when.slice(5)-1-now.getMonth()); if(mt>0){ var pi=price*Math.pow(1.02,mt/12), Pw=projAt(W,mt,sr), sw=pi/Pw*100, ok=sw<=3, mid=sw<=7;
-      h+='<div class="kzwhen '+(ok?'ok':mid?'mid':'no')+'"><p><b>Wunschtermin '+label(g.when)+'</b> · in '+durTxt(mt)+'</p><ul>'+
+      h+='<div class="kzwhen '+(ok?'ok':mid?'mid':'no')+'"><p><b>Wunschtermin '+label(g.when)+'</b> · in '+durTxt(mt)+gi('wunsch')+'</p><ul>'+
         '<li>Preis dann voraussichtlich <b>'+eur(pi)+'</b> (2 % Inflation p. a.)</li>'+
         '<li>Dein Vermögen dann ca. <b>'+eurK(Pw)+'</b> – der Kauf wären <b>'+pct(sw)+'</b> davon</li>'+
         '<li>'+(ok?'✅ Perfekter Zeitpunkt – das passt entspannt.':mid?'🟡 Machbar. '+(mOk!=null&&mOk>mt?'Ganz entspannt wäre es ab '+lab(mOk)+'.':''):'🔴 Zu früh. Entspannt leistbar erst ab '+(mOk==null?'später':lab(mOk))+'.')+'</li>'+
         '<li>Willst du es bar ansparen: <b>'+eur(pi/mt)+'</b> pro Monat zur Seite legen</li></ul></div>'; } }
-    h+='<p class="kzfoot">Verpasste Rendite = was der Kaufpreis bei 5 % im Jahr bis dahin geworden wäre. „Entspannt ab“: wenn der Preis höchstens 3 % deines Vermögens ausmacht.</p>';
+    h+='<p class="kzfoot">Tippe auf ⓘ neben einem Begriff für eine Erklärung.</p>';
     return h; }
 
   /* ===== Kauf-Barometer ===== */
@@ -4015,14 +4033,42 @@ body{margin:0;background:var(--bg)}
     var svg='<svg class="baro" viewBox="0 0 200 112" aria-hidden="true"><defs><linearGradient id="bg'+g.id+'" x1="0" x2="1"><stop offset="0" stop-color="#FF453A"/><stop offset=".35" stop-color="#F08A3C"/><stop offset=".6" stop-color="#E8B53A"/><stop offset="1" stop-color="#30D158"/></linearGradient></defs>'+
       '<path d="M18 100a82 82 0 0 1 164 0" fill="none" stroke="url(#bg'+g.id+')" stroke-width="14" stroke-linecap="round"/>'+
       '<g transform="rotate('+ang.toFixed(1)+' 100 100)"><line x1="100" y1="100" x2="100" y2="32" class="bneedle"/></g><circle cx="100" cy="100" r="8" class="bhub"/></svg>';
-    return '<div class="kzbaro lv-'+L[0]+'"><div class="bgauge">'+svg+'<b>'+sc+'</b><small>von 100</small></div><div class="btx"><span>Kauf-Barometer</span><b>'+L[1]+'</b><p>'+L[2]+'</p><em>Bewertet '+src+'.</em></div></div>'+
-      '<div class="bparams">'+P.map(function(q){ return '<div><span>'+q.k+'</span><b>'+q.v+'</b><i><u style="width:'+q.s.toFixed(0)+'%;background:'+(q.s>=70?'#30D158':q.s>=50?'#E8B53A':q.s>=30?'#F08A3C':'#FF453A')+'"></u></i><em>'+q.t+'</em></div>'; }).join('')+'</div>'+(tip?'<p class="kzline">'+ico('target')+'<span>'+tip+'</span></p>':''); }
+    return '<div class="kzbaro lv-'+L[0]+'"><div class="bgauge">'+svg+'<b>'+sc+'</b><small>von 100</small></div><div class="btx"><span>Kauf-Barometer'+gi('baro')+'</span><b>'+L[1]+'</b><p>'+L[2]+'</p><em>Bewertet '+src+'.</em></div></div>'+
+      '<div class="bparams">'+P.map(function(q){ return '<div><span>'+q.k+gi({'Anteil am Vermögen':'anteil','Rückschritt':'rueck','Gönn-dir-Budget':'budget','Freiheit':'frei'}[q.k])+'</span><b>'+q.v+'</b><i><u style="width:'+q.s.toFixed(0)+'%;background:'+(q.s>=70?'#30D158':q.s>=50?'#E8B53A':q.s>=30?'#F08A3C':'#FF453A')+'"></u></i><em>'+q.t+'</em></div>'; }).join('')+'</div>'+(tip?'<p class="kzline">'+ico('target')+'<span>'+tip+'</span></p>':''); }
 
   function kzSummary(W){ var el=$('kzsum'); if(!el)return; var open=kz.items.filter(function(g){return !g.done&&!g.drop&&g.price>0;}), sum=open.reduce(function(a,g){return a+g.price;},0), f=fcPace(), bud=f&&f.per>0?f.per*12*0.1:null, lng=open.filter(kzIsLang).length;
     var by=+(docs['settings/main']||{}).byear||0, yrs=by?Math.max(5,Math.round(67-(new Date().getFullYear()-by))):20;
-    el.innerHTML='<div class="kzsumg"><div><span>Offene Ziele</span><b>'+open.length+'</b><em>'+(lng?lng+' davon langfristig':'mit Preis')+'</em></div><div><span>Gesamtpreis</span><b>'+eurM(sum)+'</b><em>'+(W>0?pct(sum/W*100)+' deines Vermögens':'')+'</em></div><div class="hl"><span>Gönn-dir-Budget</span><b>'+(bud?eurM(bud):'–')+'</b><em>pro Jahr*</em></div></div>'+
+    el.innerHTML='<div class="kzsumg"><div><span>Offene Ziele</span><b>'+open.length+'</b><em>'+(lng?lng+' davon langfristig':'mit Preis')+'</em></div><div><span>Gesamtpreis</span><b>'+eurM(sum)+'</b><em>'+(W>0?pct(sum/W*100)+' deines Vermögens':'')+'</em></div><div class="hl"><span>Gönn-dir-Budget'+gi('budget')+'</span><b>'+(bud?eurM(bud):'–')+'</b><em>pro Jahr*</em></div></div>'+
       (sum>0?'<p class="kzsumt">Würdest du alles anlegen statt kaufen, wären daraus bis '+(by?'67':'in '+yrs+' Jahren')+' etwa <b>'+eurM(sum*Math.pow(1.05,yrs))+'</b> geworden. Das heißt nicht „nie kaufen“ – sondern bewusst entscheiden.</p>':'')+
       '<p class="kzfoot">* Faustregel: Bis zu 10 % deines jährlichen Vermögenszuwachses darfst du ohne schlechtes Gewissen ausgeben.</p>'; }
+
+  /* ===== Kaufziele: Begriffe erklärt ===== */
+  function gi(k){ return k?'<button type="button" class="gli" data-gl="'+k+'" aria-label="Erklärung">i</button>':''; }
+  function glData(){ var W=kzWealth(), f=fcPace(), per=f&&f.per>0?f.per:null, bud=per?per*12*0.1:null, lc=lifeCost(), ex=W>0?W:100000;
+    return [
+      ['baro','Kauf-Barometer','Eine Gesamtnote von 0 bis 100, wie gut ein Kauf gerade zu deinen Finanzen passt. Sie setzt sich aus bis zu vier Werten zusammen: Anteil am Vermögen, Rückschritt, Gönn-dir-Budget und Freiheit. Die Werte werden gemittelt.','Ab 65 heißt es „Klare Empfehlung“, ab 45 „Passt gut“, ab 25 „Bewusst entscheiden“, darunter „Großer Traum“. Ein großer Traum ist nicht verboten, er braucht nur mehr Zeit. Hast du einen Wunschtermin oder ein Ziel-Vermögen eingetragen, bewertet die App den Kauf zu diesem Zeitpunkt, nicht heute.'],
+      ['anteil','Anteil am Vermögen','Wie viel Prozent deines gesamten Vermögens der Kauf kosten würde. Das ist die einfachste und wichtigste Kennzahl.','Bei '+eur(ex)+' Vermögen kostet ein Kauf von '+eur(ex*0.05)+' genau 5 %. Bis 3 % merkst du kaum etwas, bis 7 % ist es spürbar, ab 15 % wirft es dich zurück.'],
+      ['regel3','3-%-Regel („Entspannt ab“)','Eine Faustregel: Ein Kauf ist entspannt leistbar, wenn er höchstens 3 % deines Vermögens kostet. Dein Depot schwankt in einem normalen Jahr ohnehin um mehr als das. So ein Kauf fällt also im Grundrauschen kaum auf.','„Entspannt ab“ zeigt den Monat, in dem dein Vermögen laut Hochrechnung so groß ist, dass der Preis nur noch 3 % davon ausmacht. Bei '+eur(ex)+' Vermögen sind das aktuell bis zu '+eur(ex*0.03)+'.'],
+      ['opp','Verpasste Rendite','Geld, das du ausgibst, kann nicht mehr für dich arbeiten. Die verpasste Rendite zeigt, was aus dem Kaufpreis geworden wäre, wenn du ihn stattdessen bis 67 angelegt hättest. Gerechnet wird mit 5 % pro Jahr inklusive Zinseszins.','Das ist kein Verbot und kein schlechtes Gewissen, sondern nur ein ehrliches Preisschild. 1.000 € werden in 30 Jahren bei 5 % zu rund 4.300 €.'],
+      ['zehn','10 Jahre','Dasselbe Prinzip wie bei der verpassten Rendite, nur auf 10 Jahre gerechnet. Bei 5 % pro Jahr wird aus dem Betrag etwa das 1,6-Fache.','Ein Beispiel: Aus 5.000 € würden in 10 Jahren rund 8.100 €.'],
+      ['rendite','Aus Rendite bezahlen – „Substanz“','Substanz ist das Geld, das du selbst angespart hast. Rendite ist das, was dein Depot zusätzlich erwirtschaftet. Die App rechnet mit rund 5 % pro Jahr.','Wenn ein Jahr Rendite den Preis deckt, bezahlst du den Kauf rechnerisch aus Gewinnen. Dein angespartes Geld bleibt dann unangetastet. Bei '+eur(ex)+' Vermögen sind 5 % etwa '+eur(ex*0.05)+' im Jahr.'],
+      ['rueck','Rückschritt','Wie viele Monate deines Vermögensaufbaus der Kauf „auffrisst“. Die App teilt den Preis durch deinen monatlichen Zuwachs aus Sparrate und Rendite.'+(per?' Dein Zuwachs liegt aktuell bei etwa '+eur(per)+' pro Monat.':''),'Ein Rückschritt von 3 Monaten heißt: Danach stehst du da, wo du ohne Kauf schon 3 Monate früher gewesen wärst.'],
+      ['budget','Gönn-dir-Budget','Eine Faustregel: Bis zu 10 % deines jährlichen Vermögenszuwachses darfst du ohne schlechtes Gewissen für Wünsche ausgeben.'+(bud?' Bei dir sind das aktuell etwa '+eur(bud)+' pro Jahr.':''),'Im Barometer steht z. B. „2,5×“. Das heißt, der Kauf kostet 2,5 Jahresbudgets. Ein Wert bis 1× ist im grünen Bereich.'],
+      ['frei','Freiheit („später frei“)','Finanziell frei bist du, wenn dein Vermögen etwa das 25-Fache deiner jährlichen Ausgaben beträgt. Ab dann kannst du jedes Jahr rund 4 % entnehmen, ohne dass das Geld ausgeht. Das ist die sogenannte 4-%-Regel.'+(lc?' Bei '+eur(lc.v)+' Ausgaben im Monat liegt dein Ziel bei '+eurK(lc.v*12*25)+'.':''),'„+4 Monate“ heißt: Mit diesem Kauf erreichst du die finanzielle Freiheit voraussichtlich 4 Monate später. Dafür müssen in den Einstellungen deine Lebenshaltungskosten eingetragen sein.'],
+      ['wunsch','Wunschtermin & Inflation','Trägst du einen Wunschtermin ein, rechnet die App den Preis mit 2 % Inflation pro Jahr hoch. Dein Vermögen rechnet sie mit deiner Sparrate und 5 % Rendite hoch. Daraus ergibt sich, welchen Anteil der Kauf dann ausmachen würde.','Grün heißt, der Termin passt entspannt. Gelb heißt machbar. Rot heißt zu früh, dann nennt die App einen besseren Monat. Dazu siehst du, wie viel du monatlich zurücklegen müsstest, um den Kauf bar anzusparen.'],
+      ['hours','Arbeitsstunden','Wie viele Stunden du für den Kauf arbeiten musst. Grundlage ist dein durchschnittlicher Netto-Stundenlohn der letzten 12 Monate aus dem Gehaltsbereich.','Ein guter Realitäts-Check, ob dir das Ding diese Zeit wert ist.'],
+      ['ziel','Ziel-Vermögen & Bedingungen','Optional kannst du festlegen, dass du erst ab einem bestimmten Vermögen kaufst, z. B. „Rennrad erst ab 150.000 €“. Zusätzlich gehen eigene Bedingungen wie „3.000 km gefahren“.','Die Prozentzahl auf der Karte zeigt die Bedingung, die am weitesten zurückliegt. Darunter steht „Bremst: …“. Sind alle erfüllt, steht dort „Bereit zum Kauf“.'],
+      ['sort','Reihenfolge & Bereiche','Oben stehen die Ziele, die am realistischsten sind, sortiert nach Fortschritt und Leistbarkeit. Langfristige Lebensziele bekommen einen eigenen Bereich.','Gekaufte und verworfene Ziele wandern ausgegraut nach unten. „Verworfen“ zeigt dir, was das nicht ausgegebene Geld bis 67 werden kann.'],
+      ['annahmen','Annahmen der App','Alle Hochrechnungen nutzen 5 % Rendite pro Jahr, 2 % Inflation und deine durchschnittliche Sparrate. Die Rechnungen sind bewusst einfach gehalten.','Das sind Orientierungswerte, keine Garantie und keine Anlageberatung.'] ]; }
+  function glOpen(k){ if($('glsheet'))return; var D=glData(), bd=document.createElement('div'); bd.className='sheetbd'; bd.id='glsheet';
+    bd.innerHTML='<div class="sheet glsh" role="dialog" aria-modal="true" aria-label="Begriffe erklärt"><i class="grab"></i><div class="shhd"><b>Begriffe erklärt</b><button type="button" class="shdone">Fertig</button></div>'+
+      '<div class="gllist">'+D.map(function(d){ return '<details class="glit'+(d[0]===k?' hl':'')+'" data-k="'+d[0]+'"'+(d[0]===k?' open':'')+'><summary><span>'+d[1]+'</span><i class="mchev">›</i></summary><p>'+d[2]+'</p><p class="glex">'+d[3]+'</p></details>'; }).join('')+'</div></div>';
+    document.body.appendChild(bd); void bd.offsetWidth; bd.classList.add('in'); sheetsCheck();
+    var sh=bd.querySelector('.sheet'), gl=bd.querySelector('.gllist'), t=k&&k!=='all'?bd.querySelector('[data-k="'+k+'"]'):null; if(t)setTimeout(function(){ gl.scrollTop=Math.max(0,t.offsetTop-gl.offsetTop-8); },60);
+    function cl(){ if(bd.__d)return; bd.__d=1; bd.id=''; bd.classList.remove('in'); setTimeout(function(){bd.remove(); sheetsCheck();},380); sheetsCheck(); }
+    bd.addEventListener('click',function(ev){ if(ev.target===bd||ev.target.closest('.shdone'))cl(); });
+    swipeClose(sh,cl,function(){ return gl.scrollTop<=2; }); }
+  document.addEventListener('click',function(ev){ var b=ev.target.closest&&ev.target.closest('[data-gl]'); if(!b)return; ev.preventDefault(); ev.stopPropagation(); glOpen(b.getAttribute('data-gl')); },true);
 
   function kzCalc(){
     var W=kzWealth(); setT('kz-w',eur(W)); try{kzSummary(W);}catch(e){}
@@ -4041,7 +4087,7 @@ body{margin:0;background:var(--bg)}
       }
       var hr=card.querySelector('[data-o="hrs"]'); if(hr){ var nm=null; try{ var gl=ghSeries().filter(function(o){return o.n>=300;}).slice(-12); if(gl.length){ var sn=0; gl.forEach(function(o){sn+=o.n;}); nm=sn/gl.length; } }catch(e){}
         if(g.price>0&&nm){ var ph=perHour(nm), hrs=g.price/ph, dayH=ghHours().v/5, days=hrs/dayH;
-          hr.innerHTML='<span class="ib">'+ico('watch')+'</span><div><b>'+eur(g.price)+'</b><span>≈ <strong>'+nf0.format(Math.round(hrs))+' Arbeitsstunden</strong> · '+nf1.format(days).replace(/,0$/,'')+' Arbeitstage</span><small>bei '+eur2(ph)+' netto pro Stunde</small></div>'; hr.hidden=false; }
+          hr.innerHTML='<span class="ib">'+ico('watch')+'</span><div><b>'+eur(g.price)+'</b><span>≈ <strong>'+nf0.format(Math.round(hrs))+' Arbeitsstunden</strong> · '+nf1.format(days).replace(/,0$/,'')+' Arbeitstage</span><small>bei '+eur2(ph)+' netto pro Stunde'+gi('hours')+'</small></div>'; hr.hidden=false; }
         else if(g.price>0){ hr.innerHTML='<span class="ib">'+ico('watch')+'</span><div><b>'+eur(g.price)+'</b><small>Trag dein Gehalt ein, dann siehst du hier die Arbeitsstunden.</small></div>'; hr.hidden=false; }
         else hr.hidden=true; }
       var ck=card.querySelector('[data-o="check"]'); if(ck){ try{ ck.innerHTML=kzCheck(g,W); }catch(e){ ck.innerHTML=''; } }
@@ -4944,7 +4990,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='2.8.0', APP_DATE='13.11.2026';
+  var APP_VERSION='2.8.1', APP_DATE='13.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
@@ -6160,7 +6206,7 @@ body{margin:0;background:var(--bg)}
   function scrollLock(on){ var b=document.body, r=document.documentElement; if(on===SL.on)return; SL.on=on;
     if(on){ SL.y=window.scrollY||0; r.classList.add('sheetlock'); b.style.position='fixed'; b.style.top=(-SL.y)+'px'; b.style.left='0'; b.style.right='0'; b.style.width='100%'; }
     else { b.style.position=''; b.style.top=''; b.style.left=''; b.style.right=''; b.style.width=''; window.scrollTo(0,SL.y); r.classList.remove('sheetlock'); } }
-  function sheetsCheck(){ var sp=$('setpop'), open=!!($('moresheet')||$('plaus')||$('panelsheet'))||(isSheetMode()&&((sp&&!sp.hidden)||!!$('lkmenu'))); scrollLock(open); }
+  function sheetsCheck(){ var sp=$('setpop'), open=!!($('moresheet')||$('plaus')||$('panelsheet')||$('glsheet'))||(isSheetMode()&&((sp&&!sp.hidden)||!!$('lkmenu'))); scrollLock(open); }
   function swipeClose(el,closeFn,canFn){ if(!el||el.__sw)return; el.__sw=1; var y0=null, dy=0, t0=0;
     el.addEventListener('touchstart',function(e){ if((canFn&&!canFn())||e.touches.length!==1||el.scrollTop>2){y0=null;return;} y0=e.touches[0].clientY; dy=0; t0=Date.now(); },{passive:true});
     el.addEventListener('touchmove',function(e){ if(y0==null)return; dy=e.touches[0].clientY-y0; if(dy>0){ if(e.cancelable)e.preventDefault(); el.style.transition='none'; el.style.animation='none'; el.style.transform='translateY('+dy+'px)'; } else if(dy<-6){ y0=null; el.style.transform=''; } },{passive:false});
