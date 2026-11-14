@@ -2025,6 +2025,37 @@ main.wrap>nav.nav{display:none!important}
 .plit p{margin:10px 0 8px;font-size:14px;color:var(--muted);line-height:1.45}
 .plit ol{margin:0;padding-left:20px;font-size:14px;line-height:1.55}.plit ol li::marker{color:var(--acc1);font-weight:700}
 .plit.first{border:1.5px solid color-mix(in srgb,var(--acc1) 50%,transparent)!important}
+
+/* v2.4 Feinschliff */
+.vghead{display:none!important}
+.grphead{display:flex;align-items:center;gap:14px;margin:2px 2px 2px;animation:ghin .45s cubic-bezier(.2,.8,.2,1)}
+.grphead[hidden]{display:none}
+@keyframes ghin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.ghic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;flex:none;color:#04140D;background:linear-gradient(145deg,var(--acc1),color-mix(in srgb,var(--acc1) 55%,#0b3a2a));box-shadow:0 10px 24px -10px var(--acc1),inset 0 1px 0 rgba(255,255,255,.35)}
+.ghic .ic{width:24px;height:24px;stroke-width:2.2}
+.ghtx{flex:1;min-width:0}.ghtx h2{margin:0;font-size:28px;font-weight:800;letter-spacing:-.035em;line-height:1.05}
+.ghtx p{margin:3px 0 0;font-size:13.5px;color:var(--muted)}
+.ghpos{font-size:12px;font-weight:700;color:var(--muted);padding:4px 10px;border-radius:12px;background:color-mix(in srgb,var(--fg) 7%,transparent)}
+.segbar{margin:0 -16px 6px!important;padding:6px 0 8px;top:calc(env(safe-area-inset-top,0px) + var(--barh) + 10px)!important}
+.segbar .segin{margin:0!important;gap:8px;padding:0 16px;border:none!important;background:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;border-radius:0;scroll-snap-type:x proximity;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 16px,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,transparent 0,#000 16px,#000 calc(100% - 24px),transparent)}
+.seg{display:flex;align-items:center;gap:7px;padding:9px 15px 9px 12px!important;border-radius:999px!important;font-size:14px!important;scroll-snap-align:center;background:color-mix(in srgb,var(--surface) 82%,transparent);-webkit-backdrop-filter:saturate(180%) blur(18px);backdrop-filter:saturate(180%) blur(18px);border:.5px solid color-mix(in srgb,var(--fg) 12%,transparent);box-shadow:0 6px 16px -10px rgba(0,0,0,.5);transition:background .25s,color .25s,transform .2s,box-shadow .25s}
+.seg .ic{width:17px;height:17px;stroke-width:2;opacity:.85}
+.seg:active{transform:scale(.95)}
+.seg.on{background:var(--acc1)!important;color:#04140D!important;border-color:transparent;box-shadow:0 8px 20px -8px var(--acc1)!important}
+.seg.on .ic{opacity:1;stroke-width:2.3}
+.seg .nb{position:static!important;transform:none!important;margin-left:2px}
+.seg.on .nb{box-shadow:0 0 0 2px var(--acc1)}
+@media (min-width:1100px){ .segbar{margin:0 0 6px!important;top:calc(env(safe-area-inset-top,0px) + var(--barh) + 62px)!important} .segbar .segin{justify-content:center;-webkit-mask-image:none;mask-image:none} .grphead{margin-top:4px} }
+/* Seitenwechsel */
+main>.wrap.pg-r{animation:pgr .38s cubic-bezier(.2,.8,.2,1)}
+main>.wrap.pg-l{animation:pgl .38s cubic-bezier(.2,.8,.2,1)}
+@keyframes pgr{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+@keyframes pgl{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
+/* Karten einheitlicher */
+main .card{border-radius:22px}
+main .card h2{letter-spacing:-.02em}
+.tabbar [aria-current="page"] .tbi::after{content:"";position:absolute;left:50%;bottom:-5px;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--acc1);box-shadow:0 0 8px var(--acc1)}
+@media (prefers-reduced-motion:reduce){ main>.wrap.pg-r,main>.wrap.pg-l,.grphead{animation:none} }
 [hidden]{display:none!important}
 body{margin:0;background:var(--bg)}
 .encbox{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--up-bg);border:1px solid color-mix(in srgb,var(--up) 35%,transparent);margin:10px 0}.encbox .ib{font-size:18px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--surface)}.encbox b{display:block;color:var(--up)}.encbox small{font-size:12.5px;color:var(--muted)}
@@ -4154,7 +4185,7 @@ body{margin:0;background:var(--bg)}
     },{passive:true});
   }
   function pageAnim(page){
-    if(lastPage&&lastPage!==page){ var ord=navOrder(), dir=ord.indexOf(page)>ord.indexOf(lastPage)?'r':'l', w=$('page-'+page);
+    if(lastPage&&lastPage!==page){ var ord=[].concat.apply([],GROUPS.map(function(g){return g.p;})), dir=ord.indexOf(page)>ord.indexOf(lastPage)?'r':'l', w=$('page-'+page);
       if(w){ w.classList.remove('pg-l','pg-r'); void w.offsetWidth; w.classList.add('pg-'+dir); } }
     lastPage=page;
   }
@@ -4744,7 +4775,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='2.3.0', APP_DATE='13.11.2026';
+  var APP_VERSION='2.4.0', APP_DATE='13.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
@@ -5854,10 +5885,10 @@ body{margin:0;background:var(--bg)}
 
   /* ===== Bereiche (Gruppen) ===== */
   var GROUPS=[{id:'start',l:'Start',ic:'home',p:['start']},
-    {id:'verm',l:'Vermögen',ic:'pie',p:['uebersicht','notgroschen','einnahmen','fixkosten'],sl:{uebersicht:'Monatsstand',einnahmen:'Gehalt'}},
-    {id:'depot',l:'Depot',ic:'etf',p:['sparplan','rebalancing','rendite','ertraege','freistellung']},
-    {id:'ziele',l:'Ziele',ic:'target',p:['ausblick','freiheit','kaufziele'],sl:{ausblick:'Jahresziel'}},
-    {id:'ana',l:'Analyse',ic:'trend',p:['plan','vergleiche','analyse'],sl:{analyse:'Analysen',plan:'Dein Plan'}}];
+    {id:'verm',l:'Vermögen',ic:'pie',d:'Was du hast – Monat für Monat',p:['uebersicht','notgroschen','einnahmen','fixkosten'],sl:{uebersicht:'Monatsstand',einnahmen:'Gehalt'}},
+    {id:'depot',l:'Depot',ic:'etf',d:'ETFs, Renditen und Steuern',p:['sparplan','rebalancing','rendite','ertraege','freistellung']},
+    {id:'ziele',l:'Ziele',ic:'target',d:'Wohin dein Geld unterwegs ist',p:['ausblick','freiheit','kaufziele'],sl:{ausblick:'Jahresziel'}},
+    {id:'ana',l:'Analyse',ic:'trend',d:'Dein Plan, Vergleiche und Analysen',p:['plan','vergleiche','analyse'],sl:{analyse:'Analysen',plan:'Dein Plan'}}];
   function grpOf(p){ for(var i=0;i<GROUPS.length;i++){ if(GROUPS[i].p.indexOf(p)>-1)return GROUPS[i]; } return GROUPS[0]; }
   function grpLast(g){ try{ var v=localStorage.getItem('vb-grp-'+g.id); if(v&&g.p.indexOf(v)>-1)return v; }catch(e){} return g.p[0]; }
   function segLbl(g,p){ return (g.sl&&g.sl[p])||TB_LBL[p]||p; }
@@ -5870,9 +5901,12 @@ body{margin:0;background:var(--bg)}
     var sb=document.createElement('div'); sb.className='segbar'; sb.id='segbar'; gn.parentNode.insertBefore(sb,gn.nextSibling);
     gn.addEventListener('click',function(ev){ var a=ev.target.closest('[data-g]'); if(!a)return; var g=GROUPS.filter(function(x){return x.id===a.getAttribute('data-g');})[0]; if(grpOf(curPage())===g&&curPage()===grpLast(g)){ ev.preventDefault(); toTop(); } });
   }
+  function sb0(){ return $('segbar'); }
   function grpSync(page){ var g=grpOf(page); try{ localStorage.setItem('vb-grp-'+g.id,page); }catch(e){}
     var gn=$('gnav'); if(gn)gn.querySelectorAll('[data-g]').forEach(function(a){ var gg=GROUPS.filter(function(x){return x.id===a.getAttribute('data-g');})[0]; a.setAttribute('href','#'+grpLast(gg)); a.setAttribute('aria-current',gg===g?'page':'false'); });
-    var sb=$('segbar'); if(sb){ if(g.p.length<2){ sb.hidden=true; sb.innerHTML=''; } else { sb.hidden=false; sb.innerHTML='<div class="segin">'+g.p.map(function(p){ return '<a href="#'+p+'" class="seg'+(p===page?' on':'')+'"'+(p===page?' aria-current="page"':'')+'>'+segLbl(g,p)+nbHtml(nbOf(p))+'</a>'; }).join('')+'</div>'; var on=sb.querySelector('.seg.on'); if(on&&on.scrollIntoView){ try{ var si=sb.firstChild; si.scrollLeft=on.offsetLeft-(si.clientWidth-on.offsetWidth)/2; }catch(e){} } } }
+    var gh=$('grphead'); if(!gh&&sb0()){ gh=document.createElement('div'); gh.id='grphead'; gh.className='grphead'; sb0().parentNode.insertBefore(gh,sb0()); }
+    if(gh){ if(g.id==='start'){ gh.hidden=true; } else { gh.hidden=false; var ix=g.p.indexOf(page); gh.innerHTML='<div class="ghic">'+ico(g.ic)+'</div><div class="ghtx"><h2>'+g.l+'</h2><p>'+g.d+'</p></div>'+(g.p.length>1?'<span class="ghpos">'+(ix+1)+' / '+g.p.length+'</span>':''); } }
+    var sb=$('segbar'); if(sb){ if(g.p.length<2){ sb.hidden=true; sb.innerHTML=''; } else { sb.hidden=false; sb.innerHTML='<div class="segin">'+g.p.map(function(p){ return '<a href="#'+p+'" class="seg'+(p===page?' on':'')+'"'+(p===page?' aria-current="page"':'')+'>'+ico(NAV_ICO[p]||g.ic)+'<span>'+segLbl(g,p)+'</span>'+nbHtml(nbOf(p))+'</a>'; }).join('')+'</div>'; var on=sb.querySelector('.seg.on'); if(on&&on.scrollIntoView){ try{ var si=sb.firstChild; si.scrollLeft=on.offsetLeft-(si.clientWidth-on.offsetWidth)/2; }catch(e){} } } }
   }
   function grpBadges(){ var gn=$('gnav'); if(gn){ gn.querySelectorAll('[data-g] .nb').forEach(function(b){b.remove();}); GROUPS.forEach(function(g){ var x=grpBadge(g), a=gn.querySelector('[data-g="'+g.id+'"]'); if(x&&a)a.insertAdjacentHTML('beforeend',nbHtml(x)); }); }
     var sb=$('segbar'); if(sb&&!sb.hidden){ grpSync(curPage()); } }
