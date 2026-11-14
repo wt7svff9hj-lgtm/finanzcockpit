@@ -2054,8 +2054,33 @@ main>.wrap.pg-l{animation:pgl .38s cubic-bezier(.2,.8,.2,1)}
 /* Karten einheitlicher */
 main .card{border-radius:22px}
 main .card h2{letter-spacing:-.02em}
-.tabbar [aria-current="page"] .tbi::after{content:"";position:absolute;left:50%;bottom:-5px;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--acc1);box-shadow:0 0 8px var(--acc1)}
+
 @media (prefers-reduced-motion:reduce){ main>.wrap.pg-r,main>.wrap.pg-l,.grphead{animation:none} }
+
+/* PIN-Punkte: saubere Kreise ohne Rahmen-Artefakte */
+.lkdots i{display:block;box-sizing:border-box;border:0!important;border-radius:50%!important;overflow:hidden;background:transparent!important;background-image:none!important;box-shadow:inset 0 0 0 2px var(--line2)!important;transition:transform .18s cubic-bezier(.3,1.6,.5,1),background-color .15s,box-shadow .15s!important;-webkit-mask-image:-webkit-radial-gradient(white,black);transform:translateZ(0)}
+.lkdots i.on{background:var(--acc1)!important;box-shadow:0 0 12px color-mix(in srgb,var(--acc1) 55%,transparent)!important;transform:scale(1.15)}
+.lkdots.bad i{background:var(--down)!important;box-shadow:0 0 12px color-mix(in srgb,var(--down) 50%,transparent)!important}
+.lkdots.ok i{background:var(--up)!important;box-shadow:0 0 16px var(--up)!important}
+
+/* Unterreiter: Schatten nicht abschneiden */
+.segbar{padding:0!important;margin:0 -16px 2px!important}
+.segbar .segin{padding:8px 16px 14px!important}
+.seg{box-shadow:0 3px 10px -6px rgba(0,0,0,.35)!important}
+.seg.on{box-shadow:0 5px 14px -6px color-mix(in srgb,var(--acc1) 80%,transparent)!important}
+@media (min-width:1100px){ .segbar{margin:0 0 2px!important;justify-content:center} .segbar .segin{margin:0 auto!important} }
+
+/* v2.5 aufgeräumt */
+.pmore{grid-column:1/-1;margin-top:4px}
+.pmore>summary{list-style:none;display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:18px;cursor:pointer;background:color-mix(in srgb,var(--fg) 5%,transparent);border:1px dashed color-mix(in srgb,var(--fg) 16%,transparent);-webkit-tap-highlight-color:transparent;transition:background .2s}
+.pmore>summary::-webkit-details-marker{display:none}
+.pmore>summary:active{background:color-mix(in srgb,var(--fg) 9%,transparent)}
+.pmt{flex:1;min-width:0}.pmt b{display:block;font-size:15px}.pmt small{display:block;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.pmchev{font-size:24px;color:var(--muted);transition:transform .25s}
+.pmore[open]>summary .pmchev{transform:rotate(90deg)}
+.pmore[open]>summary{margin-bottom:14px}
+.pmorein{display:flex;flex-direction:column;gap:14px;animation:ghin .35s ease}
+@media (min-width:1100px){ .pmorein{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start} }
 [hidden]{display:none!important}
 body{margin:0;background:var(--bg)}
 .encbox{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--up-bg);border:1px solid color-mix(in srgb,var(--up) 35%,transparent);margin:10px 0}.encbox .ib{font-size:18px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--surface)}.encbox b{display:block;color:var(--up)}.encbox small{font-size:12.5px;color:var(--muted)}
@@ -2110,7 +2135,7 @@ body{margin:0;background:var(--bg)}
     <div class="insights" id="insights">
       <section class="card ins" id="dashreview" hidden></section>
       <section class="card ins" id="dashms" hidden></section>
-      <section class="card ins" id="cmpcard"></section>
+      <section class="card ins" id="cmpcard" hidden></section>
     </div>
     <p class="sect">Monatsablauf</p>
     <section class="card clcard" id="clcard">
@@ -4775,7 +4800,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='2.4.0', APP_DATE='13.11.2026';
+  var APP_VERSION='2.5.0', APP_DATE='13.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
@@ -5516,7 +5541,7 @@ body{margin:0;background:var(--bg)}
   function ncdf(z){ var t=1/(1+.2316419*Math.abs(z)), d=.3989423*Math.exp(-z*z/2), p=d*t*(.3193815+t*(-.3565638+t*(1.781478+t*(-1.821256+t*1.330274)))); return z>0?1-p:p; }
   function phfAgePct(v,g){ if(v<=0)return 3; var mu=Math.log(g[2]), sg=Math.sqrt(2*Math.log(g[3]/g[2])); return Math.max(1,Math.min(99,ncdf((Math.log(v)-mu)/sg)*100)); }
   function phfAllPct(v){ if(v<=900)return Math.max(1,v/900*10); for(var i=1;i<PHF_ALL.length;i++){ if(v<=PHF_ALL[i][1]){ var a=PHF_ALL[i-1],b=PHF_ALL[i]; return a[0]+(v-a[1])/(b[1]-a[1])*10; } } var sg=Math.sqrt(2*Math.log(316500/106600)), z=(Math.log(v)-Math.log(106600))/sg; return Math.max(90,Math.min(99.5,ncdf(z)*100)); }
-  function renderCmp(S,tgt){ var el=tgt||$('cmpcard'); if(!el)return; var g=docs['settings/main']||{}, by=+g.byear||0, wc=S.filter(function(q){return q.total>0;}), last=wc[wc.length-1];
+  function renderCmp(S,tgt){ var el=tgt||$('cmpcard'); if(!el||(!tgt&&el.id==='cmpcard'))return; var g=docs['settings/main']||{}, by=+g.byear||0, wc=S.filter(function(q){return q.total>0;}), last=wc[wc.length-1];
     var h='<h2 class="h2i"><span class="ib sm">'+ico('users')+'</span>Wo stehst du?</h2>';
     if(!by||el.__edit){ el.innerHTML=h+'<p class="tasub">Gib einmal dein Geburtsjahr ein. Dann vergleicht das Cockpit dein Vermögen mit den Haushalten deiner Altersgruppe in Deutschland.</p><div class="inline"><label class="f">Geburtsjahr<input class="num" type="text" inputmode="numeric" id="byear" maxlength="4" placeholder="z. B. 1992" value="'+(by||'')+'"></label><button type="button" class="btn primary" id="byearsave">Speichern</button></div><p class="msg" id="cmpmsg" role="status"></p>'; return; }
     if(!last){ el.innerHTML=h+'<p class="empty">Noch keine Vermögensdaten.</p>'; return; }
@@ -5556,10 +5581,10 @@ body{margin:0;background:var(--bg)}
   function renderVg(){ var S=series(), wc=S.filter(function(q){return q.total>0;}), L=wc[wc.length-1]; try{ renderVgMore(L); }catch(e){}
     try{ renderCmp(S,$('vgde')); }catch(e){}
     var w=$('vgworld'), hW='<h2 class="h2i"><span class="ib sm">'+ico('globe')+'</span>Weltweit</h2>';
-    if(w){ if(!L)w.innerHTML=hW+'<p class="empty">Noch keine Vermögensdaten.</p>'; else { var p=gwPct(L.total), bands=[['über 1 Mio. $',1.5,'b4'],['100.000 – 1 Mio. $',15.3,'b3'],['10.000 – 100.000 $',41.1,'b2'],['unter 10.000 $',42.1,'b1']], u=L.total*GW_USD, my=u>=1e6?'b4':u>=1e5?'b3':u>=1e4?'b2':'b1';
+    if(w){ if(!L)w.innerHTML=hW+'<p class="empty">Noch keine Vermögensdaten.</p>'; else { var p=gwPct(L.total), bands=[['über 855.000 €',1.5,'b4'],['85.500 – 855.000 €',15.3,'b3'],['8.550 – 85.500 €',41.1,'b2'],['unter 8.550 €',42.1,'b1']], u=L.total*GW_USD, my=u>=1e6?'b4':u>=1e5?'b3':u>=1e4?'b2':'b1';
       w.innerHTML=hW+'<p class="cmpbig">Reicher als <b>'+nf0.format(Math.min(99.9,p).toFixed(0))+'&nbsp;%</b></p><p class="cmpsub" style="margin-bottom:14px">aller Erwachsenen auf der Welt · '+pctTxt(p)+'</p>'+
         '<div class="pyr">'+bands.map(function(b,i){ return '<div class="pyb '+b[2]+(b[2]===my?' me':'')+'" style="--w:'+(34+i*22)+'%"><span>'+b[0]+'</span><em>'+nf1.format(b[1])+' % der Erwachsenen</em>'+(b[2]===my?'<b>Du</b>':'')+'</div>'; }).join('')+'</div>'+
-        '<p class="tasub">Quelle: UBS Global Wealth Report 2026 (Vermögenspyramide Ende 2025, 3,85 Mrd. Erwachsene). Umrechnung mit ca. 1,17 $ pro €. Rang innerhalb der Stufen geschätzt.</p>'; } }
+        '<p class="tasub">Quelle: UBS Global Wealth Report 2026 (Vermögenspyramide Ende 2025, 3,85 Mrd. Erwachsene). Werte in Euro umgerechnet (Kurs Ende 2025). Rang innerhalb der Stufen geschätzt.</p>'; } }
     var sl=$('vgsal'), hS='<h2 class="h2i"><span class="ib sm">'+ico('wallet')+'</span>Gehalt im Vergleich</h2>', jb=jBrutto();
     if(sl){ if(!jb||sl.__edit){ sl.innerHTML=hS+'<p class="tasub">Trag dein Bruttojahresgehalt ein – inklusive Provision und Sonderzahlungen. Es wird nur für die Vergleiche hier genutzt.</p><div class="inline"><label class="f">Brutto pro Jahr<input class="num" type="text" inputmode="decimal" id="jbrutto" placeholder="z. B. 60.000" value="'+(jb?nf0.format(jb.v):'')+'"></label><button type="button" class="btn primary" id="jbsave">Speichern</button></div><p class="msg" id="jbmsg" role="status"></p>'; }
       else { var sp=salPct(jb.v), mx=Math.max(jb.v,110000)*1.08, ps=function(x){return Math.min(100,x/mx*100).toFixed(1);};
@@ -5580,6 +5605,18 @@ body{margin:0;background:var(--bg)}
   }
 
 
+
+
+  /* ===== Aufräumen: Nebenkarten in aufklappbaren Bereich ===== */
+  var MORE={uebersicht:['Neu in ETFs investiert','Alle Monate'],einnahmen:['Rekorde','Entwicklung pro Jahr','Stundenlohn','Jahre im Überblick'],fixkosten:['Jährliche Prüfung'],
+    rendite:['Entnahme-Rechner','Netto-Einnahmen im Vergleich','Gesamt-Einnahmen'],ertraege:['Laufende 12 Monate','Jahresvergleich','Monatsraster'],ausblick:['Alle Jahre'],
+    notgroschen:['Verlauf Notgroschen'],vergleiche:['#vgeu:Euro-Raum','#vgland:Ländervergleich','#vgjob:Geld als Mitarbeiter','#vgfacts:Schnell-Fakten'],analyse:['#antempo:Dein Tempo','#analloc:Anlage-Mix','#anspend:Ausgaben','#ansrc:Datenquellen']};
+  function declutter(){ Object.keys(MORE).forEach(function(pg){ var w=$('page-'+pg); if(!w||w.querySelector('.pmore'))return;
+      var names=[], cards=[].filter.call(w.querySelectorAll('.card'),function(c){ if(c.parentNode.closest('.card'))return false; var h=c.querySelector('h2'); var t=h?h.textContent.trim():''; var hit=MORE[pg].filter(function(m){ return m.charAt(0)==='#'?c.id===m.slice(1,m.indexOf(':')):t.indexOf(m)===0; })[0]; if(hit)names.push(hit.charAt(0)==='#'?hit.slice(hit.indexOf(':')+1):hit); return !!hit; });
+      if(!cards.length)return; var d=document.createElement('details'); d.className='pmore'; d.innerHTML='<summary><span class="ib sm">'+ico('bars')+'</span><span class="pmt"><b>Weitere Auswertungen</b><small>'+names.slice(0,3).join(', ')+(names.length>3?' und '+(names.length-3)+' mehr':'')+'</small></span><span class="pmchev">›</span></summary><div class="pmorein"></div>';
+      var inner=d.querySelector('.pmorein'); cards.forEach(function(c){ inner.appendChild(c); }); w.appendChild(d);
+      d.addEventListener('toggle',function(){ if(d.open){ try{ renderAll(); }catch(e){} setTimeout(function(){ try{ window.dispatchEvent(new Event('resize')); }catch(e){} },60); } });
+    }); }
 
   /* ===== Optimierung: nächste Stufen & Plan ===== */
   function invFind(fn,target,lo,hi){ if(fn(lo)>=target)return lo; for(var i=0;i<60;i++){ var m=Math.sqrt(Math.max(1,lo)*hi); if(fn(m)>=target)hi=m; else lo=m; } return hi; }
@@ -5733,13 +5770,14 @@ body{margin:0;background:var(--bg)}
         '<div class="lands">'+LAND.map(function(x){ return '<div class="ld'+(v>=x[2]?' ok':'')+'"><span class="lf">'+x[0]+'</span><span class="ln">'+x[1]+'</span><span class="lb"><i style="width:'+(x[2]/mx*100).toFixed(1)+'%"></i><em style="left:'+Math.min(100,v/mx*100).toFixed(1)+'%"></em></span><span class="lv">'+eurK(x[2])+'</span></div>'; }).join('')+'</div>'+
         '<p class="frsub sm">Balken = Median-Vermögen pro Erwachsenem · Linie = du</p><p class="tasub">Quelle: UBS Global Wealth Report 2026 (Stand Ende 2025, in Euro). Deutschland hat unter großen europäischen Ländern den niedrigsten Median – u. a. weil hier weniger Menschen Wohneigentum haben.</p>'; }
     // Millionärs-Club
-    var mi=$('vgmio'); if(mi&&L){ var usdM=1e6/GW_USD, pm=Math.min(100,v/usdM*100);
+    var mi=$('vgmio'); if(mi){ mi.remove(); mi=null; } if(mi&&L){ var usdM=1e6/GW_USD, pm=Math.min(100,v/usdM*100);
       mi.innerHTML=hdr('trophy','Millionärs-Club')+'<p class="cmpbig"><b>2,65&nbsp;Mio.</b></p><p class="cmpsub" style="margin-bottom:12px">Dollar-Millionäre gibt es in Deutschland – etwa jeder 26. Erwachsene.</p>'+
         '<div class="mioring"><div class="mbar big"><i style="width:'+pm.toFixed(1)+'%"></i></div><p class="frsub">Du hast <b>'+pct(pm)+'</b> des Weges zum Dollar-Millionär (ca. '+eur(usdM)+'). Noch '+eur(Math.max(0,usdM-v))+'.</p></div>'+
         '<p class="tasub">Quelle: UBS Global Wealth Report 2026, Millionaire Index (2.648.000 Dollar-Millionäre in Deutschland Ende 2025). Umrechnung mit ca. 1,17 $ pro €.</p>'; }
     // Schnell-Fakten
     var fc=$('vgfacts'); if(fc&&L){ var ng=null; try{ var ns=ngSeries(); ng=ns.length?ns[ns.length-1].total:null; }catch(x){} var etf=L.cats?(+L.cats.etf||0)+(+L.cats.aktien||0):0, F2=[];
       F2.push(['shield','Rücklagen',ng!=null&&ng>=1300?'Du gehörst zu den rund <b>68 %</b>, die eine unerwartete Ausgabe von 1.300 € aus eigener Tasche zahlen können – dein Notgroschen deckt sie <b>'+nf0.format(Math.floor(ng/1300))+'×</b>.':'31,9 % der Menschen in Deutschland können eine unerwartete Ausgabe von 1.300 € nicht aus eigenen Mitteln zahlen.','Destatis/EU-SILC 2025']);
+      F2.push(['trophy','Vermögens-Millionäre','Rund <b>2,65 Mio.</b> Erwachsene in Deutschland haben mehr als ca. 855.000 € Vermögen – etwa jeder 26. '+(v>=855000?'Du gehörst dazu!':'Dir fehlen noch <b>'+eur(855000-v)+'</b>.'),'UBS Global Wealth Report 2026, in Euro umgerechnet']);
       F2.push(['etf','Aktien & ETFs',etf>0?'Du gehörst zu den <b>14,1 Mio.</b> Menschen in Deutschland, die in Aktien, Fonds oder ETFs investieren – das ist nur etwa <b>jeder Fünfte</b>.':'14,1 Mio. Menschen in Deutschland investieren in Aktien, Fonds oder ETFs – etwa jeder Fünfte.','Deutsches Aktieninstitut, Aktionärszahlen 2025']);
       if(jb){ F2.push(['wallet','Gehalt',jb.v>=100719?'Mit deinem Bruttogehalt gehörst du zu den <b>Top 10 %</b> der Vollzeitbeschäftigten.':'Bis zu den Top 10 % der Vollzeitbeschäftigten (ab 100.719 € brutto) fehlen dir <b>'+eur(100719-jb.v)+'</b> im Jahr.','Destatis, Verdienste 2025']); }
       fc.innerHTML=hdr('spark','Schnell-Fakten')+'<div class="facts">'+F2.map(function(f){return '<div class="fact"><span class="ib sm">'+ico(f[0])+'</span><div><b>'+f[1]+'</b><p>'+f[2]+'</p><small>'+f[3]+'</small></div></div>';}).join('')+'</div>'; }
@@ -6054,7 +6092,7 @@ body{margin:0;background:var(--bg)}
   document.querySelectorAll('#ghrange button').forEach(function(bt){ bt.addEventListener('click',function(){ ghRange=bt.getAttribute('data-r'); document.querySelectorAll('#ghrange button').forEach(function(x){x.setAttribute('aria-pressed',x===bt?'true':'false');}); ghChart.draw(); }); });
   $('lifecostsave').addEventListener('click',saveLifeCost);
   (function(){var pb=$('pybtn'); pb.setAttribute('aria-pressed',pyOn?'true':'false'); pb.addEventListener('click',function(){pyOn=!pyOn; try{localStorage.setItem('vb-py',pyOn?'1':'0');}catch(e){} pb.setAttribute('aria-pressed',pyOn?'true':'false'); mainChart.draw();});})();
-  accInit(); insInit(); lockInit(); funInit(); rbInit(); wlInit(); setInit(); try{sheetsInit();}catch(e){} try{syncMirror();}catch(e){} try{heuteInit();}catch(e){} try{dscInit();}catch(e){} try{miniInit();}catch(e){}
+  accInit(); insInit(); lockInit(); funInit(); rbInit(); wlInit(); setInit(); try{declutter();}catch(e){} try{sheetsInit();}catch(e){} try{syncMirror();}catch(e){} try{heuteInit();}catch(e){} try{dscInit();}catch(e){} try{miniInit();}catch(e){}
     document.addEventListener('click',function(ev){ var b=ev.target.closest('[data-rdc]'); if(b){ ev.preventDefault(); rdChkDone(+b.getAttribute('data-rdc')); } });
     try{ var vp=$('page-vergleiche'); vp.addEventListener('click',function(ev){ if(ev.target.closest('#jbsave'))saveJb(); else if(ev.target.closest('#jbedit')){ $('vgsal').__edit=true; renderVg(); } else if(ev.target.closest('#byearsave'))saveByear(); else if(ev.target.closest('#byedit')){ $('vgde').__edit=true; renderVg(); } });
       vp.addEventListener('keydown',function(ev){ if(ev.key!=='Enter')return; if(ev.target.id==='jbrutto')saveJb(); if(ev.target.id==='byear')saveByear(); }); }catch(e){}
