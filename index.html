@@ -1907,7 +1907,7 @@ html.clurgent #rdchk-start{order:0}
 .iosbar .topr>#minibtn{position:absolute;right:42px;top:calc(100% + 8px);transition:top .3s cubic-bezier(.3,.8,.3,1)}
 html.scrolled .iosbar .topr>#minibtn{top:50%;right:auto;left:42px;transform:translateY(-50%)}
 #minibtn.on{background:color-mix(in srgb,var(--acc1) 18%,transparent);color:var(--acc1)}
-html.mini main>.wrap:not(#page-mini),html.mini main>nav.nav,html.mini .tabbar{display:none!important}
+html.mini main>.wrap:not(#page-mini),html.mini main>nav.nav,html.mini .tabbar,html.mini .gnav,html.mini .segbar{display:none!important}
 html.mini #page-mini{display:flex!important;flex-direction:column;gap:14px}
 html.mini body{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 30px)!important}
 
@@ -1934,6 +1934,97 @@ html.mini body{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 30px)!impor
 .mnhero .dh-chip.up{color:var(--up)!important;background:color-mix(in srgb,var(--up) 12%,transparent)!important;border-color:color-mix(in srgb,var(--up) 30%,transparent)!important}
 .mnhero .dh-chip.down{color:var(--down)!important;background:color-mix(in srgb,var(--down) 12%,transparent)!important;border-color:color-mix(in srgb,var(--down) 30%,transparent)!important}
 @media (min-width:900px){ html.mini #page-mini{display:grid!important;grid-template-columns:1fr 1fr;align-items:start} .mnexit{grid-column:1/-1} }
+
+/* Vergleiche erweitert */
+.vgsum{padding:18px!important}
+@media (min-width:1100px){ #page-vergleiche .vghead,#page-vergleiche .vgsum{grid-column:1/-1!important} .ranks{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))} }
+.ranks{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:12px;margin:10px 0 6px}
+.rk{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.rk span{font-size:11.5px;color:var(--muted);line-height:1.25}
+.rkring{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--acc1) calc(var(--p)*1%),color-mix(in srgb,var(--fg) 10%,transparent) 0);position:relative}
+.rkring::before{content:"";position:absolute;inset:6px;border-radius:50%;background:var(--surface)}
+.rkring b{position:relative;font-size:18px;font-weight:800;letter-spacing:-.03em}
+.agegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:4px}
+.agegrid div{padding:7px 8px;border-radius:10px;background:color-mix(in srgb,var(--fg) 5%,transparent);text-align:center}
+.agegrid div.on{background:color-mix(in srgb,var(--acc1) 16%,transparent);outline:1.5px solid var(--acc1)}
+.agegrid span{display:block;font-size:11px;color:var(--muted)}.agegrid b{font-size:14px}
+.lands{display:flex;flex-direction:column;gap:7px}
+.ld{display:grid;grid-template-columns:22px 104px 1fr 62px;align-items:center;gap:8px;font-size:13px}
+.ld .lf{font-size:16px}.ld .ln{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ld .lv{text-align:right;color:var(--muted);font-size:12px}
+.ld .lb{position:relative;height:10px;border-radius:5px;background:color-mix(in srgb,var(--fg) 6%,transparent)}
+.ld .lb i{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:color-mix(in srgb,var(--fg) 25%,transparent)}
+.ld.ok .lb i{background:color-mix(in srgb,var(--acc1) 55%,transparent)}
+.ld .lb em{position:absolute;top:-4px;bottom:-4px;width:2px;margin-left:-1px;background:var(--fg);border-radius:1px}
+.mbar.big{height:12px;border-radius:6px;background:color-mix(in srgb,var(--fg) 10%,transparent);overflow:hidden;margin:4px 0 8px}
+.mbar.big i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--acc1),#FFD27A)}
+.facts{display:flex;flex-direction:column;gap:14px}
+.fact{display:flex;gap:12px;align-items:flex-start}.fact b{display:block;font-size:14.5px}.fact p{margin:2px 0 2px;font-size:14px;color:var(--muted);line-height:1.45}.fact p b{display:inline;color:var(--fg)}.fact small{font-size:11px;color:var(--muted);opacity:.8}
+
+/* v2.2 Bereiche & Analysen */
+main.wrap>nav.nav{display:none!important}
+.gnav{display:none}
+@media (min-width:1100px){
+  .gnav{display:flex;position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--barh) + 6px);z-index:700;align-self:center;gap:4px;padding:5px;border-radius:999px;background:color-mix(in srgb,var(--surface) 66%,transparent);-webkit-backdrop-filter:saturate(190%) blur(24px);backdrop-filter:saturate(190%) blur(24px);border:.5px solid color-mix(in srgb,var(--fg) 14%,transparent);box-shadow:0 14px 34px -14px rgba(0,0,0,.5)}
+  .gnav a{position:relative;display:flex;align-items:center;gap:8px;padding:9px 18px;border-radius:999px;color:var(--muted);text-decoration:none;font-weight:650;font-size:14.5px;transition:background .25s,color .25s}
+  .gnav a .ic{width:18px;height:18px}
+  .gnav a[aria-current="page"]{background:var(--acc1);color:#04140D}
+  .gnav a .nb{position:absolute;top:2px;right:6px}
+}
+.segbar{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--barh) + 8px);z-index:690;display:flex;margin:-4px 0 4px}
+.segbar .segin{margin:0 auto}
+@media (min-width:1100px){ .segbar{top:calc(env(safe-area-inset-top,0px) + var(--barh) + 64px)} }
+.segbar[hidden]{display:none}
+.segin{display:flex;gap:2px;padding:3px;border-radius:12px;max-width:100%;overflow-x:auto;scrollbar-width:none;background:color-mix(in srgb,var(--surface) 72%,transparent);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border:.5px solid color-mix(in srgb,var(--fg) 12%,transparent)}
+.segin::-webkit-scrollbar{display:none}
+.seg{position:relative;flex:none;padding:7px 14px;border-radius:9px;font-size:13.5px;font-weight:600;color:var(--muted);text-decoration:none;white-space:nowrap;transition:background .2s,color .2s}
+.seg.on{background:color-mix(in srgb,var(--fg) 13%,transparent);color:var(--fg);box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.seg .nb{position:absolute;top:1px;right:2px;transform:scale(.8)}
+.seg .nb.chk{top:4px;right:4px}
+/* Analysen */
+.ansvg{width:100%;height:auto;display:block;overflow:visible}
+.ansvg .gl{stroke:color-mix(in srgb,var(--fg) 10%,transparent);stroke-width:1}
+.ansvg .gt{fill:var(--muted);font-size:9.5px;font-family:var(--f-body)}
+.ansvg .ydot{stroke:var(--surface);stroke-width:3}
+.anleg{display:flex;flex-wrap:wrap;gap:6px 14px;margin:8px 0 2px;font-size:12px;color:var(--muted)}
+.anleg i{display:inline-block;width:10px;height:3px;border-radius:2px;margin-right:6px;vertical-align:3px}
+.tempo{display:flex;flex-direction:column;gap:8px}
+.tp{display:grid;grid-template-columns:1fr;gap:3px}
+.tp span{font-size:12.5px;color:var(--muted)}.tp span b{color:var(--fg)}
+.tp i{display:block;height:10px;border-radius:5px;background:linear-gradient(90deg,var(--acc1),color-mix(in srgb,var(--acc1) 50%,#FFD27A))}
+.tp em{font-style:normal;font-size:12px;font-weight:700}
+.tp.next i{background:repeating-linear-gradient(90deg,color-mix(in srgb,var(--acc1) 60%,transparent) 0 6px,transparent 6px 10px)}
+.bt{overflow-x:auto;margin:0 -4px}
+.bt table{width:100%;border-collapse:collapse;font-size:13px}
+.bt table{font-size:12.5px}
+.bt th,.bt td{padding:8px 4px;text-align:right;white-space:nowrap;border-bottom:.5px solid var(--line2)}
+.bt thead th{font-size:11px;color:var(--muted);font-weight:600}
+.bt tbody th{text-align:left;font-weight:600}
+.bt tbody th i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px}
+.bt td.pos{color:var(--up)}.bt td.neg{color:var(--down)}.bt td.na{color:var(--muted)}
+.bt td:last-child{font-weight:800}
+.mix{display:flex;flex-direction:column;gap:12px}
+.mx>span{display:block;font-size:13px;font-weight:600;margin-bottom:4px}
+.mxb{display:flex;align-items:center;gap:8px;margin-top:3px}
+.mxb i{display:block;height:9px;border-radius:5px;min-width:2px}
+.mxb i.me{background:var(--acc1)}.mxb i.de{background:color-mix(in srgb,var(--fg) 35%,transparent)}
+.mxb b{font-size:12px;font-weight:700;color:var(--muted)}
+.srcl{display:flex;flex-direction:column;gap:8px}
+.srcl div{display:grid;grid-template-columns:1fr auto;gap:0 10px;padding:8px 0;border-bottom:.5px solid var(--line2)}
+.srcl b{font-size:13.5px}.srcl span{grid-column:1;font-size:12px;color:var(--muted)}.srcl em{grid-column:2;grid-row:1/3;align-self:center;font-style:normal;font-size:11.5px;color:var(--muted);text-align:right;max-width:150px}
+
+/* Plan & nächste Stufe */
+.nxt{display:flex;gap:10px;align-items:flex-start;margin:12px 0 6px;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--acc1) 8%,transparent);border:1px dashed color-mix(in srgb,var(--acc1) 40%,transparent)}
+.nxt b{display:block;font-size:13.5px}.nxt small{display:block;font-size:12.5px;color:var(--muted);line-height:1.4;margin-top:2px}.nxt small b{display:inline;color:var(--fg)}
+.plhero{padding:20px!important;background:radial-gradient(110% 90% at 100% 0%,color-mix(in srgb,var(--acc1) 16%,transparent),transparent 60%),var(--surface)!important}
+.plhero .eyebrow{margin:0}.plbig{margin:6px 0 4px;font-size:22px;font-weight:700;letter-spacing:-.02em}.plbig b{font-weight:800;color:var(--acc1)}
+.pltop{display:flex;gap:12px;align-items:center;margin-top:14px;padding:12px 14px;border-radius:14px;background:color-mix(in srgb,var(--fg) 6%,transparent)}
+.pltop small{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.pltop b{display:block;font-size:16px}.pltop em{font-style:normal;font-size:13px;color:var(--acc1);font-weight:700}
+.pllist2{display:contents}
+.plit .plh{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.plit .plh b{flex:1;font-size:16px;min-width:140px}
+.plimp{font-size:12px;font-weight:700;padding:4px 10px;border-radius:12px;background:color-mix(in srgb,var(--acc1) 14%,transparent);color:var(--acc1)}
+.plit p{margin:10px 0 8px;font-size:14px;color:var(--muted);line-height:1.45}
+.plit ol{margin:0;padding-left:20px;font-size:14px;line-height:1.55}.plit ol li::marker{color:var(--acc1);font-weight:700}
+.plit.first{border:1.5px solid color-mix(in srgb,var(--acc1) 50%,transparent)!important}
 [hidden]{display:none!important}
 body{margin:0;background:var(--bg)}
 .encbox{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--up-bg);border:1px solid color-mix(in srgb,var(--up) 35%,transparent);margin:10px 0}.encbox .ib{font-size:18px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--surface)}.encbox b{display:block;color:var(--up)}.encbox small{font-size:12.5px;color:var(--muted)}
@@ -1968,6 +2059,8 @@ body{margin:0;background:var(--bg)}
     <a href="#rebalancing" id="nav-rebalancing">Rebalancing</a>
     <a href="#kaufziele" id="nav-kaufziele">Kaufziele</a>
     <a href="#vergleiche" id="nav-vergleiche">Vergleiche</a>
+    <a href="#analyse" id="nav-analyse">Analysen</a>
+    <a href="#plan" id="nav-plan">Plan</a>
   </nav>
 
   <div class="banner" id="nodb" hidden>Hier wird nichts dauerhaft für alle Geräte gespeichert. Öffne das Finanzcockpit über den Link in Claude, dann bleiben deine Eingaben erhalten und du siehst auf iPhone und iPad denselben Stand.</div>
@@ -2351,12 +2444,32 @@ body{margin:0;background:var(--bg)}
         <p class="msg" id="freemsg" role="status"></p>
       </section>
   </div>
+  <div class="wrap" id="page-plan" hidden>
+    <section class="card plhero" id="plhero"></section>
+    <div id="pllist" class="pllist2"></div>
+  </div>
+  <div class="wrap" id="page-analyse" hidden>
+    <section class="card" id="anrank"></section>
+    <section class="card" id="anlife"></section>
+    <section class="card" id="antempo"></section>
+    <section class="card" id="anbench"></section>
+    <section class="card" id="ankauf"></section>
+    <section class="card" id="analloc"></section>
+    <section class="card" id="anspend"></section>
+    <section class="card ansrc" id="ansrc"></section>
+  </div>
   <div class="wrap" id="page-vergleiche" hidden>
     <section class="card vghead"><h2>Vergleiche</h2><p class="note">Wie stehst du da – in Deutschland, weltweit und beim Gehalt? Alle Vergleiche beruhen auf offiziellen Statistiken. Deine Daten verlassen dabei nie dein Gerät.</p></section>
+    <section class="card vgsum" id="vgsum"></section>
+    <section class="card" id="vgind"></section>
     <section class="card" id="vgde"></section>
+    <section class="card" id="vgeu"></section>
     <section class="card" id="vgworld"></section>
+    <section class="card" id="vgland"></section>
+    <section class="card" id="vgmio"></section>
     <section class="card" id="vgsal"></section>
     <section class="card" id="vgjob"></section>
+    <section class="card" id="vgfacts"></section>
   </div>
   <div class="wrap" id="page-kaufziele" hidden>
     <section class="card">
@@ -3660,8 +3773,9 @@ body{margin:0;background:var(--bg)}
   ICO.eye='<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'; ICO.eyeoff='<path d="M3 3l18 18M10.6 5.1A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4M6.6 6.6C3.9 8.4 2 12 2 12s3.6 7 10 7c1.7 0 3.2-.5 4.5-1.2M9.9 9.9a3 3 0 0 0 4.2 4.2"/>'; ICO.hourglass='<path d="M6 3h12M6 21h12M7 3c0 5 5 6 5 9s-5 4-5 9M17 3c0 5-5 6-5 9s5 4 5 9"/>'; ICO.users='<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.5 3.3-5.5 6.5-5.5s5.9 2 6.5 5.5M16 4.8a3.3 3.3 0 0 1 0 6.4M18.5 14.8c1.7.8 2.8 2.6 3 5.2"/>';
   ICO.globe='<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/>'; ICO.briefcase='<rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/>';
   ICO.compact='<path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/>'; ICO.expand='<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>';
+  ICO.user='<circle cx="12" cy="8" r="4"/><path d="M4 21c.8-4 4-6.5 8-6.5s7.2 2.5 8 6.5"/>';
   ICO.cloud='<path d="M7.5 18.5h9.5a4 4 0 0 0 .6-7.96A5.8 5.8 0 0 0 6.4 9.9a4.3 4.3 0 0 0 1.1 8.6z"/><path d="M9.6 14l1.8 1.8 3.4-3.6"/>'; ICO.alert='<circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.6v.01"/>';
-  var NAV_ICO={freiheit:'hourglass',vergleiche:'users',start:'check',uebersicht:'home',einnahmen:'wallet',notgroschen:'shield',ausblick:'target',kaufziele:'bag',rebalancing:'pie',rendite:'percent',ertraege:'bars',freistellung:'doc',fixkosten:'loop',sparplan:'cal'};
+  var NAV_ICO={plan:'flag',analyse:'trend',freiheit:'hourglass',vergleiche:'users',start:'check',uebersicht:'home',einnahmen:'wallet',notgroschen:'shield',ausblick:'target',kaufziele:'bag',rebalancing:'pie',rendite:'percent',ertraege:'bars',freistellung:'doc',fixkosten:'loop',sparplan:'cal'};
   var TASK_ICO={0:'home',1:'shield',2:'target',3:'loop',4:'cal',5:'percent',6:'bars',9:'doc',11:'note'};
 
   /* Kaufziele */
@@ -3865,7 +3979,7 @@ body{margin:0;background:var(--bg)}
     try{ var sy=String(cy), inv=0, net=0; series().forEach(function(q){ if(q.ym.slice(0,4)!==sy||!(q.ein>0))return; var g=docs['gehalt/'+sy]||{}, nn2=g.n?+g.n[q.ym.slice(5)]:0; if(nn2>=300){inv+=q.ein; net+=nn2;} });
       T+=net>0?tile('#einnahmen','percent','Sparquote '+sy,pct(inv/net*100),eur(inv)+' investiert',inv/net>=.2?'ok':'',{pc:inv/net*100/0.5,cls:inv/net>=.2?'ok':''}):tile('#einnahmen','percent','Sparquote','–','Gehalt + ETF-Einzahlung nötig','',null); }catch(e){}
     $('dashtiles').innerHTML=T;
-    var S2=series(); try{renderReview(S2);}catch(e){} try{renderMs(S2);}catch(e){} try{renderFree(S2);}catch(e){} try{renderCmp(S2);}catch(e){} try{ if(!$('page-vergleiche').hidden)renderVg(); }catch(e){} try{renderYrTeaser();renderYrChips();}catch(e){} try{insDots();}catch(e){}
+    var S2=series(); try{renderReview(S2);}catch(e){} try{renderMs(S2);}catch(e){} try{renderFree(S2);}catch(e){} try{renderCmp(S2);}catch(e){} try{ if(!$('page-vergleiche').hidden)renderVg(); if(!$('page-analyse').hidden)renderAn(); if(!$('page-plan').hidden)renderPlan(); }catch(e){} try{renderYrTeaser();renderYrChips();}catch(e){} try{insDots();}catch(e){}
   }
 
   /* ===== Zielaufteilung ===== */
@@ -4438,6 +4552,7 @@ body{margin:0;background:var(--bg)}
     try{ var ra=rbAlarm(); if(ra){ var tpS=nf1.format(ra.tp).replace(/,0$/,'');
       if(ra.on) add('rb-alarm-'+tym,['start','rebalancing'],84,'warn','Rebalancing-Alarm',esc(ra.name)+' liegt bei '+pct(ra.ip)+' statt '+tpS+' % ('+(ra.d>0?'+':'−')+nf1.format(Math.abs(ra.d))+' Pp.). Lenk die nächste Sparrate gezielt um – der Rechner zeigt dir, wie viel wohin gehört.','#rebalancing','Rebalancing');
       if(ra.age!=null&&ra.age>45) add('rb-stale-'+tym,['rebalancing','start'],ra.on?30:42,'idea','Depotwerte aktualisieren','Die ETF-Werte im Rebalancing sind vom '+new Date(ra.updated).toLocaleDateString('de-DE')+'. Trag die aktuellen Werte ein, damit der Rebalancing-Alarm stimmt.','#rebalancing','Rebalancing'); } }catch(e){}
+    try{ var PI=planItems(); if(PI.length&&PI[0].imp>1) add('plan-'+tym+'-'+PI[0].k,['start','vergleiche','analyse'],64,'idea','Dein nächster Hebel: '+PI[0].t,PI[0].it+'. '+PI[0].d,'#plan','Zum Plan'); }catch(e){}
     var day=tym+'-'+now.getDate(); function hs(x){var h=0;for(var i=0;i<x.length;i++)h=(h*31+x.charCodeAt(i))|0;return h;}
     T=T.filter(function(t){return !tipHidden(t);}).sort(function(a,b){ var ba=Math.floor(a.prio/20), bb=Math.floor(b.prio/20); return bb!==ba?bb-ba:hs(a.id+day)-hs(b.id+day); });
     return T;
@@ -4629,7 +4744,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='2.0.4', APP_DATE='13.11.2026';
+  var APP_VERSION='2.3.0', APP_DATE='13.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
@@ -5285,14 +5400,14 @@ body{margin:0;background:var(--bg)}
   function route(){
     try{unbalance();}catch(e){}
     var h=(location.hash||'').replace('#','');
-    var page=['start','uebersicht','einnahmen','notgroschen','ausblick','kaufziele','rendite','ertraege','freistellung','fixkosten','sparplan','rebalancing','vergleiche','freiheit'].indexOf(h)>-1?h:'start';
-    ['start','uebersicht','einnahmen','notgroschen','ausblick','kaufziele','rendite','ertraege','freistellung','fixkosten','sparplan','rebalancing','vergleiche','freiheit'].forEach(function(n){
+    var page=['start','uebersicht','einnahmen','notgroschen','ausblick','kaufziele','rendite','ertraege','freistellung','fixkosten','sparplan','rebalancing','vergleiche','freiheit','analyse','plan'].indexOf(h)>-1?h:'start';
+    ['start','uebersicht','einnahmen','notgroschen','ausblick','kaufziele','rendite','ertraege','freistellung','fixkosten','sparplan','rebalancing','vergleiche','freiheit','analyse','plan'].forEach(function(n){
       $('page-'+n).hidden=page!==n;
       $('nav-'+n).setAttribute('aria-current',page===n?'page':'false');
     });
     navPill(true); try{tbSync(page);}catch(e){} try{moreClose();}catch(e){} pageAnim(page); balanceSoon(); try{renderPageTodo(page);}catch(e){} if(todoFocus!=null){ var tf=todoFocus; todoFocus=null; setTimeout(function(){gotoForm(tf);},350); }
     if(page==='start')renderDash();
-    if(page==='notgroschen')renderNg(); else if(page==='ausblick')renderAusblick(); else if(page==='fixkosten')fkCompute(); else if(page==='start')renderChecks(); else if(page==='ertraege')renderEr(); else if(page==='einnahmen')renderGh(); else if(page==='freistellung')renderFs(); else if(page==='kaufziele')renderKz(); else if(page==='rebalancing')renderRb(); else if(page==='vergleiche')renderVg(); else if(page==='freiheit')renderFree(series()); else {mainChart.draw();}
+    if(page==='notgroschen')renderNg(); else if(page==='ausblick')renderAusblick(); else if(page==='fixkosten')fkCompute(); else if(page==='start')renderChecks(); else if(page==='ertraege')renderEr(); else if(page==='einnahmen')renderGh(); else if(page==='freistellung')renderFs(); else if(page==='kaufziele')renderKz(); else if(page==='rebalancing')renderRb(); else if(page==='vergleiche')renderVg(); else if(page==='analyse')renderAn(); else if(page==='plan')renderPlan(); else if(page==='freiheit')renderFree(series()); else {mainChart.draw();}
   }
 
 
@@ -5303,7 +5418,7 @@ body{margin:0;background:var(--bg)}
   function rdChkDue(){ var y=new Date().getFullYear(), g=docs['settings/main']||{}; return y>=2027&&+g.rdcheck!==y?y:0; }
   function renderRdChk(){ var y=rdChkDue();
     ['rdchk-start','rdchk-page'].forEach(function(id){ var el=$(id); if(!el)return; if(!y){ el.hidden=true; el.innerHTML=''; return; } el.hidden=false;
-      el.innerHTML='<div class="rdcin"><span class="ib">'+ico('percent')+'</span><div><p class="eyebrow">Jahres-Check '+y+'</p><b>Renditen prüfen</b><small>Aktualisiere im Reiter „Rendite“ die erwarteten Renditen deiner ETFs und Anlagen – sie fließen in Mitarbeiter-Karte und Rendite-Rechnung ein.</small></div></div><div class="rdcbtns">'+(id==='rdchk-start'?'<a class="btn" href="#rendite">Zum Reiter Rendite</a>':'')+'<button type="button" class="btn primary" data-rdc="'+y+'">✓ Erledigt</button></div>'; }); }
+      el.innerHTML='<div class="rdcin"><span class="ib">'+ico('percent')+'</span><div><p class="eyebrow">Jahres-Check '+y+'</p><b>Renditen prüfen</b><small>Aktualisiere im Bereich Depot → Rendite die erwarteten Renditen deiner ETFs und Anlagen – sie fließen in Mitarbeiter-Karte, Benchmark und Rendite-Rechnung ein.</small></div></div><div class="rdcbtns">'+(id==='rdchk-start'?'<a class="btn" href="#rendite">Zum Reiter Rendite</a>':'')+'<button type="button" class="btn primary" data-rdc="'+y+'">✓ Erledigt</button></div>'; }); }
   async function rdChkDone(y){ try{ await write('settings/main',Object.assign({},docs['settings/main']||{},{rdcheck:y})); try{toast('✓ Renditen für '+y+' geprüft – nächste Erinnerung am 1. Januar '+(y+1));}catch(e){} renderAll(); }catch(e){ try{toast(failText());}catch(_){} } }
 
 
@@ -5407,7 +5522,7 @@ body{margin:0;background:var(--bg)}
   function rdRate(){ var d=docs['rendite/main']; if(!d||!Array.isArray(d.rows))return null; var a=0,y=0,n=0; d.rows.forEach(function(r){ if(+r.amount>0&&r.rate!=null&&r.rate!==''){ a+=+r.amount; y+=+r.amount*(+r.rate)/100; n++; } }); return a>0?{r:y/a,a:a,n:n}:null; }
   function wkHours(){ var g=docs['settings/main']||{}; return +g.hours>0?+g.hours:40; }
   function pctTxt(p){ return p>=99?'Top 1 %':p>=50?'Top '+nf0.format(Math.max(1,Math.round(100-p)))+' %':'vor '+nf0.format(Math.round(p))+' %'; }
-  function renderVg(){ var S=series(), wc=S.filter(function(q){return q.total>0;}), L=wc[wc.length-1];
+  function renderVg(){ var S=series(), wc=S.filter(function(q){return q.total>0;}), L=wc[wc.length-1]; try{ renderVgMore(L); }catch(e){}
     try{ renderCmp(S,$('vgde')); }catch(e){}
     var w=$('vgworld'), hW='<h2 class="h2i"><span class="ib sm">'+ico('globe')+'</span>Weltweit</h2>';
     if(w){ if(!L)w.innerHTML=hW+'<p class="empty">Noch keine Vermögensdaten.</p>'; else { var p=gwPct(L.total), bands=[['über 1 Mio. $',1.5,'b4'],['100.000 – 1 Mio. $',15.3,'b3'],['10.000 – 100.000 $',41.1,'b2'],['unter 10.000 $',42.1,'b1']], u=L.total*GW_USD, my=u>=1e6?'b4':u>=1e5?'b3':u>=1e4?'b2':'b1';
@@ -5432,6 +5547,177 @@ body{margin:0;background:var(--bg)}
           '<div class="mini3"><div><span>Rendite</span><b>'+pct(rate*100)+'</b><em>'+(rr?'Ø deiner Anlagen':'Annahme')+'</em></div><div><span>Vorsichtig</span><b>−'+fmt(h4)+' Std.</b><em>4-%-Regel</em></div><div class="hl"><span>Frei ab</span><b>'+eur(need)+'</b><em>Vermögen</em></div></div>'+
           '<p class="tasub">Gerechnet mit der erwarteten Rendite ('+eur(earn)+' im Jahr'+(rr?', gewichteter Durchschnitt aus deinem Reiter „Rendite“':', Annahme 7 %')+') und deinem Stundenlohn von '+eur2(hr)+' brutto. „Vorsichtig“ zeigt, wie viele Stunden du dauerhaft weniger arbeiten könntest, ohne das Vermögen aufzuzehren – auch in schlechten Börsenjahren.</p>'; } }
   }
+
+
+
+  /* ===== Optimierung: nächste Stufen & Plan ===== */
+  function invFind(fn,target,lo,hi){ if(fn(lo)>=target)return lo; for(var i=0;i<60;i++){ var m=Math.sqrt(Math.max(1,lo)*hi); if(fn(m)>=target)hi=m; else lo=m; } return hi; }
+  function nextTgt(p){ return p>=99?null:p>=95?Math.min(99,Math.floor(p)+1):Math.floor(p/5)*5+5; }
+  function durTxt(m){ if(m==null)return 'Tempo unklar'; if(m<=0)return 'sofort'; return m<12?m+' Mon.':nf1.format(m/12).replace(/,0$/,'')+' J.'; }
+  function nxtBox(v,fn,unit,monthly){ var p=fn(v), t=nextTgt(p); if(t==null)return '<div class="nxt"><span class="ib sm">'+ico('trophy')+'</span><div><b>Top 1 % erreicht</b><small>Mehr geht in dieser Statistik nicht.</small></div></div>';
+    var need=invFind(fn,t,v,v*50+1e6), d=need-v, m=unit==='sal'?null:projMonths(v,need,planSave());
+    return '<div class="nxt"><span class="ib sm">'+ico('flag')+'</span><div><b>Nächste Stufe: vor '+t+' %</b><small>'+(unit==='sal'?'Dafür fehlen dir <b>'+eur(d)+'</b> brutto im Jahr – das sind <b>'+eur(d/12)+' mehr pro Monat</b>.':'Dafür fehlen dir noch <b>'+eur(d)+'</b> – bei deinem Tempo in etwa <b>'+durTxt(m)+'</b>.')+'</small></div></div>'; }
+  function vgNext(){ var S=series().filter(function(q){return q.total>0;}), L=S[S.length-1]; if(!L)return; var v=L.total, by=+(docs['settings/main']||{}).byear||0, age=by?new Date().getFullYear()-by:0;
+    var add=function(id,html){ var e=$(id); if(e&&e.querySelector('.cmpbig')&&!e.querySelector('.nxt')){ var t=e.querySelector('.tasub'); if(t)t.insertAdjacentHTML('beforebegin',html); else e.insertAdjacentHTML('beforeend',html); } };
+    add('vgind',nxtBox(v,soepPct)); add('vgworld',nxtBox(v,gwPct));
+    if(by){ var grp=PHF_AGE.filter(function(x){return age>=x[0]&&age<=x[1];})[0]||PHF_AGE[0]; add('vgde',nxtBox(v,function(x){return phfAgePct(x,grp);}));
+      var h=HFCS.filter(function(x){return age>=x[0]&&age<=x[1];})[0]||HFCS[0]; add('vgeu',nxtBox(v,function(x){return lnPct(x,h[2],h[3]);})); }
+    var jb=jBrutto(); if(jb)add('vgsal',nxtBox(jb.v,salPct,'sal')); }
+  function planItems(){ var S=series().filter(function(q){return q.total>0;}), L=S[S.length-1]; if(!L)return [];
+    var v=L.total, sr=planSave(), lc=lifeCost(), fz=lc?lc.v*12*25:null, by=+(docs['settings/main']||{}).byear||0, age=by?new Date().getFullYear()-by:null, yrs=age?Math.max(5,67-age):20, I=[];
+    var tgt=fz||1e6, tl=fz?'Freiheit':'Million', m0=projMonths(v,tgt,sr);
+    var gain=function(m1){ return m0!=null&&m1!=null?m0-m1:0; };
+    // Sparrate
+    [100,250].forEach(function(x,i){ var m1=projMonths(v,tgt,sr+x); if(i===0||gain(m1)>0){ var rb=rbFromDoc(), ts=rb.rows.reduce(function(a,r){return a+(r.t||0);},0)||100;
+      I.push({ic:'trend',k:'spar'+x,t:'Sparrate um '+eur(x)+' erhöhen',imp:gain(m1),it:tl+' '+durTxt(gain(m1))+' früher',d:'Mit '+eur(sr+x)+' statt '+eur(sr)+' pro Monat erreichst du die '+tl+' '+(m1!=null?'im '+label(ymFromIdx(ymIdx(L.ym)+m1)):'früher')+'.',
+        st:['Im Broker den Sparplan um '+eur(x)+' erhöhen'].concat(rb.rows.filter(function(r){return r.t>0;}).map(function(r){return eur(x*r.t/ts)+' zusätzlich in '+esc(r.name);})),hide:i===1}); } });
+    // Notgroschen-Überschuss
+    try{ var ns=ngSeries(), ng=ns.length?ns[ns.length-1].total:null, gl=ngGoal(); if(ng!=null&&ng>gl*1.05){ var ex=ng-gl, extra=ex*(Math.pow(1.05,yrs)-Math.pow(1.02,yrs)), m1=projMonths(v+ex*0.03*0,tgt,sr), mx=projMonths(v,tgt,sr)-projMonths(v+0,tgt,sr);
+      var vEx=projAt(v,0,0); var mFast=(function(){ var r=0.05/12,r2=0.02/12,vi=v-ex,vc=ex,k=0; while(vi+vc<tgt&&k<900){ vi=vi*(1+r)+sr; vc=vc*(1+r2); k++; } return k; })();
+      I.push({ic:'shield',k:'ng',t:eur(ex)+' Notgroschen-Überschuss anlegen',imp:Math.max(0,mFast-(m0||mFast)),it:'+'+eurK(extra)+' bis '+(age?'67':'in '+yrs+' J.'),d:'Dein Notgroschen liegt '+pct(ng/gl*100)+' über dem Ziel von '+eur(gl)+'. Der Überschuss bringt auf dem Tagesgeld (≈ 2 %) deutlich weniger als im Depot (≈ 5 % angenommen).',
+        st:['Notgroschen-Ziel von '+eur(gl)+' auf dem Tagesgeld lassen',eur(ex)+' als Einmalanlage ins Depot (z. B. nach deiner Zielaufteilung)','Danach im Rebalancing die neuen Werte eintragen']}); } }catch(e){}
+    // Ausgaben
+    if(lc){ var fz2=(lc.v-100)*12*25, m2=projMonths(v,fz2,sr+100), g2=m0!=null&&m2!=null?m0-m2:0;
+      I.push({ic:'wallet',k:'aus',t:'100 € Ausgaben im Monat sparen',imp:g2,it:'Freiheit '+durTxt(g2)+' früher',d:'Doppelter Effekt: Du brauchst für die Freiheit '+eur(30000)+' weniger Vermögen – und hast 100 € mehr zum Sparen.',
+        st:['Fixkosten-Liste durchgehen: Abos, Versicherungen, Handy- und Stromtarif','Gekündigtes direkt per Dauerauftrag in den Sparplan umleiten','Ausgaben auf der Seite „Freiheit“ anpassen']}); }
+    // Gehalt
+    var jb=jBrutto(); if(jb){ var sp=salPct(jb.v), t=nextTgt(sp), need=t?invFind(salPct,t,jb.v,jb.v*20):null, raise=jb.v*0.05, extraS=raise/12*0.55*0.5, m3=projMonths(v,tgt,sr+extraS), g3=m0!=null&&m3!=null?m0-m3:0;
+      I.push({ic:'briefcase',k:'geh',t:'Gehaltsplus: die Hälfte sparen',imp:g3,it:tl+' '+durTxt(g3)+' früher',d:'Bei 5 % mehr Brutto ('+eur(raise/12)+'/Monat) bleiben netto grob '+eur(raise/12*0.55)+'. Sparst du davon die Hälfte, steigt deine Sparrate um ca. '+eur(extraS)+'.'+(t?' Für die nächste Gehaltsstufe (vor '+t+' % in Deutschland) wären '+eur((need-jb.v)/12)+' brutto mehr im Monat nötig.':''),
+        st:['Gehaltsgespräch vorbereiten – Ziel: +'+eur(Math.max(raise,(need||0)-jb.v)/12)+' brutto pro Monat','Jede Erhöhung sofort zur Hälfte in den Sparplan, bevor sie im Alltag „verschwindet“','Neues Jahresbrutto auf der Seite „Vergleiche“ eintragen']}); }
+    // Rebalancing
+    try{ var ra=rbAlarm(); if(ra&&ra.on)I.push({ic:'pie',k:'rb',t:'Depot ausbalancieren',imp:6,it:'Risiko im Plan',d:esc(ra.name)+' liegt bei '+pct(ra.ip)+' statt '+nf1.format(ra.tp).replace(/,0$/,'')+' %.',st:['Nächste Sparrate gezielt in die untergewichtete Position lenken','Im Bereich Depot → Rebalancing den genauen Betrag ablesen']}); }catch(e){}
+    // Freistellung
+    try{ var cy=new Date().getFullYear(), fd=docs['freistellung/'+cy], A=0; if(fd&&Array.isArray(fd.rows))fd.rows.forEach(function(r){A+=+r.auftrag||0;}); if(fd&&A<1000)I.push({ic:'doc',k:'fsa',t:'Freistellungsauftrag ausschöpfen',imp:5,it:'bis '+eur((1000-A)*0.264)+' Steuern/Jahr',d:'Du hast erst '+eur(A)+' von 1.000 € Sparerpauschbetrag verteilt. Ohne Auftrag zieht die Bank sofort Steuern ab.',st:['Beim Broker den Freistellungsauftrag auf insgesamt 1.000 € erhöhen','Bei mehreren Banken nach erwarteten Erträgen aufteilen','Im Bereich Depot → Freistellung eintragen']}); }catch(e){}
+    // Rendite-Erwartung
+    try{ var rr=rdRate(); if(rr&&rr.r*100>8.5)I.push({ic:'percent',k:'rd',t:'Mit vorsichtigerer Rendite planen',imp:2,it:'realistischere Ziele',d:'Deine erwarteten '+pct(rr.r*100)+' beruhen auf der Vergangenheit. Für Ziele und Ruhestand rechnen viele mit 6–7 % bei Aktien-ETFs – dann wirst du positiv überrascht statt enttäuscht.',st:['Im Bereich Depot → Rendite die Erwartungen auf ca. 7 % setzen','Beim Jahres-Check am 1. Januar neu bewerten']}); }catch(e){}
+    if(!lc)I.push({ic:'hourglass',k:'lc',t:'Ausgaben eintragen',imp:1,it:'macht den Plan genauer',d:'Ohne deine monatlichen Ausgaben rechnet der Plan mit der Million als Ziel statt mit deiner finanziellen Freiheit.',st:['Ziele → Freiheit: monatliche Ausgaben eintragen']});
+    if(!jb)I.push({ic:'briefcase',k:'jb',t:'Jahresbrutto eintragen',imp:1,it:'schaltet Gehalts-Tipps frei',d:'Damit kann der Plan zeigen, was eine Gehaltserhöhung bewirkt.',st:['Analyse → Vergleiche: Bruttojahresgehalt eintragen']});
+    return I.filter(function(x){return !x.hide;}).sort(function(a,b){return b.imp-a.imp;}); }
+  function renderPlan(){ var h=$('plhero'), l=$('pllist'); if(!h||!l)return; var I=planItems(), S=series().filter(function(q){return q.total>0;}), L=S[S.length-1];
+    if(!L){ h.innerHTML='<p class="empty">Noch keine Daten.</p>'; l.innerHTML=''; return; }
+    var lc=lifeCost(), tgt=lc?lc.v*12*25:1e6, sr=planSave(), m0=projMonths(L.total,tgt,sr), top=I[0];
+    h.innerHTML='<p class="eyebrow">Dein Optimierungsplan</p><p class="plbig">'+(lc?'Finanziell frei':'Million')+' '+(m0!=null?'im <b>'+label(ymFromIdx(ymIdx(L.ym)+m0))+'</b>':'– Tempo unklar')+'</p><p class="cmpsub">So sieht es heute aus – mit Ø '+eur(sr)+' Sparrate und 5 % Rendite. Die Hebel unten sind nach Wirkung sortiert.</p>'+(top&&top.imp>1?'<div class="pltop"><span class="ib">'+ico('rocket')+'</span><div><small>Dein größter Hebel</small><b>'+top.t+'</b><em>'+top.it+'</em></div></div>':'');
+    l.innerHTML=I.map(function(x,i){ return '<section class="card plit'+(i===0?' first':'')+'"><div class="plh"><span class="ib sm">'+ico(x.ic)+'</span><b>'+x.t+'</b><span class="plimp">'+x.it+'</span></div><p>'+x.d+'</p><ol>'+x.st.map(function(z){return '<li>'+z+'</li>';}).join('')+'</ol></section>'; }).join('')+'<p class="tasub" style="padding:0 6px">Alle Werte sind Modellrechnungen mit 5 % Rendite p. a. – keine Anlageberatung.</p>'; }
+
+  /* ===== Analysen ===== */
+  var BENCH={yrs:[2022,2023,2024,2025],msci:[-14.19,17.64,24.81,5.35],dax:[-12.3,20.3,18.9,22],infl:[6.9,5.9,2.2,2.2],msci10:10.94,infl26:3.3};
+  var GV={cash:37,ins:28,akt:19,fonds:14,bond:2,asof:'1. Quartal 2026',total:'9,49 Billionen €'};
+  var SPEND={one:2042,all:3257,yr:2024};
+  function vpiAt(ym){ var y=+ym.slice(0,4), m=+ym.slice(5), I={2021:94.4,2022:100,2023:105.9,2024:108.23,2025:110.61,2026:114.26,2027:116.5}; var a=I[y]||I[2027], b=I[y+1]||a*1.022, t=(m-6.5)/12; return t>=0?a*Math.pow(b/a,t):(I[y-1]?I[y-1]*Math.pow(a/I[y-1],1+t):a); }
+  function svgLines(series,opt){ var W=340,H=opt.h||150,P={l:34,r:8,t:10,b:20}, all=[]; series.forEach(function(s){ s.pts.forEach(function(q){all.push(q);}); });
+    if(!all.length)return ''; var x0=opt.x0!=null?opt.x0:Math.min.apply(null,all.map(function(q){return q[0];})), x1=opt.x1!=null?opt.x1:Math.max.apply(null,all.map(function(q){return q[0];})), y0=opt.y0!=null?opt.y0:Math.min.apply(null,all.map(function(q){return q[1];})), y1=opt.y1!=null?opt.y1:Math.max.apply(null,all.map(function(q){return q[1];}));
+    if(x1===x0)x1=x0+1; if(y1===y0)y1=y0+1; var X=function(v){return P.l+(v-x0)/(x1-x0)*(W-P.l-P.r);}, Y=function(v){return H-P.b-(v-y0)/(y1-y0)*(H-P.t-P.b);};
+    var g=''; (opt.yt||[]).forEach(function(t){ g+='<line x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+Y(t[0]).toFixed(1)+'" y2="'+Y(t[0]).toFixed(1)+'" class="gl"/><text x="'+(P.l-4)+'" y="'+(Y(t[0])+3).toFixed(1)+'" text-anchor="end" class="gt">'+t[1]+'</text>'; });
+    (opt.xt||[]).forEach(function(t){ g+='<text x="'+X(t[0]).toFixed(1)+'" y="'+(H-5)+'" text-anchor="middle" class="gt">'+t[1]+'</text>'; });
+    series.forEach(function(s){ if(s.pts.length===1&&s.dot){ g+='<circle cx="'+X(s.pts[0][0]).toFixed(1)+'" cy="'+Y(s.pts[0][1]).toFixed(1)+'" r="6" fill="'+s.c+'" class="ydot"/>'; return; } g+='<polyline fill="none" stroke="'+s.c+'" stroke-width="'+(s.w||2.4)+'" stroke-linejoin="round" stroke-linecap="round"'+(s.dash?' stroke-dasharray="5 5"':'')+' points="'+s.pts.map(function(q){return X(q[0]).toFixed(1)+','+Y(q[1]).toFixed(1);}).join(' ')+'"/>'; });
+    return '<svg class="ansvg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none">'+g+'</svg>'; }
+  function legend(items){ return '<div class="anleg">'+items.map(function(i){return '<span><i style="background:'+i[1]+'"></i>'+i[0]+'</span>';}).join('')+'</div>'; }
+  function renderAn(){ var S=series().filter(function(q){return q.total>0;}), L=S[S.length-1], g=docs['settings/main']||{}, by=+g.byear||0;
+    var put=function(id,html){ var e=$(id); if(e)e.innerHTML=html; };
+    if(!L){ put('anrank','<p class="empty">Noch keine Daten.</p>'); return; }
+    // 1 Rang-Verlauf
+    try{ var i0=ymIdx(S[0].ym), A=S.map(function(q){ var x=ymIdx(q.ym)-i0; return {x:x,de:soepPct(q.total),w:gwPct(q.total),h:by?phfAgePct(q.total,(PHF_AGE.filter(function(z){var a=+q.ym.slice(0,4)-by;return a>=z[0]&&a<=z[1];})[0]||PHF_AGE[0])):null}; });
+      var ser=[{c:'var(--acc1)',pts:A.map(function(a){return [a.x,a.de];})},{c:'#7DB7FF',pts:A.map(function(a){return [a.x,a.w];})}]; if(by)ser.push({c:'#FFD27A',pts:A.map(function(a){return [a.x,a.h];})});
+      var f=A[0], l=A[A.length-1], xt=[]; S.forEach(function(q,i){ if(q.ym.slice(5)==='01')xt.push([ymIdx(q.ym)-i0,q.ym.slice(0,4)]); });
+      put('anrank',hdr('trend','Dein Rang im Zeitverlauf')+'<p class="cmpbig"><b>'+(l.de>=f.de?'+':'−')+nf0.format(Math.abs(Math.round(l.de-f.de)))+'</b> Plätze</p><p class="cmpsub" style="margin-bottom:10px">Seit '+label(S[0].ym)+' bist du in Deutschland von <b>'+Math.round(f.de)+' %</b> auf <b>'+Math.round(l.de)+' %</b> '+(l.de>=f.de?'aufgestiegen':'gefallen')+'.</p>'+
+        svgLines(ser,{y0:Math.max(0,Math.floor(Math.min.apply(null,ser.map(function(s){return Math.min.apply(null,s.pts.map(function(q){return q[1];}));}))/10)*10),y1:100,yt:[[75,'75'],[100,'100']],xt:xt})+legend([['Personen DE','var(--acc1)'],['Welt','#7DB7FF']].concat(by?[['Haushalte DE · Alter','#FFD27A']]:[]))+'<p class="tasub">Prozentrang = mehr als so viel Prozent der Gruppe. Berechnet mit denselben Statistiken wie auf der Seite „Vergleiche“.</p>'); }catch(e){}
+    // 2 Lebenskurve
+    try{ if(!by) put('anlife',hdr('cal','Deine Lebenskurve')+'<p class="tasub">Trag auf der Seite „Vergleiche“ dein Geburtsjahr ein – dann siehst du hier deine Kurve im Vergleich zu allen Altersgruppen.</p>');
+      else { var now=new Date(), age=now.getFullYear()-by+now.getMonth()/12, sr=planSave(), pr=[]; for(var a=Math.floor(age);a<=67;a++){ pr.push([a,projAt(L.total,Math.round((a-age)*12),sr)]); }
+        var de=PHF_AGE.map(function(z){return [Math.min(80,(z[0]+Math.min(z[1],85))/2),z[2]];}), eu=HFCS.map(function(z){return [Math.min(80,(z[0]+Math.min(z[1],85))/2),z[2]];}), hist=S.map(function(q){return [+q.ym.slice(0,4)-by+(+q.ym.slice(5)-1)/12,q.total];});
+        var ymax=Math.max(260000,pr[pr.length-1][1]); ymax=Math.ceil(ymax/250000)*250000; var yt=[[0,'0']]; for(var k=1;k<=4;k++)yt.push([ymax*k/4,eurK(ymax*k/4)]);
+        put('anlife',hdr('cal','Deine Lebenskurve')+'<p class="cmpsub" style="margin-bottom:10px">Typisches Vermögen nach Alter – und wo du stehst. Mit 67 wärst du bei etwa <b>'+eurK(pr[pr.length-1][1])+'</b>, der Median der 65–74-Jährigen liegt bei '+eurK(231000)+'.</p>'+
+          svgLines([{c:'color-mix(in srgb,var(--fg) 45%,transparent)',pts:de,w:2},{c:'#7DB7FF',pts:eu,w:2},{c:'var(--acc1)',pts:pr,dash:1},{c:'var(--acc1)',pts:hist,w:3},{c:'var(--acc1)',pts:[hist[hist.length-1]],dot:1}],{x0:18,x1:82,y0:0,y1:ymax,yt:yt,xt:[[20,'20'],[30,'30'],[40,'40'],[50,'50'],[60,'60'],[67,'67'],[80,'80']],h:170})+
+          legend([['Du (bisher & Prognose)','var(--acc1)'],['Median Haushalte DE','color-mix(in srgb,var(--fg) 45%,transparent)'],['Median Euro-Raum','#7DB7FF']])+'<p class="tasub">Prognose mit Ø '+eur(sr)+' Sparrate und 5 % Rendite. Mediane: Bundesbank PHF 2021 und EZB HFCS 2021 (Haushalte, nach Alter).</p>'); } }catch(e){}
+    // 3 Tempo
+    try{ var st=25000, k0=Math.ceil((S[0].total+1)/st), rows=[], prevI=ymIdx(S[0].ym), prevL='Start ('+label(S[0].ym)+')';
+      for(var k=k0;k<k0+12;k++){ var tgt=k*st, hit=S.filter(function(q){return q.total>=tgt;})[0]; if(!hit)break; var mi=ymIdx(hit.ym)-prevI; rows.push([prevL,eurK(tgt),mi,hit.ym]); prevI=ymIdx(hit.ym); prevL=eurK(tgt); }
+      var nx=Math.ceil((L.total+1)/st)*st, mEta=projMonths(L.total,nx,planSave()), mx=Math.max.apply(null,rows.map(function(r){return r[2];}).concat([mEta||1,1]));
+      put('antempo',hdr('rocket','Dein Tempo')+(rows.length?'<p class="cmpsub" style="margin-bottom:12px">So lange hat jeder 25.000-€-Schritt gedauert'+(rows.length>1&&rows[rows.length-1][2]<rows[0][2]?' – du wirst schneller.':'.')+'</p><div class="tempo">'+rows.map(function(r){return '<div class="tp"><span>'+r[0]+' → <b>'+r[1]+'</b></span><i style="width:'+Math.max(4,r[2]/mx*100).toFixed(1)+'%"></i><em>'+r[2]+' Mon.</em></div>';}).join('')+(mEta!=null?'<div class="tp next"><span>jetzt → <b>'+eurK(nx)+'</b></span><i style="width:'+Math.max(4,mEta/mx*100).toFixed(1)+'%"></i><em>≈ '+mEta+' Mon.</em></div>':'')+'</div>':'<p class="tasub">Sobald du den ersten 25.000-€-Schritt geschafft hast, siehst du hier dein Tempo.</p>')+'<p class="tasub">Der letzte Balken ist die Prognose bis zum nächsten Schritt.</p>'); }catch(e){}
+    // 4 Benchmark
+    try{ var yv={}; S.forEach(function(q){ yv[q.ym.slice(0,4)]=q; }); var mine=BENCH.yrs.map(function(y){ var a=yv[y-1], b=yv[y]; return a&&b&&a.ym.slice(5)==='12'&&b.ym.slice(5)==='12'?(b.total/a.total-1)*100:null; });
+      var cagr=function(arr){ var p=1,n=0; arr.forEach(function(v){ if(v!=null){p*=1+v/100;n++;} }); return n?(Math.pow(p,1/n)-1)*100:null; };
+      var rowsB=[['Du*',mine,'var(--acc1)'],['MSCI World',BENCH.msci,'#7DB7FF'],['DAX',BENCH.dax,'#FFD27A'],['Inflation',BENCH.infl,'var(--down)']];
+      var cell=function(v){ return v==null?'<td class="na">–</td>':'<td class="'+(v>=0?'pos':'neg')+'">'+(v>=0?'+':'−')+nf1.format(Math.abs(v))+'</td>'; };
+      var rr=rdRate();
+      put('anbench',hdr('bars','Benchmark-Check')+'<div class="bt"><table><thead><tr><th></th>'+BENCH.yrs.map(function(y){return '<th>'+y+'</th>';}).join('')+'<th>Ø p.a.</th></tr></thead><tbody>'+rowsB.map(function(r){ return '<tr><th><i style="background:'+r[2]+'"></i>'+r[0]+'</th>'+r[1].map(cell).join('')+cell(cagr(r[1]))+'</tr>'; }).join('')+'</tbody></table></div>'+
+        (rr?'<div class="mini3"><div><span>Erwartung</span><b>'+pct(rr.r*100)+'</b><em>Reiter Rendite</em></div><div><span>MSCI World</span><b>'+nf1.format(BENCH.msci10)+' %</b><em>Ø 10 Jahre</em></div><div class="'+(rr.r*100>BENCH.msci10?'hl':'')+'"><span>Differenz</span><b>'+(rr.r*100>=BENCH.msci10?'+':'−')+nf1.format(Math.abs(rr.r*100-BENCH.msci10))+' Pp.</b><em>'+(rr.r*100>BENCH.msci10+1?'eher optimistisch':'realistisch')+'</em></div></div>':'')+
+        '<p class="tasub">* Du = dein Vermögen inkl. neuer Sparbeträge (Dezember zu Dezember) – deshalb nicht direkt mit Indexrenditen vergleichbar, zeigt aber dein Gesamttempo. MSCI World: Kursentwicklung in Euro laut MSCI-Factsheet (Okt. 2026). DAX: Jahresperformance laut Deutscher Börse (2025 ca.). Inflation: Verbraucherpreisindex, Destatis.</p>'); }catch(e){}
+    // 5 Kaufkraft
+    try{ var v0=vpiAt(S[0].ym), v1=vpiAt(L.ym), real=L.total*v0/v1, lost=L.total-real, gainN=L.total-S[0].total, gainR=real-S[0].total;
+      var serK=[{c:'var(--acc1)',pts:S.map(function(q,i){return [i,q.total];})},{c:'#FFD27A',pts:S.map(function(q,i){return [i,q.total*v0/vpiAt(q.ym)];}),dash:1}];
+      put('ankauf',hdr('percent','Kaufkraft-Analyse')+'<p class="cmpbig"><b>'+eur(lost)+'</b></p><p class="cmpsub" style="margin-bottom:10px">Kaufkraft hat die Inflation seit '+label(S[0].ym)+' von deinem Vermögen „aufgefressen“ (Preise +'+nf1.format((v1/v0-1)*100)+' %).</p>'+
+        svgLines(serK,{y0:0,h:130})+legend([['Nominal','var(--acc1)'],['in Kaufkraft von '+label(S[0].ym),'#FFD27A']])+
+        '<div class="mini3"><div><span>Zuwachs nominal</span><b>'+eurS(gainN)+'</b><em>seit Start</em></div><div><span>Zuwachs real</span><b>'+eurS(gainR)+'</b><em>nach Inflation</em></div><div><span>Inflation aktuell</span><b>'+nf1.format(BENCH.infl26)+' %</b><em>Sept. 2026</em></div></div><p class="tasub">Näherung mit den jährlichen Inflationsraten von Destatis (2022: 6,9 %, 2023: 5,9 %, 2024: 2,2 %, 2025: 2,2 %, 2026: zuletzt 3,3 %).</p>'); }catch(e){}
+    // 6 Aufteilung
+    try{ if(L.cats){ var C=L.cats, cash=['tagesgeld','notgroschen','bargeld','paypal'].reduce(function(a,k){return a+(+C[k]||0);},0), eq=(+C.etf||0)+(+C.aktien||0), oth=L.total-cash-eq;
+        var R2=[['Bargeld & Einlagen',cash/L.total*100,GV.cash],['Aktien & Fonds',eq/L.total*100,GV.akt+GV.fonds],['Versicherungen & Rente',0,GV.ins],['Sonstiges (z. B. Gold, Anleihen)',oth/L.total*100,GV.bond]];
+        put('analloc',hdr('pie','Anlage-Mix im Vergleich')+'<p class="cmpsub" style="margin-bottom:12px">Du hast <b>'+pct(eq/L.total*100)+'</b> in Aktien & Fonds – der Durchschnitt der Deutschen nur <b>'+(GV.akt+GV.fonds)+' %</b>.</p><div class="mix">'+R2.map(function(r){ return '<div class="mx"><span>'+r[0]+'</span><div class="mxb"><i class="me" style="width:'+Math.min(100,r[1]).toFixed(1)+'%"></i><b>'+nf0.format(Math.round(r[1]))+' %</b></div><div class="mxb"><i class="de" style="width:'+r[2]+'%"></i><b>'+r[2]+' %</b></div></div>'; }).join('')+'</div>'+legend([['Du','var(--acc1)'],['Ø Deutsche','color-mix(in srgb,var(--fg) 35%,transparent)']])+
+          '<p class="tasub">Quelle: Deutsche Bundesbank, Geldvermögen der privaten Haushalte, '+GV.asof+' ('+GV.total+'). Versicherungen und Rentenansprüche erfasst das Cockpit nicht.</p>'); } }catch(e){}
+    // 7 Ausgaben
+    try{ var lc=lifeCost(); put('anspend',hdr('wallet','Ausgaben im Vergleich')+(lc?'<p class="cmpbig"><b>'+eur(lc.v)+'</b> pro Monat</p><p class="cmpsub" style="margin-bottom:10px">'+(lc.v<=SPEND.one?'Du gibst <b>'+eur(SPEND.one-lc.v)+' weniger</b> aus als ein durchschnittlicher Ein-Personen-Haushalt.':'Du gibst <b>'+eur(lc.v-SPEND.one)+' mehr</b> aus als ein durchschnittlicher Ein-Personen-Haushalt.')+'</p>'+vgBar(lc.v,[['1 Person',SPEND.one],['Alle Haushalte',SPEND.all,'avg']]):'<p class="tasub">Trag auf der Seite „Freiheit“ deine monatlichen Ausgaben ein – dann vergleicht das Cockpit sie hier mit deutschen Haushalten.</p>')+'<p class="tasub">Quelle: Statistisches Bundesamt, Laufende Wirtschaftsrechnungen '+SPEND.yr+' (private Konsumausgaben je Haushalt und Monat: 1 Person '+eur(SPEND.one)+', alle Haushalte '+eur(SPEND.all)+').</p>'); }catch(e){}
+    // Datenquellen
+    put('ansrc',hdr('book','Datenquellen & Stand')+'<div class="srcl">'+[
+      ['Bundesbank PHF','Vermögen je Haushalt nach Alter','Erhebung 2021 · neue Altersdaten erwartet 2026/27'],
+      ['EZB HFCS','Euro-Raum nach Alter','Welle 2021'],
+      ['DIW / SOEP','Einzelpersonen Deutschland','Wochenbericht 29/2020'],
+      ['UBS Global Wealth Report','Welt, Länder, Millionäre','Bericht 2026 (Stand Ende 2025)'],
+      ['Destatis','Gehälter, Inflation, Konsum, Rücklagen','Verdienste 2025 · VPI Sept. 2026 · LWR 2024'],
+      ['Bundesbank','Geldvermögen-Mix','1. Quartal 2026'],
+      ['DAI','Aktionärszahlen','2025'],
+      ['MSCI / Deutsche Börse','Index-Renditen','bis 2025']].map(function(r){return '<div><b>'+r[0]+'</b><span>'+r[1]+'</span><em>'+r[2]+'</em></div>';}).join('')+'</div><p class="tasub">Die Zahlen sind fest in der App hinterlegt (keine Live-Abfrage). Neue Veröffentlichungen werden regelmäßig geprüft und per App-Update eingespielt.</p>');
+  }
+
+  /* ===== Weitere Vergleiche ===== */
+  var SOEP=[[0,25],[22800,50],[279236,90],[1333000,99]];
+  function soepPct(v){ if(v<=0)return 20; for(var i=1;i<SOEP.length;i++){ if(v<=SOEP[i][0]){ var a=SOEP[i-1],b=SOEP[i]; if(a[0]===0)return a[1]+(v/b[0])*(b[1]-a[1]); var t=Math.log(v/a[0])/Math.log(b[0]/a[0]); return a[1]+t*(b[1]-a[1]); } } return Math.min(99.9,99+Math.log10(v/1333000)*0.9); }
+  var HFCS=[[16,34,21700,100200],[35,44,88400,198400],[45,54,146800,343600],[55,64,195200,393600],[65,74,185300,341200],[75,120,144400,308100]];
+  var LAND=[['🇩🇪','Deutschland',45679],['🇪🇸','Spanien',95290],['🇫🇷','Frankreich',104106],['🇬🇧','Großbritannien',107042],['🇮🇹','Italien',111881],['🇳🇴','Norwegen',119569],['🇨🇭','Schweiz',124310],['🇩🇰','Dänemark',174029],['🇧🇪','Belgien',236712],['🇱🇺','Luxemburg',336498]];
+  function lnPct(v,med,mean){ if(v<=0)return 3; var sg=Math.sqrt(2*Math.log(mean/med)); return Math.max(1,Math.min(99,ncdf((Math.log(v)-Math.log(med))/sg)*100)); }
+  function vgBar(v,marks){ var mx=Math.max(v,Math.max.apply(null,marks.map(function(m){return m[1];})))*1.1, pos=function(x){return Math.min(100,Math.max(0,x/mx*100)).toFixed(1);};
+    return '<div class="cmpbar">'+marks.map(function(m){return '<i class="cm '+(m[2]||'med')+'" style="left:'+pos(m[1])+'%"><span>'+m[0]+'<br>'+eur(m[1])+'</span></i>';}).join('')+'<i class="cm you" style="left:'+pos(v)+'%"><span>Du</span></i></div>'; }
+  function hdr(ic,t){ return '<h2 class="h2i"><span class="ib sm">'+ico(ic)+'</span>'+t+'</h2>'; }
+  function renderVgMore(L){
+    var g=docs['settings/main']||{}, by=+g.byear||0, age=by?new Date().getFullYear()-by:null, v=L?L.total:0, jb=jBrutto(), R=[];
+    // Einzelpersonen Deutschland
+    var e=$('vgind'); if(e){ if(!L)e.innerHTML=hdr('user','Einzelpersonen in Deutschland')+'<p class="empty">Noch keine Daten.</p>'; else { var pi=soepPct(v); R.push(['Personen DE',pi]);
+      e.innerHTML=hdr('user','Einzelpersonen in Deutschland')+'<p class="cmpbig">Vor <b>'+nf0.format(Math.round(pi))+'&nbsp;%</b></p><p class="cmpsub">aller Erwachsenen in Deutschland – Person gegen Person, nicht Haushalt</p>'+
+        vgBar(v,[['Median',22800],['Top 10 %',279236,'avg']])+
+        '<div class="mini3"><div><span>Median 2025</span><b>'+eur(45679)+'</b><em>pro Erwachsenem</em></div><div><span>Du</span><b>'+nf1.format(v/45679).replace(/,0$/,'')+'×</b><em>vom Median</em></div><div><span>Ø 2025</span><b>'+eur(296023)+'</b><em>pro Erwachsenem</em></div></div>'+
+        '<p class="tasub">Rang: DIW Berlin, Wochenbericht 29/2020 (SOEP, individuelle Nettovermögen ab 17 Jahren; Median 22.800 €, Top 10 % ab 279.236 €, Top 1 % ab 1.333.000 €). Median/Ø 2025: UBS Global Wealth Report 2026. Weil die DIW-Daten älter sind, ist dein Rang eher etwas zu hoch geschätzt.</p>'; } }
+    // Haushalte DE nach Alter (vorhandene Karte) -> Rang für Übersicht
+    if(L&&by){ var grp=PHF_AGE.filter(function(x){return age>=x[0]&&age<=x[1];})[0]||PHF_AGE[0]; R.push(['Haushalte DE · '+grp[0]+(grp[1]<120?'–'+grp[1]:'+'),phfAgePct(v,grp)]); }
+    // Euro-Raum nach Alter
+    var u=$('vgeu'); if(u){ if(!L||!by){ u.innerHTML=hdr('flag','Euro-Raum · deine Altersgruppe')+'<p class="tasub">'+(by?'Noch keine Daten.':'Trag oben bei „Wo stehst du?“ dein Geburtsjahr ein.')+'</p>'; }
+      else { var h=HFCS.filter(function(x){return age>=x[0]&&age<=x[1];})[0]||HFCS[0], pe=lnPct(v,h[2],h[3]); R.push(['Euro-Raum · '+h[0]+(h[1]<120?'–'+h[1]:'+'),pe]);
+        u.innerHTML=hdr('flag','Euro-Raum · deine Altersgruppe')+'<p class="cmpbig">Vor <b>'+nf0.format(Math.round(pe))+'&nbsp;%</b></p><p class="cmpsub">der Haushalte im Euro-Raum mit '+h[0]+(h[1]<120?'–'+h[1]:'+')+' Jahren</p>'+vgBar(v,[['Median',h[2]],['Ø',h[3],'avg']])+
+          '<div class="agegrid">'+HFCS.map(function(x){ var on=x===h; return '<div class="'+(on?'on':'')+'"><span>'+x[0]+(x[1]<120?'–'+x[1]:'+')+'</span><b>'+eurK(x[2])+'</b></div>'; }).join('')+'</div><p class="frsub sm">Median-Vermögen je Altersgruppe im Euro-Raum</p>'+
+          '<p class="tasub">Quelle: EZB, Household Finance and Consumption Survey, Welle 2021 (Nettovermögen je Haushalt nach Alter der Referenzperson, Euro-Raum). Rang aus Median und Durchschnitt geschätzt.</p>'; } }
+    // Welt -> Rang
+    if(L)R.push(['Welt · Erwachsene',gwPct(v)]);
+    if(jb)R.push(['Gehalt DE',salPct(jb.v)]);
+    // Länder
+    var la=$('vgland'); if(la&&L){ var above=LAND.filter(function(x){return v>=x[2];}).length, mx=Math.max(v,LAND[LAND.length-1][2])*1.05;
+      la.innerHTML=hdr('globe','Ländervergleich')+'<p class="cmpbig"><b>'+above+'</b> von '+LAND.length+'</p><p class="cmpsub" style="margin-bottom:14px">Ländern: Dort hättest du mehr als der mittlere Erwachsene</p>'+
+        '<div class="lands">'+LAND.map(function(x){ return '<div class="ld'+(v>=x[2]?' ok':'')+'"><span class="lf">'+x[0]+'</span><span class="ln">'+x[1]+'</span><span class="lb"><i style="width:'+(x[2]/mx*100).toFixed(1)+'%"></i><em style="left:'+Math.min(100,v/mx*100).toFixed(1)+'%"></em></span><span class="lv">'+eurK(x[2])+'</span></div>'; }).join('')+'</div>'+
+        '<p class="frsub sm">Balken = Median-Vermögen pro Erwachsenem · Linie = du</p><p class="tasub">Quelle: UBS Global Wealth Report 2026 (Stand Ende 2025, in Euro). Deutschland hat unter großen europäischen Ländern den niedrigsten Median – u. a. weil hier weniger Menschen Wohneigentum haben.</p>'; }
+    // Millionärs-Club
+    var mi=$('vgmio'); if(mi&&L){ var usdM=1e6/GW_USD, pm=Math.min(100,v/usdM*100);
+      mi.innerHTML=hdr('trophy','Millionärs-Club')+'<p class="cmpbig"><b>2,65&nbsp;Mio.</b></p><p class="cmpsub" style="margin-bottom:12px">Dollar-Millionäre gibt es in Deutschland – etwa jeder 26. Erwachsene.</p>'+
+        '<div class="mioring"><div class="mbar big"><i style="width:'+pm.toFixed(1)+'%"></i></div><p class="frsub">Du hast <b>'+pct(pm)+'</b> des Weges zum Dollar-Millionär (ca. '+eur(usdM)+'). Noch '+eur(Math.max(0,usdM-v))+'.</p></div>'+
+        '<p class="tasub">Quelle: UBS Global Wealth Report 2026, Millionaire Index (2.648.000 Dollar-Millionäre in Deutschland Ende 2025). Umrechnung mit ca. 1,17 $ pro €.</p>'; }
+    // Schnell-Fakten
+    var fc=$('vgfacts'); if(fc&&L){ var ng=null; try{ var ns=ngSeries(); ng=ns.length?ns[ns.length-1].total:null; }catch(x){} var etf=L.cats?(+L.cats.etf||0)+(+L.cats.aktien||0):0, F2=[];
+      F2.push(['shield','Rücklagen',ng!=null&&ng>=1300?'Du gehörst zu den rund <b>68 %</b>, die eine unerwartete Ausgabe von 1.300 € aus eigener Tasche zahlen können – dein Notgroschen deckt sie <b>'+nf0.format(Math.floor(ng/1300))+'×</b>.':'31,9 % der Menschen in Deutschland können eine unerwartete Ausgabe von 1.300 € nicht aus eigenen Mitteln zahlen.','Destatis/EU-SILC 2025']);
+      F2.push(['etf','Aktien & ETFs',etf>0?'Du gehörst zu den <b>14,1 Mio.</b> Menschen in Deutschland, die in Aktien, Fonds oder ETFs investieren – das ist nur etwa <b>jeder Fünfte</b>.':'14,1 Mio. Menschen in Deutschland investieren in Aktien, Fonds oder ETFs – etwa jeder Fünfte.','Deutsches Aktieninstitut, Aktionärszahlen 2025']);
+      if(jb){ F2.push(['wallet','Gehalt',jb.v>=100719?'Mit deinem Bruttogehalt gehörst du zu den <b>Top 10 %</b> der Vollzeitbeschäftigten.':'Bis zu den Top 10 % der Vollzeitbeschäftigten (ab 100.719 € brutto) fehlen dir <b>'+eur(100719-jb.v)+'</b> im Jahr.','Destatis, Verdienste 2025']); }
+      fc.innerHTML=hdr('spark','Schnell-Fakten')+'<div class="facts">'+F2.map(function(f){return '<div class="fact"><span class="ib sm">'+ico(f[0])+'</span><div><b>'+f[1]+'</b><p>'+f[2]+'</p><small>'+f[3]+'</small></div></div>';}).join('')+'</div>'; }
+    // Übersicht der Ränge
+    var su=$('vgsum'); if(su){ if(!R.length){ su.hidden=true; } else { su.hidden=false; su.innerHTML='<p class="eyebrow">Deine Ränge auf einen Blick</p><div class="ranks">'+R.map(function(r){ var p2v=Math.round(r[1]); return '<div class="rk"><div class="rkring" style="--p:'+p2v+'"><b>'+p2v+'</b></div><span>'+r[0]+'</span></div>'; }).join('')+'</div><p class="frsub sm">Zahl = du hast mehr als so viel Prozent der jeweiligen Gruppe</p>'; } }
+  }
+  function eurK(v){ return v>=1e6?nf1.format(v/1e6).replace(/,0$/,'')+' Mio. €':nf0.format(Math.round(v/1000))+'k €'; }
+
+  var _rvg=renderVg; renderVg=function(){ _rvg(); try{vgNext();}catch(e){} };
   async function saveJb(){ var v=num($('jbrutto').value); if(!(v>=1000&&v<1e8)){ say('jbmsg','Bitte einen Jahresbetrag eingeben.','bad'); return; }
     try{ await write('settings/main',Object.assign({},docs['settings/main']||{},{jbrutto:v})); $('vgsal').__edit=false; renderVg(); }catch(e){ say('jbmsg',failText(),'bad'); } }
 
@@ -5562,9 +5848,35 @@ body{margin:0;background:var(--bg)}
 
   /* ===== iOS-Shell: Navigationsleiste, Tab-Bar, Mehr-Sheet ===== */
   var TB_MAIN=['start','uebersicht','einnahmen','ausblick'];
-  var TB_LBL={freiheit:'Freiheit',vergleiche:'Vergleiche',start:'Start',uebersicht:'Übersicht',einnahmen:'Gehalt',notgroschen:'Notgroschen',ausblick:'Ausblick',rendite:'Rendite',ertraege:'Erträge',freistellung:'Freistellung',fixkosten:'Fixkosten',sparplan:'Sparplan',rebalancing:'Rebalancing',kaufziele:'Kaufziele'};
+  var TB_LBL={plan:'Plan',analyse:'Analysen',freiheit:'Freiheit',vergleiche:'Vergleiche',start:'Start',uebersicht:'Übersicht',einnahmen:'Gehalt',notgroschen:'Notgroschen',ausblick:'Ausblick',rendite:'Rendite',ertraege:'Erträge',freistellung:'Freistellung',fixkosten:'Fixkosten',sparplan:'Sparplan',rebalancing:'Rebalancing',kaufziele:'Kaufziele'};
   var TB_ICO={start:'home',uebersicht:'pie',einnahmen:'wallet',ausblick:'target'};
   var MORE_COL={notgroschen:'#30B0C7',rendite:'#30D158',ertraege:'#FF9F0A',freistellung:'#5E5CE6',fixkosten:'#FF453A',sparplan:'#0A84FF',rebalancing:'#BF5AF2',kaufziele:'#FF375F'};
+
+  /* ===== Bereiche (Gruppen) ===== */
+  var GROUPS=[{id:'start',l:'Start',ic:'home',p:['start']},
+    {id:'verm',l:'Vermögen',ic:'pie',p:['uebersicht','notgroschen','einnahmen','fixkosten'],sl:{uebersicht:'Monatsstand',einnahmen:'Gehalt'}},
+    {id:'depot',l:'Depot',ic:'etf',p:['sparplan','rebalancing','rendite','ertraege','freistellung']},
+    {id:'ziele',l:'Ziele',ic:'target',p:['ausblick','freiheit','kaufziele'],sl:{ausblick:'Jahresziel'}},
+    {id:'ana',l:'Analyse',ic:'trend',p:['plan','vergleiche','analyse'],sl:{analyse:'Analysen',plan:'Dein Plan'}}];
+  function grpOf(p){ for(var i=0;i<GROUPS.length;i++){ if(GROUPS[i].p.indexOf(p)>-1)return GROUPS[i]; } return GROUPS[0]; }
+  function grpLast(g){ try{ var v=localStorage.getItem('vb-grp-'+g.id); if(v&&g.p.indexOf(v)>-1)return v; }catch(e){} return g.p[0]; }
+  function segLbl(g,p){ return (g.sl&&g.sl[p])||TB_LBL[p]||p; }
+  function grpBadge(g){ var n=0,c=false; g.p.forEach(function(p){ var x=nbOf(p); if(x){ n+=x.n; c=c||x.c; } }); return n||c?{n:n,c:c}:null; }
+  function grpInit(){
+    var old=document.querySelector('main>nav.nav'); if(!old||$('gnav'))return;
+    var gn=document.createElement('nav'); gn.className='gnav'; gn.id='gnav'; gn.setAttribute('aria-label','Bereiche');
+    gn.innerHTML=GROUPS.map(function(g){return '<a href="#'+g.p[0]+'" data-g="'+g.id+'">'+ico(g.ic)+'<span>'+g.l+'</span></a>';}).join('');
+    old.parentNode.insertBefore(gn,old.nextSibling);
+    var sb=document.createElement('div'); sb.className='segbar'; sb.id='segbar'; gn.parentNode.insertBefore(sb,gn.nextSibling);
+    gn.addEventListener('click',function(ev){ var a=ev.target.closest('[data-g]'); if(!a)return; var g=GROUPS.filter(function(x){return x.id===a.getAttribute('data-g');})[0]; if(grpOf(curPage())===g&&curPage()===grpLast(g)){ ev.preventDefault(); toTop(); } });
+  }
+  function grpSync(page){ var g=grpOf(page); try{ localStorage.setItem('vb-grp-'+g.id,page); }catch(e){}
+    var gn=$('gnav'); if(gn)gn.querySelectorAll('[data-g]').forEach(function(a){ var gg=GROUPS.filter(function(x){return x.id===a.getAttribute('data-g');})[0]; a.setAttribute('href','#'+grpLast(gg)); a.setAttribute('aria-current',gg===g?'page':'false'); });
+    var sb=$('segbar'); if(sb){ if(g.p.length<2){ sb.hidden=true; sb.innerHTML=''; } else { sb.hidden=false; sb.innerHTML='<div class="segin">'+g.p.map(function(p){ return '<a href="#'+p+'" class="seg'+(p===page?' on':'')+'"'+(p===page?' aria-current="page"':'')+'>'+segLbl(g,p)+nbHtml(nbOf(p))+'</a>'; }).join('')+'</div>'; var on=sb.querySelector('.seg.on'); if(on&&on.scrollIntoView){ try{ var si=sb.firstChild; si.scrollLeft=on.offsetLeft-(si.clientWidth-on.offsetWidth)/2; }catch(e){} } } }
+  }
+  function grpBadges(){ var gn=$('gnav'); if(gn){ gn.querySelectorAll('[data-g] .nb').forEach(function(b){b.remove();}); GROUPS.forEach(function(g){ var x=grpBadge(g), a=gn.querySelector('[data-g="'+g.id+'"]'); if(x&&a)a.insertAdjacentHTML('beforeend',nbHtml(x)); }); }
+    var sb=$('segbar'); if(sb&&!sb.hidden){ grpSync(curPage()); } }
+
   function curPage(){ var h=(location.hash||'#start').slice(1); return TB_LBL[h]?h:'start'; }
   function toTop(){ try{window.scrollTo({top:0,behavior:'smooth'});}catch(e){window.scrollTo(0,0);} }
   function shellInit(){
@@ -5576,28 +5888,25 @@ body{margin:0;background:var(--bg)}
     bar.addEventListener('click',function(ev){ if(ev.target.closest('button,.accpop,input,label,a'))return; toTop(); });
     var st=$('stand'); function cp(){ var x=$('ibstand'); if(x&&st)x.textContent=st.textContent; } if(st){ new MutationObserver(cp).observe(st,{childList:true,characterData:true,subtree:true}); cp(); }
     var tb=document.createElement('nav'); tb.className='tabbar'; tb.id='tabbar'; tb.setAttribute('aria-label','Bereiche');
-    tb.innerHTML='<span class="tbpill" aria-hidden="true"></span>'+TB_MAIN.map(function(p){return '<a href="#'+p+'" data-p="'+p+'"><span class="tbi">'+ico(TB_ICO[p])+'</span><span class="tbl">'+TB_LBL[p]+'</span></a>';}).join('')+'<button type="button" data-p="more" aria-haspopup="dialog"><span class="tbi">'+ico('more')+'</span><span class="tbl">Mehr</span></button>';
+    tb.innerHTML='<span class="tbpill" aria-hidden="true"></span>'+GROUPS.map(function(g){return '<a href="#'+g.p[0]+'" data-g="'+g.id+'"><span class="tbi">'+ico(g.ic)+'</span><span class="tbl">'+g.l+'</span></a>';}).join('');
     document.body.appendChild(tb);
-    tb.addEventListener('click',function(ev){ var a=ev.target.closest('[data-p]'); if(!a)return; var p=a.getAttribute('data-p');
-      if(p==='more'){ ev.preventDefault(); moreOpen(); return; }
-      if(curPage()===p){ ev.preventDefault(); toTop(); } });
+    tb.addEventListener('click',function(ev){ var a=ev.target.closest('[data-g]'); if(!a)return; var g=GROUPS.filter(function(x){return x.id===a.getAttribute('data-g');})[0];
+      if(grpOf(curPage())===g&&curPage()===grpLast(g)){ ev.preventDefault(); toTop(); } });
+    try{ grpInit(); }catch(e){}
     var sp=-1; function spU(){ if(document.documentElement.classList.contains('sheetlock'))return; var y=window.scrollY||window.pageYOffset||0, v=Math.max(0,Math.min(1,(y-6)/46)); if(v===sp)return; sp=v; var r=document.documentElement; r.style.setProperty('--sp',v.toFixed(3)); r.classList.toggle('scrolled',v>.6); }
     window.addEventListener('scroll',spU,{passive:true}); window.addEventListener('resize',function(){spU(); tbPill();}); spU();
   }
   function tbPill(){ var tb=$('tabbar'); if(!tb||!tb.offsetWidth)return; var on=tb.querySelector('[aria-current="page"]'), pl=tb.querySelector('.tbpill'); if(!on||!pl)return;
     pl.style.width=on.offsetWidth+'px'; pl.style.transform='translateX('+on.offsetLeft+'px)'; if(!tb.__pi){ tb.__pi=1; requestAnimationFrame(function(){requestAnimationFrame(function(){pl.classList.add('anim');});}); } }
-  function tbSync(page){ var tb=$('tabbar'); if(!tb)return; var inMain=TB_MAIN.indexOf(page)>-1;
-    tb.querySelectorAll('[data-p]').forEach(function(a){ var p=a.getAttribute('data-p'), on=p==='more'?!inMain:p===page; a.setAttribute('aria-current',on?'page':'false'); });
-    var mb=tb.querySelector('[data-p="more"] .tbl'); if(mb)mb.textContent=inMain?'Mehr':TB_LBL[page];
-    var mi=tb.querySelector('[data-p="more"] .tbi'); if(mi)mi.innerHTML=ico(inMain?'more':NAV_ICO[page]);
+  function tbSync(page){ try{ grpSync(page); }catch(e){} var tb=$('tabbar'); if(!tb)return; var g=grpOf(page);
+    tb.querySelectorAll('[data-g]').forEach(function(a){ var gg=GROUPS.filter(function(x){return x.id===a.getAttribute('data-g');})[0]; a.setAttribute('href','#'+grpLast(gg)); a.setAttribute('aria-current',gg===g?'page':'false'); });
     tbPill(); tbBadges(); }
   function nbOf(p){ var a=$('nav-'+p), b=a&&a.querySelector('.nb'); return b?{n:b.classList.contains('need')?(+b.textContent||1):0,c:b.classList.contains('chk')}:null; }
   function nbHtml(x){ return !x?'':x.n?'<span class="nb need">'+x.n+'</span>':'<span class="nb chk"></span>'; }
   function tbBadges(){ var tb=$('tabbar'); if(!tb)return; tb.querySelectorAll('.nb').forEach(function(b){b.remove();});
-    TB_MAIN.forEach(function(p){ var x=nbOf(p), a=tb.querySelector('[data-p="'+p+'"] .tbi'); if(x&&a)a.insertAdjacentHTML('beforeend',nbHtml(x)); });
-    try{ var sa=tb.querySelector('[data-p="start"] .tbi'); if(sa&&!sa.querySelector('.nb')&&!quizDone()&&$('heute')&&!$('heute').hidden)sa.insertAdjacentHTML('beforeend','<span class="nb new" aria-label="Neues Quiz"></span>'); }catch(e){}
-    var n=0,c=false; navOrder().forEach(function(p){ if(TB_MAIN.indexOf(p)>-1)return; var x=nbOf(p); if(x){ n+=x.n; c=c||x.c; } });
-    var m=tb.querySelector('[data-p="more"] .tbi'); if(m&&(n||c))m.insertAdjacentHTML('beforeend',nbHtml({n:n,c:c})); }
+    GROUPS.forEach(function(g){ var x=grpBadge(g), a=tb.querySelector('[data-g="'+g.id+'"] .tbi'); if(x&&a)a.insertAdjacentHTML('beforeend',nbHtml(x)); });
+    try{ var sa=tb.querySelector('[data-g="start"] .tbi'); if(sa&&!sa.querySelector('.nb')&&!quizDone()&&$('heute')&&!$('heute').hidden)sa.insertAdjacentHTML('beforeend','<span class="nb new" aria-label="Neues Quiz"></span>'); }catch(e){}
+    try{ grpBadges(); }catch(e){} }
   /* --- Sheets: Hintergrund fixieren & nach unten wischen --- */
   function isSheetMode(){ return !(window.matchMedia&&matchMedia('(min-width:1100px)').matches); }
   var SL={on:false,y:0};
