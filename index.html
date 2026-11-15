@@ -5374,7 +5374,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='3.3.7', APP_DATE='15.11.2026';
+  var APP_VERSION='3.3.8', APP_DATE='15.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
@@ -6237,7 +6237,7 @@ body{margin:0;background:var(--bg)}
     kleidung:['Kleidung & Schuhe','👕','#FF375F'],shopping:['Online & Shopping','📦','#D4A373'],technik:['Technik & Elektronik','💻','#8E8E93'],
     freizeit:['Freizeit & Events','🎟️','#FF9F0A'],hobby:['Hobbys & Games','🎮','#7D7AFF'],reise:['Urlaub & Reisen','✈️','#40C8E0'],
     geschenk:['Geschenke & Spenden','🎁','#FFB340'],bildung:['Bildung & Bücher','📚','#9F7AEA'],arbeit:['Beruf & Büro','💼','#6E7B8B'],
-    finanzen:['Bank, Gebühren & Steuern','🏦','#98989D'],amt:['Ämter & Behörden','🏛️','#7C8B9A'],post:['Post & Versand','📮','#E07A5F'],bar:['Bargeld abgehoben','💶','#2E9E6A'],sonst:['Sonstiges','🧾','#AEAEB2']};
+    finanzen:['Bank, Gebühren & Steuern','🏦','#98989D'],amt:['Ämter & Behörden','🏛️','#7C8B9A'],post:['Post & Versand','📮','#E07A5F'],reparatur:['Reparaturen & Ersatzteile','🛠️','#8D6E63'],bar:['Bargeld abgehoben','💶','#2E9E6A'],sonst:['Sonstiges','🧾','#AEAEB2']};
   var XE=[
    ['🛒','lebensmittel','rewe edeka aldi lidl netto penny kaufland supermarkt einkauf wocheneinkauf lebensmittel real tegut globus norma nahkauf'],['🥩','lebensmittel','metzger fleisch wurst'],['🍎','lebensmittel','obst wochenmarkt hofladen'],['🥦','lebensmittel','gemüse'],['🥛','lebensmittel','milch joghurt'],['🧀','lebensmittel','käse'],['🥚','lebensmittel','eier'],['💧','lebensmittel','wasser getränkemarkt pfand sprudel kiste'],['🍷','lebensmittel','wein'],['🫒','lebensmittel','feinkost öl'],['🌾','lebensmittel','bio biomarkt alnatura denns'],['🍞','lebensmittel','brot toast'],['🧈','lebensmittel','butter'],['🥫','lebensmittel','konserven nudeln reis vorrat'],['🧂','lebensmittel','gewürze'],['🐟','lebensmittel','fisch'],['❄️','lebensmittel','tiefkühl tk'],
    ['🧴','drogerie','drogerie dm rossmann müller budni'],['🧻','drogerie','klopapier toilettenpapier küchenrolle taschentücher'],['🧽','drogerie','putzmittel spülmittel reinigung haushalt'],['🧺','drogerie','waschmittel wäsche wäscherei'],['🪥','drogerie','zahnbürste zahnpasta'],['🔋','drogerie','batterien'],['🪣','drogerie','tüten müllbeutel eimer'],['🕯️','drogerie','kerzen'],['💡','drogerie','glühbirne leuchtmittel'],
@@ -6248,7 +6248,7 @@ body{margin:0;background:var(--bg)}
    ['🛵','liefer','lieferando wolt uber eats lieferdienst bestellt lieferung'],['🥡','liefer','abholung takeaway mitnehmen'],['🍕','liefer','pizza'],
    ['🍸','ausgehen','cocktail drinks club disco'],['🍺','ausgehen','bier kneipe bar brauhaus kölsch'],['🥂','ausgehen','sekt feiern prosecco'],['🎤','ausgehen','karaoke'],['🍹','ausgehen','longdrink aperol'],['🥃','ausgehen','whisky shot'],
    ['⛽','tanken','tanken tankstelle aral shell esso jet total benzin diesel sprit'],['🔌','tanken','ladestation e-auto wallbox laden strom auto'],
-   ['🚗','auto','auto kfz'],['🔧','auto','werkstatt reparatur inspektion tüv ölwechsel'],['🛞','auto','reifen reifenwechsel felgen'],['🧼','auto','waschanlage autowäsche'],['🛣️','auto','maut vignette'],['🪪','auto','führerschein zulassung'],['🧯','auto','autozubehör scheibenwischer'],['🏍️','auto','motorrad'],
+   ['🚗','auto','auto kfz'],['🔧','auto','werkstatt autowerkstatt autoreparatur kfzreparatur inspektion tüv ölwechsel'],['🛠️','reparatur','reparatur reparaturen reparieren repariert defekt kaputt handyreparatur displayreparatur fahrradreparatur uhrmacher'],['🔩','reparatur','ersatzteil ersatzteile kleinteile'],['🪡','reparatur','änderungsschneiderei schneiderei näherei flicken kürzen'],['👞','reparatur','schuster schuhreparatur schuhmacher'],['🛞','auto','reifen reifenwechsel felgen'],['🧼','auto','waschanlage autowäsche'],['🛣️','auto','maut vignette'],['🪪','auto','führerschein zulassung'],['🧯','auto','autozubehör scheibenwischer'],['🏍️','auto','motorrad'],
    ['🚆','oepnv','bahn db zug ice-ticket deutschlandticket'],['🚇','oepnv','öpnv kvb vrs bvg mvg straßenbahn ubahn s-bahn ticket fahrkarte'],['🚌','oepnv','bus fernbus flixbus'],['⛴️','oepnv','fähre'],
    ['🚕','taxi','taxi uber freenow bolt'],['🛴','taxi','scooter roller lime voi'],['🚲','taxi','leihrad nextbike'],['🅿️','taxi','parken parkhaus parkticket parkuhr'],['🚘','taxi','carsharing share now miles mietwagen'],
    ['🏠','wohnen','miete wohnung hausgeld nebenkosten kaltmiete'],['🔑','wohnen','schlüssel schlüsseldienst'],['🗑️','wohnen','müll abfall'],['🧰','wohnen','handwerker hausmeister'],['🏡','wohnen','haus kredit darlehen rate'],['🧹','wohnen','putzfrau reinigungskraft'],
