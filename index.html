@@ -5371,7 +5371,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='3.3.3', APP_DATE='15.11.2026';
+  var APP_VERSION='3.3.4', APP_DATE='15.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
@@ -5721,11 +5721,22 @@ body{margin:0;background:var(--bg)}
   function gapi(path,opt){opt=opt||{}; opt.headers=Object.assign({'Authorization':'Bearer '+SYNC.token,'Accept':'application/vnd.github+json'},opt.headers||{}); return fetch('https://api.github.com'+path,opt);}
   function stampAll(){ for(var p in docs){ if(!meta[p])meta[p]=EPOCH; } }
   function syncState(){ stampAll(); return {v:1,docs:docs,meta:meta}; }
+  /* Einmalige Zusammenführung von Ausgaben/Einnahmen beider Geräte (wurden vor 3.3.4 nicht abgeglichen) */
+  var XU=/^(ausgaben|zufluss)\//, XFIRST=false; try{ XFIRST=!localStorage.getItem('vb-xsync1'); }catch(e){}
+  function isO(v){ return v&&typeof v==='object'&&!Array.isArray(v); }
+  function aKey(v){ return (v&&typeof v==='object'&&v.id!=null)?'id:'+v.id:'j:'+JSON.stringify(v); }
+  function deepUnion(a,b,preferB,k){
+    if(Array.isArray(a)&&Array.isArray(b)){ var out=[], ix={}; (preferB?b.concat(a):a.concat(b)).forEach(function(v){ var kk=aKey(v); if(ix[kk])return; ix[kk]=1; out.push(v); }); return out; }
+    if(isO(a)&&isO(b)){ var o={}; Object.keys(a).concat(Object.keys(b)).forEach(function(x){ if(x in o)return; o[x]=(x in a)&&(x in b)?deepUnion(a[x],b[x],preferB,x):((x in a)?a[x]:b[x]); }); return o; }
+    if(k==='start'&&typeof a==='string'&&typeof b==='string')return a<b?a:b;
+    return preferB?b:a;
+  }
   function mergeRemote(rem){
     var rd=(rem&&rem.docs)||{}, rm=(rem&&rem.meta)||{}, ch=false, seen={};
     Object.keys(rm).concat(Object.keys(rd)).forEach(function(p){
       if(seen[p]||!okPath(p))return; seen[p]=1;
       var lt=meta[p]||(docs[p]!==undefined?EPOCH:''), rt=rm[p]||(rd[p]!==undefined?EPOCH:'');
+      if(XFIRST&&XU.test(p)&&isO(docs[p])&&isO(rd[p])){ var u=deepUnion(docs[p],rd[p],rt>lt); if(JSON.stringify(u)!==JSON.stringify(docs[p])||JSON.stringify(u)!==JSON.stringify(rd[p])){ docs[p]=u; meta[p]=new Date().toISOString(); ch=true; } return; }
       if(rt>lt){ if(rd[p]!==undefined&&rd[p]!==null&&typeof rd[p]==='object')docs[p]=rd[p]; else delete docs[p]; meta[p]=rt; ch=true; }
       else if(docs[p]===undefined&&rd[p]!==undefined&&rd[p]!==null&&typeof rd[p]==='object'&&rt>=lt){ docs[p]=rd[p]; meta[p]=rt; ch=true; }
     });
@@ -5789,7 +5800,7 @@ body{margin:0;background:var(--bg)}
         var pr=await gapi('/gists/'+SYNC.gist,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({files:files})});
         if(!pr.ok)throw {st:pr.status};
       }
-      try{localStorage.removeItem('vb-pending');}catch(e){}
+      try{localStorage.removeItem('vb-pending'); if(XFIRST){ localStorage.setItem('vb-xsync1','1'); XFIRST=false; }}catch(e){}
       var t=new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
       setSync((EK?'🔒 ':'')+'Cloud abgeglichen · '+t,'ok'); say('syncmsg','Abgeglichen um '+t+'.'+(EK?' Verschlüsselt.':''),'ok'); encUi();
       if(ch){ try{renderAll(); if(!dirty)fillForm();}catch(e2){} }
@@ -6000,7 +6011,7 @@ body{margin:0;background:var(--bg)}
     });
     document.addEventListener('click',function(ev){ var b=ev.target.closest('.pngbtn'); if(b)exportPng(b.getAttribute('data-png')); });
   }
-  function okPath(p){return p==='rebal/main'||/^months\/\d{4}-\d{2}$/.test(p)||/^checks\/\d{4}-\d{2}$/.test(p)||p==='legacy/totals'||p==='settings/main'||p==='rendite/main'||p==='fixkosten/main'||/^ertraege\/\d{4}$/.test(p)||/^gehalt\/\d{4}$/.test(p)||/^freistellung\/\d{4}$/.test(p)||p==='kaufziele/main';}
+  function okPath(p){return p==='rebal/main'||/^months\/\d{4}-\d{2}$/.test(p)||/^checks\/\d{4}-\d{2}$/.test(p)||p==='legacy/totals'||p==='settings/main'||p==='rendite/main'||p==='fixkosten/main'||/^ertraege\/\d{4}$/.test(p)||/^gehalt\/\d{4}$/.test(p)||/^freistellung\/\d{4}$/.test(p)||p==='kaufziele/main'||/^(ausgaben|zufluss)\/(\d{4}-\d{2}|meta)$/.test(p);}
   async function importJson(file){
     try{
       var obj=JSON.parse(await file.text()); var src=obj&&obj.docs; if(!src||typeof src!=='object')throw new Error('format');
