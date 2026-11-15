@@ -2681,6 +2681,7 @@ body{margin:0;background:var(--bg)}
           </div>
           <p class="msg" id="encmsg" role="status"></p>
           <div class="btns"><button type="button" class="btn" id="sync-now">Jetzt abgleichen</button><button type="button" class="btn" id="sync-off">Trennen</button></div>
+          <div class="btns"><button type="button" class="btn" id="sync-rescue">Daten aus Cloud-Verlauf wiederherstellen</button></div>
         </div>
         <div class="btns"><button type="button" class="btn" id="sync-wipe">Abmelden &amp; Daten hier löschen</button></div>
         <p class="tasub">Für fremde Computer: gleicht ein letztes Mal ab und entfernt danach Token, Daten und PIN aus diesem Browser. In der Cloud bleibt alles erhalten.</p>
@@ -3205,7 +3206,7 @@ body{margin:0;background:var(--bg)}
   var MON=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
   var MONFULL=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
   var DEFAULT_GOAL=1000000, DEFAULT_NG=26000;
-  var docs={}; var db=null; var range='all'; var pyOn=false; try{pyOn=localStorage.getItem('vb-py')==='1';}catch(e){} var dirty=false; var loadTimer=null;
+  var docs={}, DATA_READY=false; var db=null; var range='all'; var pyOn=false; try{pyOn=localStorage.getItem('vb-py')==='1';}catch(e){} var dirty=false; var loadTimer=null;
   function $(id){return document.getElementById(id);}
   var nf0=new Intl.NumberFormat('de-DE',{maximumFractionDigits:0});
   var nf2=new Intl.NumberFormat('de-DE',{minimumFractionDigits:0,maximumFractionDigits:2});
@@ -5346,7 +5347,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='3.3.0', APP_DATE='15.11.2026';
+  var APP_VERSION='3.3.1', APP_DATE='15.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
@@ -5603,10 +5604,12 @@ body{margin:0;background:var(--bg)}
   /* Speichern */
   var meta={}; try{meta=JSON.parse(localStorage.getItem('vb-meta')||'{}')||{};}catch(e){meta={};}
   function persistLocal(){
+    if(!DATA_READY)return;
     try{localStorage.setItem('vb-docs',JSON.stringify(docs));localStorage.setItem('vb-meta',JSON.stringify(meta));}
     catch(e){throw new Error('local');}
   }
   async function write(path,data){
+    if(!DATA_READY)throw new Error('notready');
     var old=docs[path], oldM=meta[path]; docs[path]=data; meta[path]=new Date().toISOString();
     try{persistLocal();}catch(e){ if(old===undefined)delete docs[path]; else docs[path]=old; if(oldM===undefined)delete meta[path]; else meta[path]=oldM; throw e; }
     syncSoon();
@@ -5700,13 +5703,30 @@ body{margin:0;background:var(--bg)}
       if(seen[p]||!okPath(p))return; seen[p]=1;
       var lt=meta[p]||(docs[p]!==undefined?EPOCH:''), rt=rm[p]||(rd[p]!==undefined?EPOCH:'');
       if(rt>lt){ if(rd[p]!==undefined&&rd[p]!==null&&typeof rd[p]==='object')docs[p]=rd[p]; else delete docs[p]; meta[p]=rt; ch=true; }
+      else if(docs[p]===undefined&&rd[p]!==undefined&&rd[p]!==null&&typeof rd[p]==='object'&&rt>=lt){ docs[p]=rd[p]; meta[p]=rt; ch=true; }
     });
     return ch;
   }
   function needPush(rem){
     var rm=(rem&&rem.meta)||{}; stampAll();
-    return Object.keys(meta).some(function(p){return okPath(p)&&meta[p]>(rm[p]||'');});
+    var rd=(rem&&rem.docs)||{};
+    return Object.keys(meta).some(function(p){return okPath(p)&&(meta[p]>(rm[p]||'')||(docs[p]!==undefined&&rd[p]===undefined&&meta[p]>=(rm[p]||'')));});
   }
+  /* Datenrettung: fehlende Einträge aus älteren Gist-Versionen zurückholen */
+  var RESC=false;
+  function lostCount(){ return Object.keys(meta).filter(function(p){ return okPath(p)&&docs[p]===undefined; }).length; }
+  async function rescueFromHistory(){
+    var r=await gapi('/gists/'+SYNC.gist+'/commits?per_page=60'); if(!r.ok)throw {st:r.status}; var list=await r.json(), have=Object.keys(docs).length, best=null;
+    for(var i=0;i<list.length&&i<60;i++){ try{ var g=await (await gapi('/gists/'+SYNC.gist+'/'+list[i].version)).json(), f=g.files&&g.files[GFILE]; if(!f)continue;
+        var txt=f.truncated?await (await fetch(f.raw_url)).text():(f.content||''), rem={}; try{rem=JSON.parse(txt);}catch(e){continue;}
+        if(rem&&rem.enc){ if(!EK||EK.salt!==rem.salt)continue; try{ rem=await decState(rem); }catch(e){ continue; } }
+        var n=Object.keys((rem&&rem.docs)||{}).length; if(n>have+5){ best=rem; break; } }catch(e){} }
+    if(!best)return 0; var now=new Date().toISOString(), cnt=0;
+    Object.keys(best.docs).forEach(function(p){ if(!okPath(p))return; if(docs[p]===undefined){ docs[p]=best.docs[p]; meta[p]=now; cnt++; } });
+    if(cnt){ persistLocal(); try{ toast('✓ '+cnt+' Einträge aus der Cloud wiederhergestellt'); }catch(e){} }
+    return cnt; }
+  async function syncRescueManual(){ if(!SYNC.gist){ say('syncmsg','Erst mit der Cloud verbinden.','bad'); return; } say('syncmsg','Suche ältere Stände in der Cloud …');
+    try{ var n=await rescueFromHistory(); if(n>0){ say('syncmsg',n+' Einträge wiederhergestellt.','ok'); renderAll(); try{ if(!dirty)fillForm(); }catch(e){} await syncNow(); } else say('syncmsg','Kein vollständigerer Stand im Verlauf gefunden.','bad'); }catch(e){ say('syncmsg',syncErr(e),'bad'); } }
   function syncUi(){
     var on=!!SYNC.gist; $('syncoff').hidden=on; $('syncon').hidden=!on; try{encUi();}catch(e){}
     setT('syncnote',on?'Dein Stand wird automatisch in einem privaten Speicher bei GitHub abgelegt und auf allen verbundenen Geräten abgeglichen.':'Verbinde die App einmal mit einem privaten GitHub-Speicher. Danach speichert sie automatisch und iPhone und iPad zeigen denselben Stand.');
@@ -5736,7 +5756,9 @@ body{margin:0;background:var(--bg)}
         try{ rem=await decState(rem); }catch(e){ encNeed=true; EK=null; try{localStorage.removeItem('vb-ekey');}catch(_){} encUi(); throw {enc:'bad'}; }
       }
       encNeed=false;
-      var ch=mergeRemote(rem), push=needPush(rem)||(!!EK&&!wasEnc&&!!txt);
+      var ch=mergeRemote(rem);
+      if(lostCount()>8&&!RESC){ RESC=true; try{ var nr=await rescueFromHistory(); if(nr>0)ch=true; }catch(e){} }
+      var push=needPush(rem)||(!!EK&&!wasEnc&&!!txt);
       if(ch||push)persistLocal();
       if(push){
         var files={}; files[GFILE]={content:await payload()};
@@ -5979,7 +6001,7 @@ body{margin:0;background:var(--bg)}
     setTimeout(function(){try{renderTips();}catch(e){} try{renderTodo(); renderPageTodo((location.hash||'#start').slice(1));}catch(e){} balanceSoon();},0);
     var S=series(); renderHero(S); mainChart.draw(); renderSplit(S); renderEin(S); renderRows(S); renderChecks(); renderNg(); renderAusblick(); renderRendite(); renderFk(); renderEr(); renderGh(); renderFs(); renderKz(); renderDash(); try{renderScore();}catch(e){} try{renderXRem();}catch(e){} try{renderZRem();}catch(e){} try{ if(!$('page-ausgaben').hidden)renderX(); }catch(e){} try{ if(!$('page-zufluss').hidden)renderZ(); }catch(e){} try{ renderGhMon(); }catch(e){} try{renderHeute();}catch(e){} try{renderMini();}catch(e){} try{renderRdChk();}catch(e){} try{renderSky();}catch(e){} renderTa(S); try{renderRb();}catch(e){}
   }
-  function gotData(){
+  function gotData(){ DATA_READY=true;
     clearTimeout(loadTimer); setSync('Gespeichert in der App','ok'); renderAll(); if(!dirty)fillForm();
   }
   function onErr(){ setSync('Verbindung unterbrochen','bad'); }
@@ -6573,7 +6595,7 @@ body{margin:0;background:var(--bg)}
   function zOpenWeeks(){ var m=zMeta(); if(!m.start)return []; var R=[], mon=zMonday(new Date()); for(var k=1;k<=3;k++){ var w=new Date(mon); w.setDate(w.getDate()-7*k); var e=new Date(w); e.setDate(e.getDate()+6); if(xIso(e)<m.start)break; if(!(m.wk||{})[xIso(w)])R.unshift(xIso(w)); } return R; }
   function zWeekLbl(wIso){ var a=new Date(wIso+'T12:00:00'), e=new Date(a); e.setDate(e.getDate()+6); return a.getDate()+'.'+(a.getMonth()!==e.getMonth()?' '+MON[a.getMonth()]:'')+' – '+e.getDate()+'. '+MON[e.getMonth()]; }
   function zWeekItems(wIso){ var a=wIso, e=new Date(wIso+'T12:00:00'); e.setDate(e.getDate()+6); var eIso=xIso(e), L=[]; [a.slice(0,7),eIso.slice(0,7)].filter(function(v,i,arr){return arr.indexOf(v)===i;}).forEach(function(ym){ (zDoc(ym).items||[]).forEach(function(i){ if(i.d>=a&&i.d<=eIso)L.push(i); }); }); return L; }
-  async function zEnsureStart(){ var m=zMeta(); if(m.start||ZS.st)return; ZS.st=1; var m2=JSON.parse(JSON.stringify(m)); m2.start=xToday(); try{ await zMetaSave(m2); }catch(e){} }
+  async function zEnsureStart(){ if(!DATA_READY)return; var m=zMeta(); if(m.start||ZS.st)return; ZS.st=1; var m2=JSON.parse(JSON.stringify(m)); m2.start=xToday(); try{ await zMetaSave(m2); }catch(e){} }
   async function zConfirmWeek(w){ var m=JSON.parse(JSON.stringify(zMeta())); m.wk=m.wk||{}; m.wk[w]=true; await zMetaSave(m); }
   async function zAdd(it){ var ym=it.d.slice(0,7), d=JSON.parse(JSON.stringify(zDoc(ym))); d.items.push(it); d.updated=new Date().toISOString(); await write('zufluss/'+ym,d); }
   async function zDel(id){ var ok=false; for(var k in docs){ if(/^zufluss\/\d{4}-\d{2}$/.test(k)){ var d=JSON.parse(JSON.stringify(docs[k])); var n=(d.items||[]).length; d.items=(d.items||[]).filter(function(i){return i.id!==id;}); if(d.items.length!==n){ await write(k,d); ok=true; } } } return ok; }
@@ -7241,7 +7263,7 @@ body{margin:0;background:var(--bg)}
     var c=null; try{c=window.claude&&window.claude.use?await window.claude.use('db'):null;}catch(e){c=null;}
     db=c;
     if(!db){
-      try{var raw=JSON.parse(localStorage.getItem('vb-docs')||'{}'); for(var k in raw)docs[k]=raw[k];}catch(e){}
+      try{var raw=JSON.parse(localStorage.getItem('vb-docs')||'{}'); for(var k in raw)docs[k]=raw[k];}catch(e){} DATA_READY=true;
       try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();}catch(e){}
       syncUi(); setSync(SYNC.gist?'Cloud verbunden':'Auf diesem Gerät gespeichert','ok'); renderAll(); fillForm();
       if(SYNC.gist)syncNow();
@@ -7308,6 +7330,7 @@ body{margin:0;background:var(--bg)}
   });
   $('sync-connect').addEventListener('click',function(){syncConnect($('sync-token').value);});
   $('sync-now').addEventListener('click',function(){syncNow();});
+  $('sync-rescue').addEventListener('click',function(){ syncRescueManual(); });
   $('sync-off').addEventListener('click',syncDisconnect);
   $('sync-wipe').addEventListener('click',syncWipe);
   $('enc-on').addEventListener('click',encEnable);
