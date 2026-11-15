@@ -2293,6 +2293,22 @@ p.eyebrow .exi{margin:0 0 0 6px;vertical-align:-1px}
 .xrform .btn{width:auto;height:44px;padding:0;display:grid;place-items:center}
 .xnote2 a{color:var(--up);font-weight:600;text-decoration:none}
 .xsug .btn{width:auto}
+
+/* Datumsfeld iOS: Text vertikal mittig, links bündig wie die anderen Felder */
+#page-ausgaben input[type=date],#xsheet input[type=date]{display:flex;align-items:center;line-height:normal;text-align:left;padding:0 14px}
+#page-ausgaben input[type=date]::-webkit-date-and-time-value,#xsheet input[type=date]::-webkit-date-and-time-value{text-align:left;margin:0;padding:0;line-height:42px;min-height:42px}
+#page-ausgaben input[type=date]::-webkit-datetime-edit,#xsheet input[type=date]::-webkit-datetime-edit{padding:0;line-height:42px}
+
+/* Ausgaben-Check (Folgetag) */
+.xrem.ask{background:linear-gradient(135deg,color-mix(in srgb,#E8B53A 16%,transparent),transparent 72%),var(--surface)!important;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,#E8B53A 40%,transparent)}
+.xrem.post{background:linear-gradient(135deg,color-mix(in srgb,var(--up) 12%,transparent),transparent 70%),var(--surface)!important}
+.xrs{margin:2px 0 10px;font-size:14px;color:var(--muted);line-height:1.45}
+.xrq.sm{font-size:13px;font-weight:600;color:var(--muted);margin:12px 0 6px}
+.xrbig{width:100%;min-height:48px;font-size:15.5px}
+.xrmore{font-size:12.5px;color:var(--muted);margin:10px 0 0}
+.xrl{list-style:none;margin:0 0 4px;padding:0}.xrl li{display:flex;justify-content:space-between;padding:6px 0;font-size:14.5px;border-bottom:1px solid color-mix(in srgb,var(--fg) 7%,transparent)}
+.xopen{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:10px 0 0;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,#E8B53A 12%,transparent);font-size:13.5px;font-weight:600}
+.xopen .btn{width:auto;padding:8px 14px}
 [hidden]{display:none!important}
 body{margin:0;background:var(--bg)}
 .encbox{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--up-bg);border:1px solid color-mix(in srgb,var(--up) 35%,transparent);margin:10px 0}.encbox .ib{font-size:18px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--surface)}.encbox b{display:block;color:var(--up)}.encbox small{font-size:12.5px;color:var(--muted)}
@@ -5131,7 +5147,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='2.9.0', APP_DATE='15.11.2026';
+  var APP_VERSION='2.9.2', APP_DATE='15.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
@@ -5989,11 +6005,14 @@ body{margin:0;background:var(--bg)}
   function xStreak(){ var n=0, d=new Date(); if(!xDayDone(xIso(d)))d.setDate(d.getDate()-1); while(n<400&&xDayDone(xIso(d))){ n++; d.setDate(d.getDate()-1); } return n; }
   function xIso(d){ return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate()); }
   function xStart(){ var m=xMeta(); if(m.start)return m.start; var A=xAll().map(function(i){return i.d;}).sort(); return A[0]||null; }
-  function xNeed(){ if(!xOn())return false; var st=xStart(); if(!st)return true; var now=new Date(), y=new Date(); y.setDate(y.getDate()-1); var yd=xIso(y);
-    return (!xDayDone(xToday())&&now.getHours()>=17)||(yd>=st&&!xDayDone(yd)); }
+  function xConf(day){ var d=xDoc(day.slice(0,7)); return !!(d.done&&d.done[day.slice(8)]); }
+  function xOpenDays(){ if(!xOn())return []; var st=xStart(); if(!st)return []; var R=[], d=new Date(); d.setDate(d.getDate()-1); for(var k=0;k<7;k++){ var iso=xIso(d); if(iso<st)break; if(!xConf(iso))R.unshift(iso); d.setDate(d.getDate()-1); } return R; }
+  function xNeed(){ return xOpenDays().length>0; }
+  function xDayLbl(day){ var t=xToday(), y=new Date(); y.setDate(y.getDate()-1); var dt=new Date(day+'T12:00:00'), s2=WD[dt.getDay()]+', '+dt.getDate()+'. '+MON[dt.getMonth()]; return day===t?'Heute':day===xIso(y)?'Gestern ('+s2+')':s2; }
+  async function xConfirm(day,silent){ var ym=day.slice(0,7), d=JSON.parse(JSON.stringify(xDoc(ym))); d.done=d.done||{}; d.done[day.slice(8)]=true; await xSaveDoc(ym,d); var m=JSON.parse(JSON.stringify(xMeta())); if(!m.start){ m.start=day; await xMetaSave(m); } }
   async function xSaveDoc(ym,d){ d.updated=new Date().toISOString(); await write('ausgaben/'+ym,d); }
   async function xMetaSave(m){ await write('ausgaben/meta',m); }
-  async function xAdd(it){ var ym=it.d.slice(0,7), d=JSON.parse(JSON.stringify(xDoc(ym))); d.items.push(it); await xSaveDoc(ym,d);
+  async function xAdd(it){ var ym=it.d.slice(0,7), d=JSON.parse(JSON.stringify(xDoc(ym))); d.items.push(it); if(it.d<xToday()){ d.done=d.done||{}; d.done[it.d.slice(8)]=true; } await xSaveDoc(ym,d);
     var m=JSON.parse(JSON.stringify(xMeta())); if(!m.start){ m.start=it.d; await xMetaSave(m); } }
   async function xLearn(t,e,c){ var k=xKey(t); if(!k)return; var m=JSON.parse(JSON.stringify(xMeta())); m.learn=m.learn||{}; m.learn[k]=[e,c]; await xMetaSave(m); }
   function xParse(v){ var n=num(String(v||'').replace(/€/g,'').trim()); return n>0?Math.round(n*100)/100:null; }
@@ -6009,7 +6028,7 @@ body{margin:0;background:var(--bg)}
       '<div class="xmon"><button type="button" class="xnav" data-xm="-1" aria-label="Vormonat">‹</button><b>'+MONFULL[+ym.slice(5)-1]+' '+ym.slice(0,4)+'</b><button type="button" class="xnav" data-xm="1" aria-label="Nächster Monat"'+(isCur?' disabled':'')+'>›</button></div>'+
       '<p class="xbig dscm">'+eur2(st.tot)+'</p><p class="xsub">'+st.it.length+' Ausgabe'+(st.it.length===1?'':'n')+' · an '+st.days+' von '+span+' Tagen erfasst'+(st.fix>0?' · davon '+eur(st.fix)+' Fixkosten':'')+'</p>'+
       (proj!=null?'<div class="xproj"><div><span>Hochgerechnet</span><b class="dscm">'+eur(proj)+'</b><em>auf den ganzen Monat</em></div>'+(lc?'<div><span>Deine Annahme</span><b class="dscm">'+eur(lc.v)+'</b><em>'+(lc.src==='eigen'?'unter Ziele → Freiheit':'Summe Fixkosten')+'</em></div>':'')+'</div>'+(st.days<span*0.7?'<p class="xhint">Hochrechnung wird genauer, wenn du jeden Tag einträgst (auch „nichts ausgegeben“).</p>':''):'<p class="xhint">'+(isCur?'Ab 7 Tagen rechnet die App deinen Monat hoch.':'')+'</p>')+
-      (isCur?'<div class="xtoday">'+(xDayDone(xToday())?'<span class="xok">✓ Heute erledigt</span>':'<button type="button" class="xlink" id="x-none">Heute nichts ausgegeben</button>')+'<button type="button" class="xlink xpause" id="x-pause">Tracker pausieren</button></div>':'');
+      (isCur&&xOpenDays().length?'<div class="xopen"><span>Offen: '+xOpenDays().map(xDayLbl).join(', ')+'</span><button type="button" class="btn primary" id="x-okday" data-day="'+xOpenDays()[0]+'">'+xDayLbl(xOpenDays()[0]).replace(/ \(.*\)/,'')+' abhaken</button></div>':'')+(isCur?'<div class="xtoday">'+(xConf(xToday())?'<span class="xok">✓ Heute abgeschlossen</span>':'<button type="button" class="xlink" id="x-none">Heute abschließen</button>')+'<button type="button" class="xlink xpause" id="x-pause">Tracker pausieren</button></div>':'');
     // Formular
     var dt=$('x-date'); if(dt&&!dt.value)dt.value=xToday(); xEmoSync();
     var A=xAll(), freq={}; A.forEach(function(i){ var k=xKey(i.t); if(!k)return; var f=freq[k]||(freq[k]={t:i.t,n:0,a:i.a,e:i.e,c:i.c,fix:i.fix}); f.n++; f.a=i.a; f.e=i.e; f.c=i.c; });
@@ -6027,7 +6046,7 @@ body{margin:0;background:var(--bg)}
     renderXIns(); }
   function xEmoSync(){ var t=$('x-txt'); if(!t)return; if(!XS.manual){ var g=xGuess(t.value); XS.emo=g.e; XS.cat=g.c; } $('x-emo').textContent=XS.emo||'🧾'; $('x-emo').title=(XC[XS.cat]||XC.sonst)[0]; }
   function renderXIns(){ var el=$('xins'); if(!el)return; var stt=xStart(), lc=lifeCost(), fk=fkMonthlyTotal();
-    if(!stt){ el.innerHTML='<h2>Was die App daraus lernt</h2><p class="note">Trag ab heute jede Ausgabe ein – Kartenzahlung, Abbuchung, Bargeld, auch Fixkosten. Nach etwa 4 Wochen gibt die App eine erste Einschätzung, ob deine angenommenen Ausgaben'+(lc?' von <b>'+eur(lc.v)+'</b>':'')+' passen. Nach einigen Monaten wird es verlässlich. Dein Vermögen bleibt davon unberührt – das trägst du weiter am 3. ein.</p>'; return; }
+    if(!stt){ el.innerHTML='<h2>Was die App daraus lernt</h2><p class="note">Trag ab heute jede Ausgabe ein – Kartenzahlung, Abbuchung, Bargeld, auch Fixkosten. Jeden Morgen fragt die Startseite, ob der Vortag komplett ist. Nach etwa 4 Wochen gibt die App eine erste Einschätzung, ob deine angenommenen Ausgaben'+(lc?' von <b>'+eur(lc.v)+'</b>':'')+' passen. Nach einigen Monaten wird es verlässlich. Dein Vermögen bleibt davon unberührt – das trägst du weiter am 3. ein.</p>'; return; }
     var d0=new Date(stt+'T12:00:00'), days=Math.max(1,Math.round((new Date()-d0)/864e5)+1), A=xAll(), tot=A.reduce(function(a,i){return a+(+i.a||0);},0), perM=tot/days*30.44;
     var h='<h2>Was die App daraus lernt</h2>';
     if(days<28){ h+='<div class="xprog"><i style="width:'+(days/28*100).toFixed(0)+'%"></i></div><p class="note">Tag <b>'+days+'</b> von 28 bis zur ersten Einschätzung. Bisher: '+eur(tot)+' in '+days+' Tagen'+(days>=7?' – das wären hochgerechnet etwa <b class="dscm">'+eur(perM)+'</b> im Monat':'')+'. Die App passt nichts selbst an.</p>'; }
@@ -6045,14 +6064,23 @@ body{margin:0;background:var(--bg)}
       h+='<div class="xfacts"><div><span>Größter Posten</span><b>'+(XC[tc]||XC.sonst)[1]+' '+(XC[tc]||XC.sonst)[0]+'</b><em class="dscm">'+eur(cs[tc])+' · '+pct(cs[tc]/tot*100)+'</em></div><div><span>Teuerster Wochentag</span><b>'+WD[wmax]+'</b><em class="dscm">'+eur(wd[wmax])+' gesamt</em></div><div><span>Kleinvieh unter 10 €</span><b class="dscm">'+eur(ss)+'</b><em>'+small.length+(small.length===1?' Einkauf':' Einkäufe')+'</em></div>'+(tm?'<div><span>Meiste Ausgaben bei</span><b>'+esc(tm.t)+'</b><em class="dscm">'+eur(tm.s)+'</em></div>':'')+'</div>'; }
     h+='<p class="tasub">Beta · Dein Vermögen und der Monatsstand am 3. bleiben davon unberührt. Die App schlägt nur vor – geändert wird erst, wenn du bestätigst.</p>';
     el.innerHTML=h; }
-  function renderXRem(){ var el=$('xrem'); if(!el)return; if(!xOn()){ el.hidden=true; return; } var t=xToday(), d=xDoc(t.slice(0,7)), L=(d.items||[]).filter(function(i){return i.d===t;}), done=xDayDone(t), sk=xStreak();
-    el.hidden=false; el.classList.toggle('done',done);
-    el.innerHTML='<div class="xrhd"><p class="eyebrow">🧾 Ausgaben heute <span class="xbeta">Beta</span></p>'+(sk>1?'<span class="htstreak">🔥 '+sk+'</span>':'')+'</div>'+
-      (done?'<p class="xrok">✓ '+(L.length?L.length+' Ausgabe'+(L.length===1?'':'n')+' eingetragen · <b class="dscm">'+eur2(L.reduce(function(a,i){return a+i.a;},0))+'</b>':'Heute nichts ausgegeben')+'</p>':'<p class="xrq">Schon etwas ausgegeben? Trag es kurz ein.</p>')+
-      '<div class="xrform"><input type="text" id="xr-amt" inputmode="decimal" placeholder="Betrag" autocomplete="off"><input type="text" id="xr-txt" placeholder="Wofür?" autocomplete="off" list="x-dl"><button type="button" class="btn primary" id="xr-save" aria-label="Eintragen">+</button></div>'+
-      '<div class="xrlinks">'+(done?'':'<button type="button" class="xlink" id="xr-none">Heute nichts ausgegeben</button>')+'<a class="xlink" href="#ausgaben">Alle Ausgaben →</a></div>'; }
-  async function xQuickAdd(amt,txt,msgEl){ var a=xParse(amt); if(!a){ toast('Bitte einen Betrag eingeben'); return false; } var g=xGuess(txt), it={id:'x'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),d:xToday(),a:a,t:String(txt||'').trim(),e:g.e,c:g.c,fix:xIsFix(txt)};
-    try{ await xAdd(it); toast(g.e+' '+eur2(a)+' eingetragen'); renderAll(); try{renderTodo();}catch(e){} try{tbBadges();}catch(e){} return true; }catch(e){ toast(failText()); return false; } }
+  function renderXRem(){ var el=$('xrem'); if(!el)return; if(!xOn()){ el.hidden=true; return; } el.hidden=false; var sk=xStreak(), O=xOpenDays(), sum=function(L){ return L.reduce(function(a,i){return a+(+i.a||0);},0); }, of=function(day){ return (xDoc(day.slice(0,7)).items||[]).filter(function(i){return i.d===day;}); };
+    var form=function(day){ return '<div class="xrform" data-day="'+day+'"><input type="text" id="xr-amt" inputmode="decimal" placeholder="Betrag" autocomplete="off"><input type="text" id="xr-txt" placeholder="Wofür?" autocomplete="off" list="x-dl"><button type="button" class="btn primary" id="xr-save" aria-label="Eintragen">+</button></div>'; };
+    var hd=function(t){ return '<div class="xrhd"><p class="eyebrow">🧾 '+t+' <span class="xbeta">Beta</span></p>'+(sk>1?'<span class="htstreak">🔥 '+sk+'</span>':'')+'</div>'; };
+    if(XS.post&&xConf(XS.post)&&O.indexOf(XS.post)<0){ var P=of(XS.post); el.className='card xrem post';
+      el.innerHTML=hd('Nachgetragen')+'<p class="xrok">✓ '+xDayLbl(XS.post)+' ist abgeschlossen</p><ul class="xrl">'+P.map(function(i){ return '<li><span>'+i.e+' '+esc(i.t||'')+'</span><b class="dscm">'+eur2(i.a)+'</b></li>'; }).join('')+'</ul><p class="xrq sm">Noch etwas vergessen?</p>'+form(XS.post)+'<div class="xrlinks"><button type="button" class="xlink" id="xr-fertig">Fertig</button><a class="xlink" href="#ausgaben">Alle Ausgaben →</a></div>'; return; }
+    try{ var fsc=$('fscore'), hu=$('heute'); if(fsc&&hu){ if(O.length){ if(el.nextElementSibling!==fsc)fsc.parentNode.insertBefore(el,fsc); } else if(el.nextElementSibling!==hu)hu.parentNode.insertBefore(el,hu); } }catch(e){}
+    if(O.length){ var day=O[0], L=of(day); el.className='card xrem ask';
+      el.innerHTML=hd('Ausgaben-Check')+'<p class="xrq">'+xDayLbl(day)+': '+(L.length?'Alles eingetragen?':'Hast du etwas ausgegeben?')+'</p>'+
+        (L.length?'<p class="xrs">Eingetragen: '+L.length+' Ausgabe'+(L.length===1?'':'n')+' · <b class="dscm">'+eur2(sum(L))+'</b> – '+L.slice(0,4).map(function(i){return i.e;}).join(' ')+(L.length>4?' …':'')+'</p>':'')+
+        '<button type="button" class="btn primary xrbig" id="xr-ok" data-day="'+day+'">'+(L.length?'✓ Ja, alles eingetragen':'✓ '+(xDayLbl(day).indexOf('Gestern')===0?'Gestern':'An dem Tag')+' nichts ausgegeben')+'</button>'+
+        '<p class="xrq sm">Oder noch nachtragen – dann ist der Tag automatisch abgehakt:</p>'+form(day)+
+        (O.length>1?'<p class="xrmore">Noch '+(O.length-1)+' weitere'+(O.length===2?'r Tag':' Tage')+' offen – danach kommen sie dran.</p>':''); return; }
+    var t=xToday(), L2=of(t); el.className='card xrem done';
+    el.innerHTML=hd('Ausgaben heute')+'<p class="xrs">'+(L2.length?'Heute: '+L2.length+' Ausgabe'+(L2.length===1?'':'n')+' · <b class="dscm">'+eur2(sum(L2))+'</b>':'Direkt nach dem Bezahlen kurz eintragen – morgen früh fragt die App nach, ob alles drin ist.')+'</p>'+form(t)+
+      '<div class="xrlinks">'+(xConf(t)?'<span class="xok">✓ Heute abgeschlossen</span>':'<button type="button" class="xlink" id="xr-today">Heute schon fertig</button>')+'<a class="xlink" href="#ausgaben">Alle Ausgaben →</a></div>'; }
+  async function xQuickAdd(amt,txt,day){ var a=xParse(amt); if(!a){ toast('Bitte einen Betrag eingeben'); return false; } var g=xGuess(txt), it={id:'x'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),d:day||xToday(),a:a,t:String(txt||'').trim(),e:g.e,c:g.c,fix:xIsFix(txt)};
+    try{ await xAdd(it); if(it.d<xToday())XS.post=it.d; toast(g.e+' '+eur2(a)+' eingetragen'+(it.d<xToday()?' · '+xDayLbl(it.d)+' abgehakt':'')); renderAll(); try{renderTodo();}catch(e){} try{tbBadges();}catch(e){} return true; }catch(e){ toast(failText()); return false; } }
   async function xMarkNone(){ var t=xToday(), ym=t.slice(0,7), d=JSON.parse(JSON.stringify(xDoc(ym))); d.done=d.done||{}; d.done[t.slice(8)]=true; try{ await xSaveDoc(ym,d); var m=JSON.parse(JSON.stringify(xMeta())); if(!m.start){ m.start=t; await xMetaSave(m); } toast('👍 Notiert – heute nichts ausgegeben'); renderAll(); try{renderTodo();}catch(e){} try{tbBadges();}catch(e){} }catch(e){ toast(failText()); } }
   function xPick(cb,cur){ if($('xsheet'))return; var bd=document.createElement('div'); bd.className='sheetbd'; bd.id='xsheet';
     var groups=Object.keys(XC).map(function(c){ var E=XE.filter(function(x){return x[1]===c;}); return '<div class="xpg" data-c="'+c+'"><p class="xpgh">'+XC[c][1]+' '+XC[c][0]+'</p><div class="xpgrid">'+E.map(function(x,i){ return '<button type="button" class="xpe'+(x[0]===cur?' on':'')+'" data-e="'+x[0]+'" data-c="'+c+'" data-k="'+esc(x[2])+' '+esc(XC[c][0].toLowerCase())+'">'+x[0]+'</button>'; }).join('')+'</div></div>'; }).join('');
@@ -6092,7 +6120,8 @@ body{margin:0;background:var(--bg)}
         if((b=ev.target.closest('[data-xm]'))){ var y=XS.ym, n=ymFromIdx(ymIdx(y)+(+b.getAttribute('data-xm'))); if(n<=xToday().slice(0,7)){ XS.ym=n; renderX(); } return; }
         if((b=ev.target.closest('[data-xid]'))){ xEdit(b.getAttribute('data-xid')); return; }
         if((b=ev.target.closest('[data-xq]'))){ var f=XS.top[+b.getAttribute('data-xq')]; $('x-txt').value=f.t; $('x-amt').value=(+f.a).toFixed(2).replace('.',','); XS.emo=f.e; XS.cat=f.c; XS.manual=false; $('x-fix').checked=!!f.fix; $('x-emo').textContent=f.e; $('x-amt').focus(); $('x-amt').select&&$('x-amt').select(); return; }
-        if(ev.target.closest('#x-none')){ xMarkNone(); return; }
+        if(ev.target.closest('#x-none')){ try{ await xConfirm(xToday()); toast('👍 Heute abgeschlossen'); renderAll(); }catch(e){ toast(failText()); } return; }
+        if((b=ev.target.closest('#x-okday'))){ try{ await xConfirm(b.getAttribute('data-day')); toast('👍 Abgehakt'); renderAll(); try{renderTodo();}catch(e){} try{tbBadges();}catch(e){} }catch(e){ toast(failText()); } return; }
         if(ev.target.closest('#x-csv')){ xCsv(); return; }
         if(ev.target.closest('#x-pause')){ var m=JSON.parse(JSON.stringify(xMeta())); m.off=true; try{ await xMetaSave(m); toast('Tracker pausiert – keine Erinnerungen mehr'); renderAll(); try{renderTodo();}catch(e){} try{tbBadges();}catch(e){} }catch(e){} return; }
         if(ev.target.closest('#x-resume')){ var m2=JSON.parse(JSON.stringify(xMeta())); delete m2.off; try{ await xMetaSave(m2); toast('Tracker läuft wieder'); renderAll(); }catch(e){} return; }
@@ -6100,7 +6129,10 @@ body{margin:0;background:var(--bg)}
         if(ev.target.closest('#x-cancel')){ XS.confirm=false; renderXIns(); return; }
         if((b=ev.target.closest('#x-apply'))){ var v=+b.getAttribute('data-v'), data=Object.assign({},docs['settings/main']||{}); data.lifeCost=v; try{ await write('settings/main',data); XS.confirm=false; toast('Ausgaben auf '+eur(v)+' geändert'); renderAll(); }catch(e){ toast(failText()); } return; }
       });
-      var xr=$('xrem'); if(xr)xr.addEventListener('click',async function(ev){ if(ev.target.closest('#xr-save')){ var ok=await xQuickAdd($('xr-amt').value,$('xr-txt').value); if(ok){ setTimeout(function(){ var a=$('xr-amt'); if(a)a.focus(); },50); } return; } if(ev.target.closest('#xr-none')){ xMarkNone(); return; } });
+      var xr=$('xrem'); if(xr)xr.addEventListener('click',async function(ev){ var b; if(ev.target.closest('#xr-save')){ var fm=ev.target.closest('.xrform'), ok=await xQuickAdd($('xr-amt').value,$('xr-txt').value,fm&&fm.getAttribute('data-day')); if(ok){ setTimeout(function(){ var a=$('xr-amt'); if(a)a.focus(); },50); } return; }
+        if((b=ev.target.closest('#xr-ok'))){ var dy=b.getAttribute('data-day'); try{ await xConfirm(dy); toast('👍 '+xDayLbl(dy)+' abgehakt'); renderAll(); try{renderTodo();}catch(e){} try{tbBadges();}catch(e){} }catch(e){ toast(failText()); } return; }
+        if(ev.target.closest('#xr-today')){ try{ await xConfirm(xToday()); toast('👍 Heute abgeschlossen – morgen keine Nachfrage'); renderAll(); }catch(e){ toast(failText()); } return; }
+        if(ev.target.closest('#xr-fertig')){ XS.post=null; renderXRem(); return; } });
       if(xr)xr.addEventListener('keydown',function(ev){ if(ev.key==='Enter'&&(ev.target.id==='xr-amt'||ev.target.id==='xr-txt')){ ev.preventDefault(); $('xr-save').click(); } });
     }; if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go); else setTimeout(go,0); })();
 
