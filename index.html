@@ -5347,7 +5347,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='3.3.1', APP_DATE='15.11.2026';
+  var APP_VERSION='3.3.2', APP_DATE='15.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
@@ -6357,7 +6357,7 @@ body{margin:0;background:var(--bg)}
   function xEdit(id){ var ym=null, it=null; xYmList().forEach(function(y){ (xDoc(y).items||[]).forEach(function(i){ if(i.id===id){ it=i; ym=y; } }); }); if(!it||$('xsheet'))return; var cur={e:it.e,c:xCat(it)};
     var bd=document.createElement('div'); bd.className='sheetbd'; bd.id='xsheet';
     bd.innerHTML='<div class="sheet" role="dialog" aria-modal="true" aria-label="Ausgabe bearbeiten"><i class="grab"></i><div class="shhd"><b>Ausgabe bearbeiten</b><button type="button" class="shdone">Abbrechen</button></div>'+
-      '<div class="xform xedit"><button type="button" class="xemo" id="xe-emo">'+it.e+'</button><label class="f xamt"><span>Betrag (bezahlt)</span><input type="text" id="xe-amt" inputmode="decimal" value="'+(it.p||it.a).toFixed(2).replace('.',',')+'"></label><div class="xsplit" id="xe-split"></div><label class="f xtxt"><span>Wofür?</span><input type="text" id="xe-txt" value="'+esc(it.t)+'"></label><label class="f xdate"><span>Datum</span><input id="xe-date" type="date" value="'+it.d+'"></label>'+
+      '<div class="xform xedit"><button type="button" class="xemo" id="xe-emo">'+it.e+'</button><label class="f xamt"><span>Betrag (bezahlt)</span><input type="text" id="xe-amt" inputmode="decimal" value="'+xFin(it.p||it.a)+'"></label><div class="xsplit" id="xe-split"></div><label class="f xtxt"><span>Wofür?</span><input type="text" id="xe-txt" value="'+esc(it.t)+'"></label><label class="f xdate"><span>Datum</span><input id="xe-date" type="date" value="'+it.d+'"></label>'+
       '<div class="xflags"><label class="xchk"><input type="checkbox" id="xe-fix"'+(it.fix?' checked':'')+'> Fixkosten</label><label class="xchk"><input type="checkbox" id="xe-cash"'+(it.cash?' checked':'')+'> Bar bezahlt</label></div>'+
       '<label class="f xcatf"><span>Kategorie</span>'+xCatSel('xe-csel',it.cm?it.c:'',xCL(XEM[it.e]||it.c)[1]+' '+xCL(XEM[it.e]||it.c)[0])+'</label><button type="button" class="btn primary" id="xe-save">Speichern</button><button type="button" class="xlink danger" id="xe-del">Ausgabe löschen</button></div></div>';
     document.body.appendChild(bd); void bd.offsetWidth; bd.classList.add('in'); sheetsCheck(); var sh=bd.querySelector('.sheet');
@@ -6416,6 +6416,8 @@ body{margin:0;background:var(--bg)}
     h.ck=cycleYm(); h.ckd=now; m.hh=h; try{ await xMetaSave(m); toast(okOnly?'👍 Haushaltsplan geprüft':'Dein Anteil: '+nf1.format(v).replace(/,0$/,'')+' %'); renderAll(); try{renderTodo();}catch(e){} try{tbBadges();}catch(e){} try{renderChecks();}catch(e){} }catch(e){ toast(failText()); } }
 
   /* --- Ansicht: Monat / Jahr, Kalender, Zusammenfassungen --- */
+  function xFin(v){ return new Intl.NumberFormat('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2}).format(+v)+' €'; }
+  document.addEventListener('blur',function(ev){ var t=ev.target; if(!t||t.tagName!=='INPUT')return; if(!/^(x-amt|xe-amt|xr-amt|zr-amt|ze-amt|ze-brut)$/.test(t.id))return; var v=xParse(t.value); if(v)t.value=xFin(v); },true);
   function xShort(v){ return v>=1000?nf1.format(v/1000).replace(/,0$/,'')+'k':nf0.format(Math.round(v)); }
   function xItemsOf(day){ return (xDoc(day.slice(0,7)).items||[]).filter(function(i){return i.d===day;}); }
   function xTopEmo(L,n){ var m={}; L.forEach(function(i){ m[i.e]=(m[i.e]||0)+(+i.a||0); }); return Object.keys(m).sort(function(a,b){return m[b]-m[a];}).slice(0,n); }
@@ -6438,7 +6440,7 @@ body{margin:0;background:var(--bg)}
       '<div class="xstack">'+seg+'</div><div class="xstleg">'+cl.slice(0,6).map(function(c){ return '<span><i style="background:'+xCL(c)[2]+'"></i>'+xCL(c)[1]+' '+esc(xCL(c)[0])+' <b class="dscm">'+pct(cs[c]/st.tot*100)+'</b></span>'; }).join('')+'</div>'+
       '<div class="xkpis"><div><span>Gesamt</span><b class="dscm">'+eur(st.tot)+'</b><em>'+it.length+' Ausgaben</em></div><div><span>Ø pro Tag</span><b class="dscm">'+eur(st.tot/days)+'</b><em>an '+days+' Tagen erfasst</em></div>'+
       '<div><span>Fix / variabel</span><b class="dscm">'+eur(st.fix)+' / '+eur(varv)+'</b><em>'+(st.tot?pct(st.fix/st.tot*100)+' Fixkosten':'')+'</em></div><div><span>Größte Ausgabe</span><b>'+big.e+' <span class="dscm">'+eur(big.a)+'</span></b><em>'+esc(big.t||xCL(xCat(big))[0])+'</em></div>'+
-      (shared>0?'<div><span>Geteilt gespart</span><b class="dscm">'+eur(shared)+'</b><em>haben andere übernommen</em></div>':'')+(zero?'<div><span>Tage ohne Ausgaben</span><b>'+zero+'</b><em>gut gemacht 👍</em></div>':'')+'</div>'; }
+      ''+(zero?'<div><span>Tage ohne Ausgaben</span><b>'+zero+'</b><em>gut gemacht 👍</em></div>':'')+'</div>'; }
   function renderXYear(y){ var el=$('xyear'); if(!el)return; var M=[], tot=0, cs={}, n=0, cur=xToday().slice(0,7), lc=lifeCost();
     for(var m=1;m<=12;m++){ var ym=y+'-'+p2(m), st=xMonthStats(ym); M.push({ym:ym,t:st.tot,n:st.it.length,fut:ym>cur}); tot+=st.tot; if(st.it.length)n++; st.it.forEach(function(i){ var c=xCat(i); cs[c]=(cs[c]||0)+(+i.a||0); }); }
     var mx=Math.max.apply(null,M.map(function(x){return x.t;}).concat([lc?lc.v:0,1])), cl=Object.keys(cs).sort(function(a,b){return cs[b]-cs[a];}), act=M.filter(function(x){return x.n;}), hi=act.slice().sort(function(a,b){return b.t-a.t;})[0], lo=act.slice().sort(function(a,b){return a.t-b.t;})[0];
@@ -6465,7 +6467,7 @@ body{margin:0;background:var(--bg)}
 
   /* --- Eintragen als Overlay --- */
   function xOpenAdd(o){ o=o||{}; var xa=$('xaddc'); if(!xa||xa.classList.contains('open')||$('xsheet'))return;
-    $('x-amt').value=o.a!=null?(+o.a).toFixed(2).replace('.',','):''; $('x-txt').value=o.t||''; $('x-date').value=o.day||xToday(); $('x-fix').checked=!!o.fix; $('x-fix').__touched=!!o.fix; $('x-cash').checked=false;
+    $('x-amt').value=o.a!=null?xFin(+o.a):''; $('x-txt').value=o.t||''; $('x-date').value=o.day||xToday(); $('x-fix').checked=!!o.fix; $('x-fix').__touched=!!o.fix; $('x-cash').checked=false;
     XS.manual=!!o.e; if(o.e){ XS.emo=o.e; XS.cat=o.c; } XS.catSel=''; XS.catManual=false; XS.mode=o.sp||'solo'; XS.modeManual=!!o.sp; XS.plOk=false; $('xwarn').hidden=true; say('xmsg','');
     xEmoSync(); xSplitSync(); xAddDay();
     var bd=document.createElement('div'); bd.className='sheetbd'; bd.id='xaddbd'; document.body.appendChild(bd); void bd.offsetWidth; bd.classList.add('in'); bd.addEventListener('click',xCloseAdd);
@@ -6533,7 +6535,7 @@ body{margin:0;background:var(--bg)}
       var pgClick=async function(ev){ var b;
         if(ev.target.closest('#x-open')||ev.target.closest('#x-fab')){ xOpenAdd(); return; }
         if(ev.target.closest('#x-close')){ xCloseAdd(); return; }
-        if((b=ev.target.closest('[data-wfix]'))){ var k=b.getAttribute('data-wfix'); if(k==='ok'){ XS.plOk=true; $('x-save').click(); } else if(k==='cat'){ XS.emo=b.getAttribute('data-e'); XS.cat=b.getAttribute('data-c'); XS.manual=true; XS.catSel=''; XS.catManual=false; var w0=$('x-catwrap'); if(w0)w0.__cur='-'; xEmoSync(); $('xwarn').hidden=true; } else if(k==='amt'){ $('x-amt').value=(+b.getAttribute('data-v')).toFixed(2).replace('.',','); xSplitSync(); $('xwarn').hidden=true; } return; }
+        if((b=ev.target.closest('[data-wfix]'))){ var k=b.getAttribute('data-wfix'); if(k==='ok'){ XS.plOk=true; $('x-save').click(); } else if(k==='cat'){ XS.emo=b.getAttribute('data-e'); XS.cat=b.getAttribute('data-c'); XS.manual=true; XS.catSel=''; XS.catManual=false; var w0=$('x-catwrap'); if(w0)w0.__cur='-'; xEmoSync(); $('xwarn').hidden=true; } else if(k==='amt'){ $('x-amt').value=xFin(+b.getAttribute('data-v')); xSplitSync(); $('xwarn').hidden=true; } return; }
         if((b=ev.target.closest('[data-cstart]'))){ var cc=b.getAttribute('data-cstart'), bs=+b.getAttribute('data-base'); xCoachSet(function(c){ c[cc]={start:xToday(),base:bs}; }); toast('💪 Challenge gestartet: '+xCL(cc)[0]+' −20 %'); return; }
         if((b=ev.target.closest('[data-cstop]'))){ var cs3=b.getAttribute('data-cstop'); xCoachSet(function(c){ delete c[cs3]; }); return; }
         if((b=ev.target.closest('[data-cdone]'))){ var cd=b.getAttribute('data-cdone'); xCoachSet(function(c){ var r=xRate(cd,c[cd].start); c[cd].done=xToday(); c[cd].saved=Math.max(0,Math.round(c[cd].base-r.m)); }); try{ confetti(innerWidth/2,innerHeight/2); }catch(e){} toast('🏆 Stark! Auf zum nächsten Ziel.'); return; }
@@ -6557,7 +6559,7 @@ body{margin:0;background:var(--bg)}
         if((b=ev.target.closest('#x-apply'))){ var v=+b.getAttribute('data-v'), data=Object.assign({},docs['settings/main']||{}); data.lifeCost=v; try{ await write('settings/main',data); XS.confirm=false; toast('Ausgaben auf '+eur(v)+' geändert'); renderAll(); }catch(e){ toast(failText()); } return; }
       }; pg.addEventListener('click',pgClick);
       var xa0=$('xaddc'), fab=$('x-fab'); if(xa0){ document.body.appendChild(xa0); xa0.addEventListener('click',pgClick); xa0.addEventListener('change',pgChange); swipeClose(xa0,xCloseAdd,function(){ return xa0.scrollTop<=2; }); }
-      if(fab){ document.body.appendChild(fab); fab.addEventListener('click',function(){ xOpenAdd(); }); var fv=function(){ document.documentElement.classList.toggle('xpg',(location.hash||'')==='#ausgaben'); }; window.addEventListener('hashchange',fv); fv(); }
+      if(fab){ document.body.appendChild(fab); fab.addEventListener('click',function(){ xOpenAdd(); }); var fv=function(){ document.documentElement.classList.toggle('xpg',(location.hash||'')==='#ausgaben'); if((location.hash||'')!=='#ausgaben'){ try{ xCloseAdd(); }catch(e){} } }; window.addEventListener('hashchange',fv); fv(); }
       var xr=$('xrem'); if(xr)xr.addEventListener('click',async function(ev){ var b; if((b=ev.target.closest('[data-rm]'))){ XS.rmode=b.getAttribute('data-rm'); var va=$('xr-amt').value, vt=$('xr-txt').value; renderXRem(); $('xr-amt').value=va; $('xr-txt').value=vt; return; }
         if(ev.target.closest('#xr-save')){ var fm=ev.target.closest('.xrform'), ok=await xQuickAdd($('xr-amt').value,$('xr-txt').value,fm&&fm.getAttribute('data-day')); if(ok){ setTimeout(function(){ var a=$('xr-amt'); if(a)a.focus(); },50); } return; }
         if((b=ev.target.closest('#xr-ok'))){ var dy=b.getAttribute('data-day'); try{ await xConfirm(dy); toast('👍 '+xDayLbl(dy)+' abgehakt'); renderAll(); try{renderTodo();}catch(e){} try{tbBadges();}catch(e){} }catch(e){ toast(failText()); } return; }
@@ -6665,10 +6667,10 @@ body{margin:0;background:var(--bg)}
   function zSheet(o){ if($('zsheet'))return; o=o||{}; var it=o.it||null, isSal=it&&it.v, st={e:it?it.e:'💶',c:it?(isSal?'gehalt':zCat(it)):'sonst',man:!!(it&&it.cm),eman:!!it,conf:false};
     var bd=document.createElement('div'); bd.className='sheetbd'; bd.id='zsheet'; var day=it?it.d:(o.day||xToday());
     bd.innerHTML='<div class="sheet" role="dialog" aria-modal="true" aria-label="Einnahme"><i class="grab"></i><div class="shhd"><b>'+(it?(isSal?'Gehalt':'Einnahme bearbeiten'):'Neue Einnahme')+'</b><button type="button" class="shdone">Abbrechen</button></div>'+
-      '<div class="xform zform"><button type="button" class="xemo" id="ze-emo">'+st.e+'</button><label class="f xamt"><span>'+(isSal?'Netto':'Betrag')+'</span><input type="text" id="ze-amt" inputmode="decimal" placeholder="0,00 €" value="'+(it?(+it.a).toFixed(2).replace('.',','):(o.a!=null?(+o.a).toFixed(2).replace('.',','):''))+'"></label>'+
+      '<div class="xform zform"><button type="button" class="xemo" id="ze-emo">'+st.e+'</button><label class="f xamt"><span>'+(isSal?'Netto':'Betrag')+'</span><input type="text" id="ze-amt" inputmode="decimal" placeholder="0,00 €" value="'+(it?xFin(+it.a):(o.a!=null?xFin(+o.a):''))+'"></label>'+
       '<label class="f xtxt"><span>Wofür / von wem?</span><input type="text" id="ze-txt" placeholder="z. B. Pfand, Geburtstag Oma, Kleinanzeigen" value="'+esc(it?it.t:(o.t||''))+'"'+(isSal?' disabled':'')+'></label>'+
       '<label class="f xcatf"><span>Kategorie</span><select id="ze-cat" class="xcsel"'+(isSal?' disabled':'')+'>'+Object.keys(ZC).map(function(k){ return '<option value="'+k+'"'+(k===st.c?' selected':'')+'>'+ZC[k][1]+' '+ZC[k][0]+'</option>'; }).join('')+'</select></label>'+
-      '<div class="zsal" id="ze-sal"'+(st.c==='gehalt'?'':' hidden')+'><p class="note">💼 Gehalt: Bitte auch das <b>Brutto</b> angeben – beides landet automatisch im Reiter Gehalt (dort wird es ausgewertet).</p><label class="f"><span>Brutto</span><input type="text" id="ze-brut" inputmode="decimal" placeholder="0,00 €" value="'+(it&&it.b?(+it.b).toFixed(2).replace('.',','):'')+'"></label><label class="f"><span>Gehalt für Monat</span><select id="ze-gm" class="xcsel"></select></label></div>'+
+      '<div class="zsal" id="ze-sal"'+(st.c==='gehalt'?'':' hidden')+'><p class="note">💼 Gehalt: Bitte auch das <b>Brutto</b> angeben – beides landet automatisch im Reiter Gehalt (dort wird es ausgewertet).</p><label class="f"><span>Brutto</span><input type="text" id="ze-brut" inputmode="decimal" placeholder="0,00 €" value="'+(it&&it.b?xFin(+it.b):'')+'"></label><label class="f"><span>Gehalt für Monat</span><select id="ze-gm" class="xcsel"></select></label></div>'+
       '<label class="f xdate"><span>'+(isSal?'Auszahlung am (optional)':'Datum')+'</span><input id="ze-date" type="date" value="'+day+'"></label>'+
       '<div class="xwarn" id="ze-warn" hidden></div><button type="button" class="btn primary" id="ze-save">Speichern</button>'+(it&&!isSal?'<button type="button" class="xlink danger" id="ze-del">Einnahme löschen</button>':'')+(isSal?'<p class="tasub">Gehalt löschen oder ändern geht auch im Reiter Gehalt.</p>':'')+'</div></div>';
     document.body.appendChild(bd); void bd.offsetWidth; bd.classList.add('in'); sheetsCheck(); var sh=bd.querySelector('.sheet');
