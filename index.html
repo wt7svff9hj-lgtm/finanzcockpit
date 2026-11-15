@@ -2476,6 +2476,28 @@ html.xpg .xfab{display:block}
 .erqf{display:grid;grid-template-columns:1fr 110px;gap:10px}.erqf .f span{display:block;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:4px}
 .erqf input{font:inherit;font-size:16px;color:var(--fg);background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:0 12px;width:100%;height:44px;box-sizing:border-box}
 .ghml span{display:flex;flex-direction:column;gap:2px}.ghd{font:inherit;font-size:11.5px;color:var(--muted);background:transparent;border:0;padding:0;width:auto;height:auto;-webkit-appearance:none;appearance:none;text-align:left}
+
+/* PIN-Tastatur wie der iPhone-Sperrbildschirm (Positionen & Abstände) */
+.lkpad button{flex-direction:column;gap:0}.lkpad button b{font-weight:inherit;line-height:1}.lkpad button small{font-size:9.5px;font-weight:700;letter-spacing:.18em;line-height:1;margin-top:3px;opacity:.75;padding-left:.18em}
+@media (max-width:600px){
+  .lockscr{place-items:start center!important;padding:calc(env(safe-area-inset-top) + 18px) 20px 0!important}
+  .lklogo{width:52px;height:52px;margin:0 auto 8px}
+  .lkbox h3{font-size:20px}
+  .lksub{margin:4px 0 14px;font-size:13.5px}
+  .lkbio{padding:12px 16px;margin:0 0 4px}.lkor{margin:4px 0 10px}
+  .lkdots{gap:22px;height:14px}.lkdots i{width:13px;height:13px;border-width:1.5px}
+  .lkerr{min-height:18px;margin:6px 0 0}
+  .lkok{margin-top:6px!important;padding:10px 20px!important}
+  .lkpad{position:fixed;left:50%;bottom:calc(15.5vh + var(--padoff,0px));transform:translateX(-50%);grid-template-columns:repeat(3,78px);gap:16px 28px;margin:0}
+  .lkpad button{width:78px;height:78px;font-size:36px;font-weight:300;display:flex;align-items:center;justify-content:center}
+  .lkpad button[data-k="0"] b{margin-bottom:0}
+  .lkforgot{position:fixed;left:0;right:0;bottom:calc(15.5vh - 62px);margin:0!important;text-align:center;display:block!important}
+  .lkx{position:fixed;right:16px;top:calc(env(safe-area-inset-top) + 12px)}
+}
+@media (max-width:600px) and (max-height:720px){
+  .lkpad{grid-template-columns:repeat(3,70px);gap:12px 24px;bottom:calc(12vh + var(--padoff,0px))}.lkpad button{width:70px;height:70px;font-size:32px}
+  .lklogo{display:none}.lkforgot{bottom:calc(12vh - 50px)}
+}
 [hidden]{display:none!important}
 body{margin:0;background:var(--bg)}
 .encbox{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--up-bg);border:1px solid color-mix(in srgb,var(--up) 35%,transparent);margin:10px 0}.encbox .ib{font-size:18px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--surface)}.encbox b{display:block;color:var(--up)}.encbox small{font-size:12.5px;color:var(--muted)}
@@ -3206,7 +3228,7 @@ body{margin:0;background:var(--bg)}
   var MON=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
   var MONFULL=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
   var DEFAULT_GOAL=1000000, DEFAULT_NG=26000;
-  var docs={}, DATA_READY=false; var db=null; var range='all'; var pyOn=false; try{pyOn=localStorage.getItem('vb-py')==='1';}catch(e){} var dirty=false; var loadTimer=null;
+  var docs={}, DATA_READY=false, COLL_OK={}; var db=null; var range='all'; var pyOn=false; try{pyOn=localStorage.getItem('vb-py')==='1';}catch(e){} var dirty=false; var loadTimer=null;
   function $(id){return document.getElementById(id);}
   var nf0=new Intl.NumberFormat('de-DE',{maximumFractionDigits:0});
   var nf2=new Intl.NumberFormat('de-DE',{minimumFractionDigits:0,maximumFractionDigits:2});
@@ -4850,7 +4872,8 @@ body{margin:0;background:var(--bg)}
          else if(loaded){ localStorage.removeItem('vb-pin'); if($('lockscr')&&$('lockscr').getAttribute('data-mode')==='unlock')hideLock(true); } }catch(e){}
     var b=$('lockbtn'); if(b){ b.innerHTML=ico(pinCfg()?'lock':'unlock'); b.classList.toggle('on',!!pinCfg()); }
   }
-  function keypad(){ var k=[1,2,3,4,5,6,7,8,9,'',0,'del']; return '<div class="lkpad">'+k.map(function(x){ if(x==='')return '<span></span>'; if(x==='del')return '<button type="button" data-k="del" aria-label="Löschen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 5H9l-6 7 6 7h12z"/><path d="M17 9l-6 6M11 9l6 6"/></svg></button>'; return '<button type="button" data-k="'+x+'">'+x+'</button>'; }).join('')+'</div>'; }
+  try{ document.documentElement.style.setProperty('--padoff',(+localStorage.getItem('vb-padoff')||0)+'px'); }catch(e){}
+  function keypad(){ var k=[1,2,3,4,5,6,7,8,9,'',0,'del']; return '<div class="lkpad">'+k.map(function(x){ if(x==='')return '<span></span>'; if(x==='del')return '<button type="button" data-k="del" aria-label="Löschen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 5H9l-6 7 6 7h12z"/><path d="M17 9l-6 6M11 9l6 6"/></svg></button>'; var L={2:'ABC',3:'DEF',4:'GHI',5:'JKL',6:'MNO',7:'PQRS',8:'TUV',9:'WXYZ'}; return '<button type="button" data-k="'+x+'"><b>'+x+'</b>'+(L[x]?'<small>'+L[x]+'</small>':(x===1?'<small>&nbsp;</small>':''))+'</button>'; }).join('')+'</div>'; }
   /* mode: unlock | set1 | set2 | verify(fn) */
   function showLock(mode,opts){
     mode=mode||'unlock'; opts=opts||{}; var old=$('lockscr'); if(old)old.remove();
@@ -4914,11 +4937,12 @@ body{margin:0;background:var(--bg)}
     var cfg=pinCfg(), old=$('lkmenu'); if(old){old.remove();return;}
     var el=document.createElement('div'); el.id='lkmenu'; el.className='accpop lkmenu';
     if(!cfg){ el.innerHTML='<p class="eyebrow">App-Sperre</p><p class="lkm-t">Schütze die App mit einer PIN vor neugierigen Blicken. Danach kannst du hier zusätzlich Face ID aktivieren.</p><button type="button" class="btn primary" data-a="set">PIN festlegen</button>'; }
-    else { var d=pinDelay(); el.innerHTML='<p class="eyebrow">App-Sperre · aktiv</p><button type="button" class="btn primary" data-a="now">🔒 Jetzt sperren</button><label class="f">Automatisch sperren<select id="lkdelay">'+[[0,'Sofort beim Verlassen'],[1,'Nach 1 Minute'],[5,'Nach 5 Minuten'],[15,'Nach 15 Minuten'],[-1,'Nur beim Neustart']].map(function(o){return '<option value="'+o[0]+'"'+(+o[0]===d?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></label><button type="button" class="btn" data-a="bio">'+(bioGet()?'Face ID ausschalten':'Face ID aktivieren')+'</button><p class="lkm-t lkbioinfo" hidden></p><div class="lkm-r"><button type="button" class="btn" data-a="chg">PIN ändern</button><button type="button" class="btn" data-a="off">Sperre entfernen</button></div>'; }
+    else { var d=pinDelay(); el.innerHTML='<p class="eyebrow">App-Sperre · aktiv</p><button type="button" class="btn primary" data-a="now">🔒 Jetzt sperren</button><label class="f">Automatisch sperren<select id="lkdelay">'+[[0,'Sofort beim Verlassen'],[1,'Nach 1 Minute'],[5,'Nach 5 Minuten'],[15,'Nach 15 Minuten'],[-1,'Nur beim Neustart']].map(function(o){return '<option value="'+o[0]+'"'+(+o[0]===d?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></label><button type="button" class="btn" data-a="bio">'+(bioGet()?'Face ID ausschalten':'Face ID aktivieren')+'</button><p class="lkm-t lkbioinfo" hidden></p><p class="lkm-t">Tastatur-Position (falls du dich vertippst):</p><div class="lkm-r"><button type="button" class="btn" data-a="padup">▲ Höher</button><button type="button" class="btn" data-a="paddn">▼ Tiefer</button></div><div class="lkm-r"><button type="button" class="btn" data-a="chg">PIN ändern</button><button type="button" class="btn" data-a="off">Sperre entfernen</button></div>'; }
     document.querySelector('.topr').appendChild(el);
     var bb=el.querySelector('[data-a="bio"]'), bi=el.querySelector('.lkbioinfo'); if(bb)bioAvail().then(function(ok){ if(!ok&&!bioGet()){ bb.disabled=true; bb.textContent='Face ID aktivieren (hier nicht verfügbar)'; bi.hidden=false; bi.textContent='Face ID geht nur in der Version vom Home-Bildschirm (Safari). In der Claude-App lässt das eingebettete Fenster Face ID nicht zu.'; } });
     el.addEventListener('click',function(ev){ ev.stopPropagation(); var a=ev.target.closest('[data-a]'); if(!a)return; var act=a.getAttribute('data-a'); el.remove();
       if(act==='bio'){ if(bioGet()){ try{localStorage.removeItem('vb-bio');}catch(e){} toast('Face ID ausgeschaltet'); } else showLock('verify',{why:'Danach richtest du Face ID ein.',ok:function(){ setTimeout(bioEnable,50); }}); return; }
+      if(act==='padup'||act==='paddn'){ var po=0; try{ po=+localStorage.getItem('vb-padoff')||0; }catch(e){} po+=act==='padup'?6:-6; po=Math.max(-90,Math.min(90,po)); try{ localStorage.setItem('vb-padoff',String(po)); }catch(e){} document.documentElement.style.setProperty('--padoff',po+'px'); showLock('verify',{why:'Probe: Tastatur '+(po===0?'in Standard-Position':Math.abs(po)+' px '+(po>0?'höher':'tiefer'))+'. Mit × schließen.',ok:function(){}}); return; }
       if(act==='set')showLock('set1');
       if(act==='now'){ LK.unlocked=false; document.documentElement.classList.add('locked'); showLock('unlock'); }
       if(act==='chg')showLock('verify',{why:'Danach legst du die neue PIN fest.',ok:function(){showLock('set1');}});
@@ -5347,7 +5371,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='3.3.2', APP_DATE='15.11.2026';
+  var APP_VERSION='3.3.3', APP_DATE='15.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
@@ -6005,7 +6029,7 @@ body{margin:0;background:var(--bg)}
     clearTimeout(loadTimer); setSync('Gespeichert in der App','ok'); renderAll(); if(!dirty)fillForm();
   }
   function onErr(){ setSync('Verbindung unterbrochen','bad'); }
-  function syncColl(prefix,snap){
+  function syncColl(prefix,snap){ COLL_OK[prefix]=1;
     for(var p in docs){ if(p.indexOf(prefix+'/')===0)delete docs[p]; }
     snap.docs.forEach(function(d){ if(d.exists)docs[prefix+'/'+d.id]=d.data(); });
     gotData();
@@ -6597,7 +6621,7 @@ body{margin:0;background:var(--bg)}
   function zOpenWeeks(){ var m=zMeta(); if(!m.start)return []; var R=[], mon=zMonday(new Date()); for(var k=1;k<=3;k++){ var w=new Date(mon); w.setDate(w.getDate()-7*k); var e=new Date(w); e.setDate(e.getDate()+6); if(xIso(e)<m.start)break; if(!(m.wk||{})[xIso(w)])R.unshift(xIso(w)); } return R; }
   function zWeekLbl(wIso){ var a=new Date(wIso+'T12:00:00'), e=new Date(a); e.setDate(e.getDate()+6); return a.getDate()+'.'+(a.getMonth()!==e.getMonth()?' '+MON[a.getMonth()]:'')+' – '+e.getDate()+'. '+MON[e.getMonth()]; }
   function zWeekItems(wIso){ var a=wIso, e=new Date(wIso+'T12:00:00'); e.setDate(e.getDate()+6); var eIso=xIso(e), L=[]; [a.slice(0,7),eIso.slice(0,7)].filter(function(v,i,arr){return arr.indexOf(v)===i;}).forEach(function(ym){ (zDoc(ym).items||[]).forEach(function(i){ if(i.d>=a&&i.d<=eIso)L.push(i); }); }); return L; }
-  async function zEnsureStart(){ if(!DATA_READY)return; var m=zMeta(); if(m.start||ZS.st)return; ZS.st=1; var m2=JSON.parse(JSON.stringify(m)); m2.start=xToday(); try{ await zMetaSave(m2); }catch(e){} }
+  async function zEnsureStart(){ if(!DATA_READY||(db&&!COLL_OK.zufluss))return; var m=zMeta(); if(m.start||ZS.st)return; ZS.st=1; var m2=JSON.parse(JSON.stringify(m)); m2.start=xToday(); try{ await zMetaSave(m2); }catch(e){} }
   async function zConfirmWeek(w){ var m=JSON.parse(JSON.stringify(zMeta())); m.wk=m.wk||{}; m.wk[w]=true; await zMetaSave(m); }
   async function zAdd(it){ var ym=it.d.slice(0,7), d=JSON.parse(JSON.stringify(zDoc(ym))); d.items.push(it); d.updated=new Date().toISOString(); await write('zufluss/'+ym,d); }
   async function zDel(id){ var ok=false; for(var k in docs){ if(/^zufluss\/\d{4}-\d{2}$/.test(k)){ var d=JSON.parse(JSON.stringify(docs[k])); var n=(d.items||[]).length; d.items=(d.items||[]).filter(function(i){return i.id!==id;}); if(d.items.length!==n){ await write(k,d); ok=true; } } } return ok; }
