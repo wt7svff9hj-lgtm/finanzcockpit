@@ -2524,6 +2524,15 @@ html.xpg .xfab{display:block}
 .kzsl span{flex:1;min-width:0}.kzsl em{display:block;font-style:normal;font-size:12px;color:var(--muted)}.kzsl b{white-space:nowrap}
 .kzsn{margin:8px 0 0;font-size:12.5px;color:var(--muted);line-height:1.45}
 .kzliqs{margin:10px 0 0;font-size:14px;line-height:1.5}.kzliqs small{color:var(--muted)}
+.lcsug{padding:14px 16px!important;background:linear-gradient(135deg,color-mix(in srgb,#5E5CE6 12%,transparent),transparent 70%),var(--surface)!important}
+.fkab{padding:14px 16px!important}.fkh{padding:10px 0;border-top:1px solid var(--line)}.fkh:first-of-type{border-top:0}.fkh p{margin:0 0 8px;font-size:14.5px;line-height:1.45}
+.fkhb{display:flex;flex-wrap:wrap;gap:8px}.fkhb .btn{padding:8px 12px;font-size:14px;min-height:0}.btn.ghost{background:transparent;box-shadow:none;color:var(--muted)}
+.fimmo{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;padding:10px 12px;border-radius:14px;background:color-mix(in srgb,#AF52DE 8%,transparent)}.fimmo label.f{min-width:0}
+.fimh{grid-column:1/-1;margin:0;font-weight:700;font-size:14px}.fimh small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.kzimon{margin-top:12px;width:100%}
+.kzall{margin-top:12px}.kzar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;padding:8px 0;border-top:1px solid var(--line)}.kzar:first-of-type{border-top:0}
+.kzan{font-weight:600;font-size:14.5px;min-width:0;overflow:hidden;text-overflow:ellipsis}.kzan small{font-weight:400;color:var(--muted);font-size:12px}.kzar .kzsbar{grid-column:1/-1;height:8px}
+.kzar em{grid-column:1/-1;font-style:normal;font-size:12.5px;color:var(--muted)}.kzar em.z{color:#C2410C}.kzar em.a{color:var(--up)}
 [hidden]{display:none!important}
 body{margin:0;background:var(--bg)}
 .encbox{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--up-bg);border:1px solid color-mix(in srgb,var(--up) 35%,transparent);margin:10px 0}.encbox .ib{font-size:18px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--surface)}.encbox b{display:block;color:var(--up)}.encbox small{font-size:12.5px;color:var(--muted)}
@@ -2574,6 +2583,7 @@ body{margin:0;background:var(--bg)}
     <section class="card fscore" id="fscore" hidden></section>
     <section class="card xrem" id="xrem" hidden></section>
     <section class="card zrem" id="zrem" hidden></section>
+    <section class="card lcsug" id="lcsug" hidden></section>
     <section class="card heute" id="heute" hidden></section>
     <section class="card rdchk" id="rdchk-start" hidden></section>
     <p class="sect">Kennzahlen</p>
@@ -3055,6 +3065,8 @@ body{margin:0;background:var(--bg)}
   <!-- AUSGABEN -->
   <div class="wrap" id="page-ausgaben" hidden>
     <section class="card xhero" id="xhero"></section>
+    <section class="card lcsug" id="lcsug2" hidden></section>
+    <section class="card fkab" id="fkab" hidden></section>
     <section class="card xcta" id="xcta"><button type="button" class="xctab" id="x-open"><span class="xctap">+</span><span class="xctat"><b>Ausgabe eintragen</b><small>Betrag, wofür – fertig</small></span></button><div class="xquick" id="xquick"></div></section>
     <section class="xaddc" id="xaddc" role="dialog" aria-modal="true" aria-label="Ausgabe eintragen">
       <i class="grab"></i>
@@ -4467,6 +4479,7 @@ body{margin:0;background:var(--bg)}
     if(mt){ var need=Math.max(0,ekT-av0); h+='<div class="kzwhen '+(cov>=100?'ok':cov>=70?'mid':'no')+'"><p><b>Wunschtermin '+label(g.when)+'</b> · in '+durTxt(mt)+'</p><ul><li>Eigenkapital dann voraussichtlich <b>'+eur(ekT)+'</b> (2 % Preissteigerung pro Jahr)</li><li>Dein Vermögen dann ca. <b>'+eurK(Wt)+'</b>, davon für den Kauf nutzbar (Tagesgeld & Depot) ca. <b>'+eurK(avail)+'</b></li><li>'+(cov>=100?'✅ Das Eigenkapital ist bis dahin da.':mE!=null?'🟡 Komplett erst ab '+lab(mE)+'.':'🔴 Bis dahin reicht es noch nicht.')+'</li>'+(need>0&&cov<100?'<li>Ohne Depot-Wachstum gerechnet: <b>'+eur(need/mt)+'</b> pro Monat zur Seite legen</li>':'')+'</ul></div>'; }
     else h+='<p class="kzfoot">Tipp: Trag einen Wunschtermin ein. Dann rechnet die App, ob das Eigenkapital bis dahin zusammenkommt.</p>';
     return h; }
+  async function immoEnable(g){ var R=kzImmo(g), sd=Object.assign({},docs['settings/main']||{}); sd.immoOn=true; sd.immoStart={immo:g.price||0,kredit:R?Math.round(R.loan):0}; try{ await write('settings/main',sd); toast('🏠 Eingeblendet – ab jetzt im Monatsstand'); renderAll(); try{ if(!dirty)fillForm(); }catch(e){} }catch(e){ toast(failText()); } }
   function kzImmoFirst(){ var g=kz.items.filter(function(x){return x.im&&x.price>0&&!x.drop;})[0]; return g?kzImmo(g):null; }
   function kzImmoHtml(g,W){ var R=kzImmo(g); if(!R)return ''; var by=+(docs['settings/main']||{}).byear||0, age=by?new Date().getFullYear()-by:null, endless=R.n>=1200;
     var qL=R.q==null?null:R.q<=30?['g','🟢 entspannt']:R.q<=40?['y','🟡 machbar – Banken akzeptieren meist bis etwa 35–40 %']:['o',R.inc2>0?'🟠 knapp – lieber mehr Eigenkapital oder einen günstigeren Preis einplanen':'🟠 für ein Einkommen allein viel. Kauft ihr zu zweit, trag unter „Bearbeiten“ das Netto deiner Partnerin ein'];
@@ -4510,6 +4523,10 @@ body{margin:0;background:var(--bg)}
     var by=+(docs['settings/main']||{}).byear||0, yrs=by?Math.max(5,Math.round(67-(new Date().getFullYear()-by))):20;
     el.innerHTML='<div class="kzsumg"><div><span>Offene Ziele</span><b>'+open.length+'</b><em>'+(lng?lng+' davon langfristig':'mit Preis')+'</em></div><div><span>Gesamtpreis</span><b>'+eurM(sum)+'</b><em>'+(W>0?pct(sum/W*100)+' deines Vermögens':'')+'</em></div><div class="hl"><span>Gönn-dir-Budget'+gi('budget')+'</span><b>'+(bud?eurM(bud):'–')+'</b><em>pro Jahr*</em></div></div>'+
       ((function(){ return open.filter(function(g){return !g.im;}).reduce(function(a,g){return a+g.price;},0); })()>0?'<p class="kzsumt">Würdest du alles '+(open.some(function(g){return g.im;})?'(ohne Immobilie) ':'')+'anlegen statt kaufen, wären daraus bis '+(by?'67':'in '+yrs+' Jahren')+' etwa <b>'+eurM(open.filter(function(g){return !g.im;}).reduce(function(a,g){return a+g.price;},0)*Math.pow(1.05,yrs))+'</b> geworden. Das heißt nicht „nie kaufen“ – sondern bewusst entscheiden.</p>':'')+
+      (function(){ var L=kzLiq(), act=kz.items.filter(function(g){return !g.done&&!g.drop&&g.price>0;}); if(!L||act.length<2)return ''; var srt=function(a){ return a.slice().sort(function(x,y){ return kzScore(y)-kzScore(x); }); }, ord=srt(act.filter(function(g){return !kzIsLang(g);})).concat(srt(act.filter(kzIsLang))), fl=L.frei, dl=L.dep, tot=0, bT=0, zT=0;
+        var rows=ord.map(function(g){ var amt=kzCash(g), a=Math.min(fl,amt); fl-=a; var b2=Math.min(dl,amt-a); dl-=b2; var z=Math.max(0,amt-a-b2); tot+=amt; bT+=b2; zT+=z; var w=function(x){ return (x/amt*100).toFixed(2); };
+          return '<div class="kzar"><span class="kzan">'+esc(g.name||'Kaufziel')+(g.im?' <small>Eigenkapital</small>':'')+'</span><b>'+eurM(amt)+'</b><div class="kzsbar">'+(a>0.5?'<i class="sa" style="flex:'+w(a)+'"></i>':'')+(b2>0.5?'<i class="sb" style="flex:'+w(b2)+'"></i>':'')+(z>0.5?'<i class="sz" style="flex:'+w(z)+'"></i>':'')+'</div><em class="'+(z>0.5?'z':b2>0.5?'b':'a')+'">'+(z>0.5?'fehlt '+eur(z):b2>0.5?eur(b2)+' aus dem Depot':'✓ aus Tagesgeld & Co.')+'</em></div>'; }).join('');
+        return '<div class="kzall"><p class="kzlh">Alle Ziele zusammen'+gi('alle')+'</p>'+rows+'<p class="kzsumt">Zusammen <b>'+eur(tot)+'</b>. '+(zT>0.5?'Alles auf einmal geht nicht: Selbst mit dem ganzen Depot fehlen <b>'+eur(zT)+'</b>. Nacheinander, mit Sparrate dazwischen, sieht es anders aus.':bT>0.5?'Alles zusammen wäre machbar, aber nur, wenn du <b>'+eur(bT)+'</b> aus dem Depot verkaufst.':'Alles zusammen ginge sogar aus dem sofort verfügbaren Geld.')+'</p></div>'; })()+
       (function(){ var L=kzLiq(); return L?'<p class="kzliqs">💶 Sofort verfügbar <b>'+eur(L.frei)+'</b> · 📈 Depot <b>'+eur(L.dep)+'</b> · 🛡️ Notgroschen <b>'+eur(L.ng)+'</b>'+gi('liq')+'<br><small>Stand: Monatsstand '+label(L.ym)+'</small></p>':''; })()+
       '<p class="kzfoot">* Faustregel: Bis zu 10 % deines jährlichen Vermögenszuwachses darfst du ohne schlechtes Gewissen ausgeben.</p>'; }
 
@@ -4541,6 +4558,7 @@ body{margin:0;background:var(--bg)}
       (function(){ var R=kzImmoFirst(), lc=lifeCost(); return ['immobaro','Kann ich das finanzieren? (Immobilien-Barometer)','Für eine Immobilie bewertet die App zwei Dinge: Ist genug Eigenkapital da, ohne den Notgroschen anzutasten? Und passt die Monatsrate zum Einkommen? Der schwächere Punkt zählt extra. Anders als bei normalen Käufen wird das Eigenkapital nicht als „ausgegeben“ gewertet, weil es danach im Haus steckt.','Ab 85: „Ja, gut finanzierbar“. Ab 65: „Ja, machbar“. Ab 45: „Machbar, aber knapp“. Ab 25: „Noch nicht ganz“. Darunter: „Heute noch nicht realistisch“, was für ein langfristiges Ziel völlig normal ist.'+(R?' Bei dir geht es um '+eur(R.ek)+' Eigenkapital und '+eur(R.wohn)+' Wohnkosten im Monat.':'')]; })(),
       (function(){ var R=kzImmoFirst(), lc=lifeCost(), W=kzWealth(), ng=lc?lc.v*6:0; var L=kzLiq(), av=L?L.frei+L.dep:Math.max(0,W-ng); return ['ekok','Eigenkapital gedeckt?','Fürs Eigenkapital zählt nur Geld, an das du rankommst: Tagesgeld, Bargeld, PayPal und dein Depot. Notgroschen und Edelmetalle bleiben unangetastet, Kaution und Verliehenes zählen nicht. Für einen Wunschtermin rechnet die App das nutzbare Geld mit deiner Sparrate und 5 % Rendite hoch.',R?'Bei dir: '+(L?eur(L.frei)+' sofort verfügbar + '+eur(L.dep)+' Depot = ':'')+eur(av)+' nutzbar. Nötig sind '+eur(R.ek)+'. Das deckt heute '+pct(av/R.ek*100)+'.'+(L&&L.dep>0?' Für das Depot-Geld müsstest du Anteile verkaufen.':''):'Beispiel: 5.000 € Tagesgeld + 90.000 € Depot = 95.000 € nutzbar.']; })(),
       (function(){ var L=kzLiq(); return ['liq','Woher käme das Geld?','Die App schaut in deinen letzten Monatsstand und teilt dein Vermögen in Töpfe. Bezahlt wird zuerst aus dem, was sofort verfügbar ist, dann aus dem Depot. Den Notgroschen fasst die App nie an. Jedes Kaufziel wird einzeln gerechnet: Kaufst du zwei Dinge, teilen sie sich dasselbe Geld.',L?'Stand '+label(L.ym)+': 💶 sofort verfügbar '+eur(L.frei)+' (Tagesgeld '+eur(L.tg)+(L.bar?', Bargeld '+eur(L.bar):'')+(L.pp?', PayPal '+eur(L.pp):'')+'). 📈 Depot '+eur(L.dep)+' (ETFs '+eur(L.etf)+', Dividenden-Depot '+eur(L.akt)+'), verkaufbar in 2–3 Tagen. Der Kurs kann gerade ungünstig stehen, und auf Gewinne fallen über dem Freibetrag von 1.000 € rund 26 % Steuern an. 🛡️ Notgroschen '+eur(L.nr)+(L.em?' + Edelmetalle '+eur(L.em):'')+' bleiben tabu.'+(L.geb?' Kaution und Verliehenes ('+eur(L.geb)+') zählen nicht.':''):'Dafür braucht die App einen Monatsstand mit Aufteilung nach Kategorien.']; })(),
+      (function(){ var L=kzLiq(); return ['alle','Alle Ziele zusammen','Jedes Kaufziel wird auf seiner Karte einzeln gerechnet, als gäbe es nur dieses eine. Hier rechnet die App alle offenen Ziele nacheinander aus demselben Geld: zuerst aus dem sofort verfügbaren Geld, dann aus dem Depot. Der Notgroschen bleibt tabu.','Die Reihenfolge ist die der Liste: erst „Bald“ (nach Fortschritt sortiert), dann die langfristigen Ziele. Bei der Immobilie zählt das Eigenkapital.'+(L?' Heute stehen '+eur(L.frei)+' sofort und '+eur(L.dep)+' im Depot bereit.':'')]; })(),
       ['annahmen','Annahmen der App','Alle Hochrechnungen nutzen 5 % Rendite pro Jahr, 2 % Inflation und deine durchschnittliche Sparrate. Die Rechnungen sind bewusst einfach gehalten.','Das sind Orientierungswerte, keine Garantie und keine Anlageberatung.'] ]; }
   function glOpen(k,v,w){ if($('glsheet'))return; var D=glData(); if(k==='baro'&&v!=null&&!isNaN(v)){ v=+v; var bb=bandOf(v,KB_B); D=D.map(function(d){ return d[0]!=='baro'?d:[d[0],d[1],'<b class="glme">Dein Wert: '+v+' von 100</b>'+scaleHtml(v,KB_B)+'<span class="fsxv"><b>'+bb[2]+' ('+bb[0]+(bb[1]===100?'–100':'–'+(bb[1]-1))+'):</b> '+bb[4]+'</span>'+(v<100&&w?'<span class="fsxv"><b>Warum nicht 100?</b> Am meisten drückt: '+w+'.</span>':'')+'<span class="fsxv">'+d[2]+'</span>',d[3]]; }); } var bd=document.createElement('div'), bd=document.createElement('div'); bd.className='sheetbd'; bd.id='glsheet';
     bd.innerHTML='<div class="sheet glsh" role="dialog" aria-modal="true" aria-label="Begriffe erklärt"><i class="grab"></i><div class="shhd"><b>Begriffe erklärt</b><button type="button" class="shdone">Fertig</button></div>'+
@@ -4572,7 +4590,7 @@ body{margin:0;background:var(--bg)}
           hr.innerHTML='<span class="ib">'+ico('watch')+'</span><div><b>'+eur(g.price)+'</b><span>≈ <strong>'+nf0.format(Math.round(hrs))+' Arbeitsstunden</strong> · '+nf1.format(days).replace(/,0$/,'')+' Arbeitstage</span><small>bei '+eur2(ph)+' netto pro Stunde'+gi('hours')+'</small></div>'; hr.hidden=false; }
         else if(g.price>0){ hr.innerHTML='<span class="ib">'+ico('watch')+'</span><div><b>'+eur(g.price)+'</b><small>Trag dein Gehalt ein, dann siehst du hier die Arbeitsstunden.</small></div>'; hr.hidden=false; }
         else hr.hidden=true; }
-      var ck=card.querySelector('[data-o="check"]'); if(ck){ try{ ck.innerHTML=g.im&&g.price>0&&!g.drop&&!g.done?kzImmoHtml(g,W)+kzImmoCheck(g,W):kzCheck(g.im&&g.price>0?kzImmoG(g):g,W); }catch(e){ ck.innerHTML=''; } }
+      var ck=card.querySelector('[data-o="check"]'); if(ck){ try{ ck.innerHTML=(g.im&&g.price>0&&!g.drop&&!g.done?kzImmoHtml(g,W)+kzImmoCheck(g,W):kzCheck(g.im&&g.price>0?kzImmoG(g):g,W))+(g.im&&g.done&&!immoOn()?'<button type="button" class="btn primary kzimon" data-immoon="1">🏠 Immobilie & Kredit im Monatsstand einblenden</button><p class="kzfoot">Die zwei Felder bleiben danach dauerhaft im Monatsstand. Sie zählen nicht zum Anlage-Vermögen, damit Freiheit, Score und Kaufziele nicht verfälscht werden. Du siehst aber zusätzlich dein Vermögen inklusive Haus.</p>':''); }catch(e){ ck.innerHTML=''; } }
       var ip=card.querySelector('[data-o="imgpc"]'); if(ip)ip.textContent=g.drop?'Verworfen':g.done?'✓ Gekauft':(min==null?'':(min>=100-1e-9?'Bereit zum Kauf':pct(min)+' geschafft'));
       var wt=card.querySelector('[data-o="w-txt"]'), wb=card.querySelector('[data-o="w-bar"]');
       if(g.wealth!=null&&g.wealth>0){ var wp=W/g.wealth*100; wt.textContent=eur(W)+' von '+eur(g.wealth)+' · '+pct(wp); kzFill(wb,wp); } else { wt.textContent='Kein Ziel-Vermögen gesetzt'; kzFill(wb,0,true); }
@@ -4646,6 +4664,7 @@ body{margin:0;background:var(--bg)}
       var chips='';
       if(d!=null)chips+='<span class="dh-chip '+(d>0?'up':d<0?'down':'')+'">'+(d>0?'▲ ':d<0?'▼ ':'')+eurS(d)+(rel!=null?' ('+(d>0?'+':d<0?'−':'')+pct(Math.abs(rel))+')':'')+' Vormonat</span>';
       if(ya&&ya.total>0){ var yd=last.total-ya.total, yr=yd/ya.total*100; chips+='<span class="dh-chip '+(yd>0?'up':yd<0?'down':'')+'">'+(yd>0?'▲ ':yd<0?'▼ ':'')+eurS(yd)+' ('+(yd>0?'+':yd<0?'−':'')+pct(Math.abs(yr))+') zum Vorjahr</span>'; }
+      try{ if(immoOn()){ var md=docs['months/'+last.ym]||{}; if(+md.immo>0||+md.kredit>0)chips+='<span class="dh-chip">🏠 inkl. Eigenheim netto ('+eurS((+md.immo||0)-(+md.kredit||0))+'): '+eur(last.total+(+md.immo||0)-(+md.kredit||0))+'</span>'; } }catch(e){}
       var firstRun=!window.__dashSeen; window.__dashSeen=true;
       var ath=S.reduce(function(m,q){return q.total>m.total?q:m;},S[0]), isAth=last.total>=ath.total;
       var b12=S[Math.max(0,S.length-13)], n12=S.length-1-Math.max(0,S.length-13), avg12=n12>0?(last.total-b12.total)/n12:null, since=last.total-S[0].total;
@@ -4788,6 +4807,7 @@ body{margin:0;background:var(--bg)}
   /* ===== Finanzielle Freiheit ===== */
   function fkMonthlyTotal(){var f=docs['fixkosten/main']; if(!f||!Array.isArray(f.items))return 0; var t=0; f.items.forEach(function(r){t+=(+r.amount||0)*(+r.n||12)/12;}); return t;}
   function lcSrc(lc){ if(!lc)return ''; var fk=fkMonthlyTotal(); return lc.src==='eigen'?'(dein Wert unter Ziele → Freiheit'+(fk>0?'; darin stecken deine '+eur(fk)+' Fixkosten plus alle übrigen Ausgaben':'')+')':'(Summe deiner Fixkosten – trag unter Ziele → Freiheit deine Gesamtausgaben ein, dann wird es genauer)'; }
+  function immoOn(){ return !!(docs['settings/main']||{}).immoOn; }
   function lifeCost(){var g=docs['settings/main']; if(g&&+g.lifeCost>0)return {v:+g.lifeCost,src:'eigen'}; var f=fkMonthlyTotal(); return f>0?{v:f,src:'fix'}:null;}
   function renderFree(S){
     var box=$('freebox'); if(!box)return;
@@ -5477,7 +5497,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='3.4.2', APP_DATE='15.11.2026';
+  var APP_VERSION='3.5.0', APP_DATE='15.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
@@ -5700,6 +5720,7 @@ body{margin:0;background:var(--bg)}
   function buildFields(){
     var h='';
     CATS.forEach(function(c){h+='<label class="f"><span class="fl">'+ico(CAT_ICO[c[0]])+c[1]+'</span><input class="num" type="text" inputmode="decimal" autocomplete="off" id="f-'+c[0]+'" placeholder="0"></label>';});
+    h+='<div class="fimmo" id="f-immobox" hidden><p class="fimh">🏠 Eigenheim <small>zählt nicht zum Anlage-Vermögen, damit Freiheit, Score und Kaufziele stimmen</small></p><label class="f"><span class="fl">Immobilie (Wert)</span><input class="num" type="text" inputmode="decimal" autocomplete="off" id="f-immo" placeholder="0"></label><label class="f"><span class="fl">Kredit (Restschuld)</span><input class="num" type="text" inputmode="decimal" autocomplete="off" id="f-kredit" placeholder="0"></label></div>';
     h+='<label class="f full"><span class="fl">'+ico('etf')+'Neu in ETFs investiert (in diesem Monat)</span><input class="num" type="text" inputmode="decimal" autocomplete="off" id="f-einzahlung" placeholder="0"></label>';
     $('fields').innerHTML=h;
   }
@@ -5718,6 +5739,7 @@ body{margin:0;background:var(--bg)}
       el.placeholder=lastCats?'zuletzt '+nf0.format(+lastCats.cats[c[0]]||0):'0';
     });
     var e=$('f-einzahlung'); e.value=d.einzahlung?nf2.format(d.einzahlung):'';
+    try{ var ib=$('f-immobox'); ib.hidden=!immoOn(); if(immoOn()){ var st0=(docs['settings/main']||{}).immoStart||{}; ['immo','kredit'].forEach(function(k){ var el2=$('f-'+k); el2.value=d[k]?nf2.format(d[k]):''; var lp=Object.keys(docs).filter(function(x){ return /^months\/\d{4}-\d{2}$/.test(x)&&x<'months/'+ym&&docs[x][k]!=null; }).sort().pop(); el2.placeholder=lp?'zuletzt '+nf0.format(+docs[lp][k]||0):(st0[k]?'z. B. '+nf0.format(st0[k]):'0'); }); } }catch(e2){}
     dirty=false; updateSum(); try{fieldMarks();}catch(e){}
   }
   function updateSum(){
@@ -5727,6 +5749,7 @@ body{margin:0;background:var(--bg)}
     var S=series(); var prev=S.filter(function(p){return p.ym<ym;}).pop(); var cur=S.filter(function(p){return p.ym===ym;})[0];
     var parts=[];
     if(sum>0&&prev){parts.push('Zu '+label(prev.ym)+': '+eurS(sum-prev.total));}
+    try{ if(immoOn()){ var iv=num($('f-immo').value), kv=num($('f-kredit').value); if(iv||kv)parts.push('🏠 Eigenheim netto (nicht in der Summe): '+eur(iv-kv)+' · alles zusammen '+eur(sum+iv-kv)); } }catch(e){}
     if(cur&&!cur.cats&&sum===0){parts.push('Für diesen Monat liegt nur die Gesamtsumme '+eur(cur.total)+' vor. Trägst du Posten ein, ersetzen sie diese Summe.');}
     $('sumnote').textContent=parts.join(' · ');
   }
@@ -5784,6 +5807,7 @@ body{margin:0;background:var(--bg)}
     var o={ym:ym,updated:new Date().toISOString()};
     CATS.forEach(function(c){o[c[0]]=num($('f-'+c[0]).value);});
     o.einzahlung=num($('f-einzahlung').value);
+    if(immoOn()){ o.immo=num($('f-immo').value); o.kredit=num($('f-kredit').value); }
     try{ var W=plausCheck(ym,o); if(W.length){ var ok=await plausAsk(W); if(!ok){ say('msg','Nicht gespeichert – korrigiere die markierten Werte.'); return; } } }catch(e){}
     say('msg','Speichere …');
     try{ await write('months/'+ym,o); dirty=false; say('msg','Gespeichert für '+label(ym)+'.','ok'); try{renderAll();}catch(e2){} }
@@ -5987,12 +6011,12 @@ body{margin:0;background:var(--bg)}
   function stamp(){return new Date().toISOString().slice(0,10);}
   function exportJson(){ saveFile('finanzcockpit-'+stamp()+'.json',JSON.stringify({app:'vermoegensbuch',docs:docs},null,1)); }
   function exportCsv(){
-    var S=series(); var head=['Monat','Gesamt'].concat(CATS.map(function(c){return c[1];})).concat(['Neu in ETFs']);
+    var S=series(); var head=['Monat','Gesamt'].concat(CATS.map(function(c){return c[1];})).concat(['Neu in ETFs']).concat(immoOn()?['Immobilie','Kredit']:[]);
     var rows=[head.join(';')];
     S.forEach(function(p){
       var r=[p.ym,String(p.total).replace('.',',')];
       CATS.forEach(function(c){r.push(p.cats?String(+p.cats[c[0]]||0).replace('.',','):'');});
-      r.push(p.ein?String(p.ein).replace('.',','):''); rows.push(r.join(';'));
+      r.push(p.ein?String(p.ein).replace('.',','):''); if(immoOn()){ var md2=docs['months/'+p.ym]||{}; r.push(md2.immo?String(md2.immo).replace('.',','):''); r.push(md2.kredit?String(md2.kredit).replace('.',','):''); } rows.push(r.join(';'));
     });
     saveFile('finanzcockpit-'+stamp()+'.csv',rows.join('\n'));
   }
@@ -6140,7 +6164,7 @@ body{margin:0;background:var(--bg)}
     try{unbalance();}catch(e){}
     try{lockSync();}catch(e){}
     setTimeout(function(){try{renderTips();}catch(e){} try{renderTodo(); renderPageTodo((location.hash||'#start').slice(1));}catch(e){} balanceSoon();},0);
-    var S=series(); renderHero(S); mainChart.draw(); renderSplit(S); renderEin(S); renderRows(S); renderChecks(); renderNg(); renderAusblick(); renderRendite(); renderFk(); renderEr(); renderGh(); renderFs(); renderKz(); renderDash(); try{renderScore();}catch(e){} try{renderXRem();}catch(e){} try{renderZRem();}catch(e){} try{ if(!$('page-ausgaben').hidden)renderX(); }catch(e){} try{ if(!$('page-zufluss').hidden)renderZ(); }catch(e){} try{ renderGhMon(); }catch(e){} try{renderHeute();}catch(e){} try{renderMini();}catch(e){} try{renderRdChk();}catch(e){} try{renderSky();}catch(e){} renderTa(S); try{renderRb();}catch(e){}
+    var S=series(); renderHero(S); mainChart.draw(); renderSplit(S); renderEin(S); renderRows(S); renderChecks(); renderNg(); renderAusblick(); renderRendite(); renderFk(); renderEr(); renderGh(); renderFs(); renderKz(); renderDash(); try{renderScore();}catch(e){} try{renderXRem();}catch(e){} try{renderZRem();}catch(e){} try{renderLcSug();}catch(e){} try{renderFkAb();}catch(e){} try{ if(!$('page-ausgaben').hidden)renderX(); }catch(e){} try{ if(!$('page-zufluss').hidden)renderZ(); }catch(e){} try{ renderGhMon(); }catch(e){} try{renderHeute();}catch(e){} try{renderMini();}catch(e){} try{renderRdChk();}catch(e){} try{renderSky();}catch(e){} renderTa(S); try{renderRb();}catch(e){}
   }
   function gotData(){ DATA_READY=true;
     clearTimeout(loadTimer); setSync('Gespeichert in der App','ok'); renderAll(); if(!dirty)fillForm();
@@ -6574,6 +6598,38 @@ body{margin:0;background:var(--bg)}
       var big=L.slice().sort(function(a,b){return b.a-a.a;})[0], cl2=L.length?'c-'+lvl(vs[iso]||0):(cf?'c-z':'');
       h+='<button type="button" class="xcd '+cl2+(iso===t?' today':'')+(fut?' fut':'')+(pre?' pre':'')+'" data-xday="'+iso+'"'+(fut?' disabled':'')+'><b>'+d+'</b>'+(big?'<span class="xc1">'+big.e+'</span>'+(L.length>1?'<em class="xcn">+'+(L.length-1)+'</em>':''):(cf?'<span class="xc1 ok">✓</span>':''))+(s2?'<small class="dscm">'+xShort(s2)+'</small>':'')+'</button>'; }
     h+='</div><p class="tasub">Farbe nach deinen Alltagsausgaben (ohne Fixkosten), gemessen an '+(lc?'deinem Tagesbudget von '+eur(B)+'':'deinem typischen Tag')+'. ✓ = nichts ausgegeben. Tipp auf einen Tag für Details.</p>'; el.innerHTML=h; }
+  function xFullMonths(){ var st=xStart(); if(!st)return []; var cur=xToday().slice(0,7), R=[], ym=st.slice(8)==='01'?st.slice(0,7):ymFromIdx(ymIdx(st.slice(0,7))+1), g=0; while(ym<cur&&g++<240){ var dim=xDim(ym), n=0; for(var d=1;d<=dim;d++){ if(xDayDone(ym+'-'+p2(d)))n++; } if(n>=dim*0.8)R.push(ym); ym=ymFromIdx(ymIdx(ym)+1); } return R; }
+  function lcSug(){ if(!xOn())return null; var F=xFullMonths(); if(F.length<2)return null; var F2=F.slice(-6), vs=F2.map(function(ym){ var q=xMonthStats(ym); return q.tot-q.fix; }), av=vs.reduce(function(a,b){return a+b;},0)/vs.length, fk=fkMonthlyTotal(), sug=Math.round((av+fk)/10)*10, lc=lifeCost(); if(!(sug>0))return null;
+    var cur=lc?lc.v:0, d=sug-cur; if(lc&&Math.abs(d)<Math.max(50,cur*0.05))return null; var m=xMeta().lcAsk||{}; if(m.no===F[F.length-1]||m.ok===F[F.length-1])return null; return {F:F2,last:F[F.length-1],av:av,fk:fk,sug:sug,lc:lc,d:d,vs:vs}; }
+  function renderLcSug(){ var Q=null; try{ Q=lcSug(); }catch(e){} [['lcsug',''],['lcsug2','2']].forEach(function(p){ var el=$(p[0]); if(!el)return; if(!Q){ el.hidden=true; el.innerHTML=''; return; } var lc=Q.lc, cur=lc?lc.v:0, ng0=cur*6, ng1=Q.sug*6;
+      el.hidden=false; el.innerHTML='<div class="xrhd"><p class="eyebrow">📊 Deine echten Ausgaben</p></div><p class="xrq">'+(lc?'Die App rechnet mit <b>'+eur(cur)+'</b> im Monat. Deine Ausgaben sagen eher <b>'+eur(Q.sug)+'</b>.':'Deine Ausgaben liegen bei etwa <b>'+eur(Q.sug)+'</b> im Monat.')+xInfB('lcs'+p[1])+'</p>'+
+        xInfP('lcs'+p[1],'<p><b>So rechnet die App:</b> Alltag aus deinem Tracker (Einträge ohne Fixkosten-Häkchen), Ø aus '+Q.F.length+' vollen Monaten: '+Q.F.map(function(ym,i){ return MON[+ym.slice(5)-1]+' '+eur(Q.vs[i]); }).join(' · ')+' = Ø <b>'+eur(Q.av)+'</b>.</p><p>Dazu deine Fixkosten aus dem Reiter: <b>'+eur(Q.fk)+'</b>. Dort sind auch jährliche Posten wie Versicherungen auf den Monat verteilt. Deshalb nimmt die App für die Fixkosten den Reiter und nicht die Buchungen eines einzelnen Monats.</p><p>'+eur(Q.av)+' + '+eur(Q.fk)+' = <b>'+eur(Q.sug)+'</b> (gerundet).</p><p><b>Was sich ändern würde:</b> Freiheitsziel (25 × Jahresausgaben) '+(lc?eurK(cur*300)+' → ':'')+'<b>'+eurK(Q.sug*300)+'</b>. Notgroschen-Ziel (6 Monate) '+(lc?eur(ng0)+' → ':'')+'<b>'+eur(ng1)+'</b>. Außerdem Finanz-Score, Budget-Box bei den Ausgaben und Kaufziele.</p><p>Ein voller Monat zählt, wenn mindestens 80 % seiner Tage erfasst oder abgehakt sind.</p>')+
+        '<p class="xrs">Alltag Ø '+eur(Q.av)+' (aus '+Q.F.length+' vollen Monaten) + Fixkosten '+eur(Q.fk)+'</p><div class="xrlinks"><button type="button" class="btn primary" data-lcs="ok" data-v="'+Q.sug+'" data-m="'+Q.last+'">'+eur(Q.sug)+' übernehmen</button>'+(lc?'<button type="button" class="btn" data-lcs="no" data-m="'+Q.last+'">Bei '+eur(cur)+' bleiben</button>':'')+'</div><p class="tasub">Die App ändert nichts ohne dein Okay. Nach dem nächsten vollen Monat fragt sie wieder, falls es weiter abweicht.</p>'; }); }
+  document.addEventListener('click',async function(ev){ var b=ev.target.closest&&ev.target.closest('[data-lcs]'); if(!b)return; var m=JSON.parse(JSON.stringify(xMeta())), ym=b.getAttribute('data-m');
+    try{ if(b.getAttribute('data-lcs')==='ok'){ var v=+b.getAttribute('data-v'), sd=Object.assign({},docs['settings/main']||{}); sd.lifeCost=v; await write('settings/main',sd); m.lcAsk={ok:ym}; await write('ausgaben/meta',m); toast('✓ Neue Annahme: '+eur(v)+' pro Monat'); }
+      else { m.lcAsk={no:ym}; await write('ausgaben/meta',m); toast('Okay, die App bleibt bei deinem Wert'); } renderAll(); }catch(e){ toast(failText()); } });
+  function fkTok(n){ return xKey(n).split(/[^a-zäöüß0-9]+/).filter(function(w){return w.length>=4;}).map(function(w){ return w.length>=7?w.replace(/(en|n|e|s)$/,''):w; }); }
+  function fkMatch(r,i){ var k=xKey(i.t); if(!k)return false; var n=xKey(r.name); if(n&&(k.indexOf(n)>-1||n.indexOf(k)>-1))return true; return fkTok(r.name).some(function(w){ return k.indexOf(w)>-1; }); }
+  var FKF={12:'monatlich',4:'vierteljährlich',2:'halbjährlich',1:'jährlich'};
+  function fkHints(){ if(!xOn())return []; var F=xFullMonths(); if(!F.length)return []; var items=((docs['fixkosten/main']||{}).items||[]).filter(function(r){return r.name&&+r.amount>0;}), ok=xMeta().fkok||{}, H=[], last=F[F.length-1];
+    var its=function(yms){ var L=[]; yms.forEach(function(ym){ (xDoc(ym).items||[]).forEach(function(i){L.push(i);}); }); return L; }, sm=function(L){ return L.reduce(function(a,i){return a+(+i.a||0);},0); };
+    items.forEach(function(r){ var n=+r.n||12, A=+r.amount, k;
+      if(n===12){ var L=its([last]).filter(function(i){return fkMatch(r,i);}), s1=sm(L);
+        if(!L.length){ k='m:'+r.id+':'+last; if(!ok[k])H.push({k:k,r:r,kind:'miss',ym:last,A:A}); }
+        else if(Math.abs(s1-A)>Math.max(1,A*0.02)){ k='d:'+r.id+':'+Math.round(s1*100); if(!ok[k])H.push({k:k,r:r,kind:'diff',ym:last,A:A,s:s1,na:s1}); } }
+      else if(F.length>=12){ var L2=its(F.slice(-12)).filter(function(i){return fkMatch(r,i);}), s2=sm(L2), want=A*n;
+        if(!L2.length){ k='y:'+r.id+':'+last; if(!ok[k])H.push({k:k,r:r,kind:'ymiss',ym:last,A:A,n:n}); }
+        else if(Math.abs(s2-want)>Math.max(2,want*0.05)){ k='yd:'+r.id+':'+Math.round(s2*100); if(!ok[k])H.push({k:k,r:r,kind:'ydiff',ym:last,A:A,n:n,s:s2,want:want,na:s2/n}); } } });
+    return H; }
+  function renderFkAb(){ var el=$('fkab'); if(!el)return; var H=[]; try{ H=fkHints(); }catch(e){} if(!H.length){ el.hidden=true; el.innerHTML=''; return; } XS.fkh=H; var F=xFullMonths();
+    el.hidden=false; el.innerHTML='<div class="xrhd"><p class="eyebrow">📄 Fixkosten-Abgleich'+xInfB('fkab')+'</p>'+(H.length>1?'<span class="pill neutral">'+H.length+'</span>':'')+'</div>'+xInfP('fkab','<p>Die App vergleicht deinen Fixkosten-Reiter mit dem, was du trackst. <b>Monatliche Posten</b> prüft sie nach jedem vollen Monat, zuletzt '+MONFULL[+F[F.length-1].slice(5)-1]+'.</p><p><b>Jährliche, halb- und vierteljährliche Posten</b> wie die Kfz-Versicherung prüft sie erst, wenn du 12 volle Monate getrackt hast (bisher '+F.length+'). Vorher wäre eine Abweichung ganz normal.</p><p>Gefunden wird ein Eintrag über den Namen, z. B. „Handy“ in „Handyvertrag“. Ändern tut die App nur, wenn du tippst. „Passt so“ blendet den Hinweis aus.</p>')+
+      H.slice(0,4).map(function(h,i){ var nm='<b>'+esc(h.r.name)+'</b>', mo=MONFULL[+h.ym.slice(5)-1];
+        var t=h.kind==='miss'?nm+' ('+eur2(h.A)+', monatlich) – im '+mo+' nicht gefunden. Vergessen oder anders benannt?':h.kind==='diff'?nm+': im '+mo+' <b>'+eur2(h.s)+'</b> gebucht, im Fixkosten-Reiter stehen '+eur2(h.A)+'.':h.kind==='ymiss'?nm+' ('+eur2(h.A)+' '+FKF[h.n]+') – in den letzten 12 Monaten keine Buchung gefunden.':nm+': in 12 Monaten <b>'+eur2(h.s)+'</b> gebucht, laut Fixkosten-Reiter '+eur2(h.want)+' im Jahr.';
+        return '<div class="fkh"><p>'+t+'</p><div class="fkhb">'+(h.kind==='miss'?'<button type="button" class="btn" data-fka="add" data-i="'+i+'">Nachtragen</button>':'')+(h.kind==='diff'||h.kind==='ydiff'?'<button type="button" class="btn" data-fka="set" data-i="'+i+'">Fixkosten auf '+eur2(h.na)+(h.kind==='ydiff'?' '+FKF[h.n]:'')+' ändern</button>':'')+'<button type="button" class="btn ghost" data-fka="ok" data-i="'+i+'">Passt so</button></div></div>'; }).join('')+(H.length>4?'<p class="tasub">+ '+(H.length-4)+' weitere Hinweise</p>':''); }
+  document.addEventListener('click',async function(ev){ var b=ev.target.closest&&ev.target.closest('[data-fka]'); if(!b)return; var h=(XS.fkh||[])[+b.getAttribute('data-i')]; if(!h)return; var a=b.getAttribute('data-fka');
+    if(a==='add'){ xOpenAdd({a:h.A,t:h.r.name,day:h.ym+'-01',fix:true}); return; }
+    try{ if(a==='set'){ var d=JSON.parse(JSON.stringify(docs['fixkosten/main']||{items:[]})); (d.items||[]).forEach(function(r){ if(r.id===h.r.id)r.amount=Math.round(h.na*100)/100; }); d.updated=new Date().toISOString(); await write('fixkosten/main',d); try{ fkFromDoc(); }catch(e){} toast('✓ Fixkosten angepasst: '+h.r.name+' '+eur2(h.na)); }
+      var m=JSON.parse(JSON.stringify(xMeta())); m.fkok=m.fkok||{}; m.fkok[h.k]=1; await write('ausgaben/meta',m); if(a==='ok')toast('Okay, ausgeblendet'); renderAll(); }catch(e){ toast(failText()); } });
   function renderXSum(ym){ var el=$('xsum'); if(!el)return; var st=xMonthStats(ym), pv=xMonthStats(ymFromIdx(ymIdx(ym)-1)), it=st.it, mn=MONFULL[+ym.slice(5)-1], OM=zOffAll().filter(function(i){ return i.d.slice(0,7)===ym; }), om=zOffSum(OM);
     if(!it.length){ el.innerHTML='<h2>Monatszusammenfassung</h2><p class="empty">Noch keine Ausgaben im '+mn+'.</p>'; return; }
     var big=it.slice().sort(function(a,b){return b.a-a.a;})[0], shared=it.reduce(function(a,i){return a+((+i.p||0)-(i.p?+i.a:0));},0), varv=st.tot-st.fix, cs={}; it.forEach(function(i){ var c=xCat(i); cs[c]=(cs[c]||0)+(+i.a||0); });
@@ -7553,13 +7609,14 @@ body{margin:0;background:var(--bg)}
     if(el.getAttribute('data-f')==='bl'){ g.bl=el.value; kzTouch(); return; }
     if(el.getAttribute('data-f')==='mak'){ g.mak=el.checked; kzTouch(); return; }
     if(el.getAttribute('data-f')==='drop'){ g.drop=el.checked; if(g.drop){g.done=false; delete kzEdit[g.id];} kzTouch(); setTimeout(function(){ kzBuild(); kzCalc(); },350); if(g.drop){ try{toast('Verworfen: '+(g.name||'Kaufziel')+' – gespartes Geld bleibt im Depot 💪');}catch(e){} } return; }
-    if(el.getAttribute('data-f')==='done'){ g.done=el.checked; if(g.done){g.drop=false; delete kzEdit[g.id];} el.closest('.kzc').classList.toggle('isdone',g.done); kzTouch(); setTimeout(function(){ kzBuild(); kzCalc(); },650); if(g.done){ try{confetti(); toast('🎉 Gekauft: '+(g.name||'Kaufziel')+' – gönn dir!');}catch(e){} } return; }
+    if(el.getAttribute('data-f')==='done'){ g.done=el.checked; if(g.done){g.drop=false; delete kzEdit[g.id];} el.closest('.kzc').classList.toggle('isdone',g.done); kzTouch(); setTimeout(function(){ kzBuild(); kzCalc(); },650); if(g.done){ try{confetti(); toast(g.im&&!immoOn()?'🏠 Glückwunsch! Auf der Karte kannst du Immobilie & Kredit im Monatsstand einblenden.':'🎉 Gekauft: '+(g.name||'Kaufziel')+' – gönn dir!');}catch(e){} } return; }
     var f=el.getAttribute('data-f'), cf=el.getAttribute('data-cf');
     if(f==='wealth'||f==='price'||f==='ekq'||f==='zins'||f==='tilg'||f==='inc2'||cf==='cur'||cf==='target'){ el.value=el.value.trim()===''?'':fmtN(num(el.value)); }
   });
   $('kzlist').addEventListener('click',function(ev){
     var b=ev.target.closest('button'); if(!b)return;
     var g=kzGoal(b); if(!g)return;
+    if(b.hasAttribute('data-immoon')){ immoEnable(g); return; }
     if(b.hasAttribute('data-imgset')){ kzImgPick(g); return; }
     if(b.hasAttribute('data-imgdel')){ if(!b.getAttribute('data-armed')){ b.setAttribute('data-armed','1'); b.textContent='Sicher?'; setTimeout(function(){ if(b.isConnected){b.removeAttribute('data-armed'); b.textContent='Entfernen';} },3000); return; } kzImgDel(g); return; }
     if(b.hasAttribute('data-pick')){ var pk=b.closest('.kzc').querySelector('.kzpick'); pk.hidden=!pk.hidden; b.setAttribute('aria-expanded',String(!pk.hidden)); return; }
