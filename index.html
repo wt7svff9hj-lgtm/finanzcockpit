@@ -2510,6 +2510,14 @@ html.xpg .xfab{display:block}
 .kzig em{display:block;font-style:normal;font-size:12px;color:var(--muted);margin-top:2px}
 .kzmeta select.xcsel{width:100%;height:46px;box-sizing:border-box}
 .kzq.lv-g{background:color-mix(in srgb,var(--up) 10%,transparent)}.kzq.lv-y{background:color-mix(in srgb,#E8B53A 14%,transparent)}.kzq.lv-o{background:color-mix(in srgb,#F08A3C 14%,transparent)}.kzq{border-radius:12px;padding:8px 10px}
+.kzmeta{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;align-items:start}
+.kzmeta>label.f{min-width:0!important;margin:0!important;justify-content:flex-start}
+.kzmeta input:not([type=checkbox]),.kzmeta select{display:block;width:100%!important;min-width:0!important;max-width:100%;height:46px!important;min-height:46px;box-sizing:border-box;margin:0!important;-webkit-appearance:none;appearance:none;font-size:16px}
+.kzmeta input[type=month]{line-height:44px;text-align:left;padding:0 12px}
+.kzmeta input[type=month]::-webkit-date-and-time-value{text-align:left;margin:0}
+.kzmeta select{padding:0 32px 0 12px;background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 17px) 20px,calc(100% - 12px) 20px;background-size:5px 5px;background-repeat:no-repeat}
+.kzmeta .chk{grid-column:1/-1}
+.kzinote{grid-column:1/-1;margin:2px 0 0;padding:9px 12px;border-radius:12px;background:color-mix(in srgb,var(--up) 9%,transparent);font-size:13.5px;line-height:1.45;color:var(--fg)}
 [hidden]{display:none!important}
 body{margin:0;background:var(--bg)}
 .encbox{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--up-bg);border:1px solid color-mix(in srgb,var(--up) 35%,transparent);margin:10px 0}.encbox .ib{font-size:18px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--surface)}.encbox b{display:block;color:var(--up)}.encbox small{font-size:12.5px;color:var(--muted)}
@@ -4410,7 +4418,8 @@ body{margin:0;background:var(--bg)}
       '<label class="f">Eigenkapital in %<input class="num" type="text" inputmode="decimal" data-f="ekq" value="'+fmtN(g.ekq!=null?g.ekq:20)+'" placeholder="20" autocomplete="off"></label>'+
       '<label class="f">Bauzins in %<input class="num" type="text" inputmode="decimal" data-f="zins" value="'+fmtN(g.zins!=null?g.zins:3.9)+'" placeholder="3,9" autocomplete="off"></label>'+
       '<label class="f">Tilgung in %<input class="num" type="text" inputmode="decimal" data-f="tilg" value="'+fmtN(g.tilg!=null?g.tilg:2)+'" placeholder="2" autocomplete="off"></label>'+
-      '<label class="f">2. Einkommen netto/Monat<input class="num" type="text" inputmode="decimal" data-f="inc2" value="'+fmtN(g.inc2)+'" placeholder="optional" autocomplete="off"></label>'+
+      (function(){ var gl=[]; try{ gl=ghSeries().filter(function(o){return o.n>=500;}).slice(-12); }catch(e){} return '<p class="kzinote">💼 '+(gl.length?'Dein Netto kennt die App schon: <b>Ø '+eur(gl.reduce(function(a,o){return a+o.n;},0)/gl.length)+'</b> pro Monat, aus dem Reiter Gehalt ('+(gl.length===1?'1 Monat':'letzte '+gl.length+' Monate')+'). Das musst du hier nicht eintragen.':'Dein Netto holt sich die App automatisch aus dem Reiter Gehalt, sobald dort etwas steht.')+'</p>'; })()+
+      '<label class="f">Netto Partner/in pro Monat<input class="num" type="text" inputmode="decimal" data-f="inc2" value="'+fmtN(g.inc2)+'" placeholder="optional, falls ihr zu zweit kauft" autocomplete="off"></label>'+
       '<label class="chk"><input type="checkbox" data-f="mak"'+(g.mak!==false?' checked':'')+'> Mit Makler</label>'; }
   function kzMiete(){ try{ var t=0; ((docs['fixkosten/main']||{}).items||[]).forEach(function(r){ if(/miete/i.test(r.name||''))t+=(+r.amount||0)*(+r.n||12)/12; }); return t>0?t:null; }catch(e){ return null; } }
   function kzNet(){ try{ var gl=ghSeries().filter(function(o){return o.n>=500;}).slice(-12); if(gl.length)return gl.reduce(function(a,o){return a+o.n;},0)/gl.length; }catch(e){} return null; }
@@ -4439,7 +4448,7 @@ body{margin:0;background:var(--bg)}
     return h; }
   function kzImmoFirst(){ var g=kz.items.filter(function(x){return x.im&&x.price>0&&!x.drop;})[0]; return g?kzImmo(g):null; }
   function kzImmoHtml(g,W){ var R=kzImmo(g); if(!R)return ''; var by=+(docs['settings/main']||{}).byear||0, age=by?new Date().getFullYear()-by:null, endless=R.n>=1200;
-    var qL=R.q==null?null:R.q<=30?['g','🟢 entspannt']:R.q<=40?['y','🟡 machbar – Banken akzeptieren meist bis etwa 35–40 %']:['o',R.inc2>0?'🟠 knapp – lieber mehr Eigenkapital oder einen günstigeren Preis einplanen':'🟠 für ein Einkommen allein viel. Mit einem zweiten Einkommen (Feld „2. Einkommen“) sieht es anders aus'];
+    var qL=R.q==null?null:R.q<=30?['g','🟢 entspannt']:R.q<=40?['y','🟡 machbar – Banken akzeptieren meist bis etwa 35–40 %']:['o',R.inc2>0?'🟠 knapp – lieber mehr Eigenkapital oder einen günstigeren Preis einplanen':'🟠 für ein Einkommen allein viel. Kauft ihr zu zweit, trag unter „Bearbeiten“ das Netto deiner Partnerin ein'];
     return '<div class="kzimmo"><p class="kzlh">🏠 So sähe die Finanzierung aus'+gi('immo')+'</p><div class="kzgrid kzig">'+
       '<div><span>Kaufnebenkosten'+gi('nk')+'</span><b>'+eur(R.nk)+'</b><em>'+kzP(R.gs+R.no+R.mk)+' % vom Kaufpreis</em></div>'+
       '<div class="hl"><span>Eigenkapital nötig'+gi('ek')+'</span><b>'+eur(R.ek)+'</b><em>'+(W>0?pct(R.ek/W*100)+' deines Vermögens':kzP(R.ekq)+' % + Nebenkosten')+'</em></div>'+
@@ -4448,7 +4457,7 @@ body{margin:0;background:var(--bg)}
       '<div><span>Zinsen in 10 Jahren'+gi('zinsb')+'</span><b>'+eurM(R.z10)+'</b><em>danach noch '+eurM(R.r10)+' offen</em></div>'+
       '<div><span>Schuldenfrei nach'+gi('tilg')+'</span><b>'+(endless?'–':kzDur(R.n,0))+'</b><em>'+(endless?'Tilgung zu niedrig':(age?'mit etwa '+Math.round(age+R.n/12)+' · ':'')+eurM(R.zt)+' Zinsen gesamt')+'</em></div></div>'+
       '<p class="kzline">'+ico('target')+'<span><b>Wohnen als Eigentümer:</b> Rate '+eur(R.rate)+' + Rücklage für Reparaturen ≈ '+eur(R.rueck)+' = <b>'+eur(R.wohn)+'</b> im Monat.'+(R.miete?' Deine Miete heute (laut Fixkosten): '+eur(R.miete)+'. Das wären <b>'+eur(Math.abs(R.wohn-R.miete))+' '+(R.wohn>=R.miete?'mehr':'weniger')+'</b> als jetzt.':' Trägst du deine Miete im Reiter Fixkosten ein, vergleicht die App beides.')+gi('wohn')+'</span></p>'+
-      (R.q!=null?'<p class="kzline kzq lv-'+qL[0]+'">'+ico('watch')+'<span>Das sind <b>'+pct(R.q)+'</b> '+(R.inc2>0?'eures Nettoeinkommens (Ø '+eur(R.net)+', davon '+eur(R.inc2)+' 2. Einkommen)':'deines Nettogehalts (Ø '+eur(R.n1)+')')+' – '+qL[1]+'.'+gi('quote')+'</span></p>':'')+
+      (R.q!=null?'<p class="kzline kzq lv-'+qL[0]+'">'+ico('watch')+'<span>Das sind <b>'+pct(R.q)+'</b> '+(R.inc2>0?'eures Nettoeinkommens (Ø '+eur(R.net)+': deins '+eur(R.n1||0)+' laut Reiter Gehalt + '+eur(R.inc2)+' Partner/in)':'deines Nettogehalts (Ø '+eur(R.n1)+' laut Reiter Gehalt)')+' – '+qL[1]+'.'+gi('quote')+'</span></p>':'')+
       '<p class="kzfoot">Das Barometer darunter bewertet das <b>Eigenkapital von '+eur(R.ek)+'</b> – das Geld, das wirklich aus deinem Vermögen fließt. Den Kredit zahlst du über die Rate aus dem Gehalt. Annahmen: Grunderwerbsteuer '+(R.bl?R.bl[1]:'Ø Deutschland')+' '+kzP(R.gs)+' %, Notar & Grundbuch 2 %'+(R.mk?', Makler 3,57 %':'')+', Bauzins '+kzP(R.zi)+' % (Bestzins 10 Jahre lag Mitte November 2026 bei etwa 3,9 %). Orientierung, keine Finanzberatung.</p></div>'; }
 
   /* ===== Kauf-Barometer ===== */
@@ -5444,7 +5453,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='3.4.0', APP_DATE='15.11.2026';
+  var APP_VERSION='3.4.1', APP_DATE='15.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
