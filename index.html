@@ -2533,6 +2533,13 @@ html.xpg .xfab{display:block}
 .kzall{margin-top:12px}.kzar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;padding:8px 0;border-top:1px solid var(--line)}.kzar:first-of-type{border-top:0}
 .kzan{font-weight:600;font-size:14.5px;min-width:0;overflow:hidden;text-overflow:ellipsis}.kzan small{font-weight:400;color:var(--muted);font-size:12px}.kzar .kzsbar{grid-column:1/-1;height:8px}
 .kzar em{grid-column:1/-1;font-style:normal;font-size:12.5px;color:var(--muted)}.kzar em.z{color:#C2410C}.kzar em.a{color:var(--up)}
+.wipebox{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}.wipebox .note{margin:0 0 10px}
+button.btn.danger{color:var(--down);border-color:color-mix(in srgb,var(--down) 40%,var(--line))}.wipeconf{margin-top:10px}
+.iconbtn.offbtn{color:#fff;background:#F08A3C!important;border-color:#F08A3C!important;animation:offp 2.4s ease-in-out infinite}.iconbtn.offbtn[hidden]{display:none}
+@keyframes offp{0%,100%{box-shadow:0 0 0 0 rgba(240,138,60,.45)}50%{box-shadow:0 0 0 6px rgba(240,138,60,0)}}
+@media (prefers-reduced-motion:reduce){.iconbtn.offbtn{animation:none}}
+.iosbar .topr>#offbtn{position:absolute;right:83px;top:calc(100% + 8px);transition:top .3s cubic-bezier(.3,.8,.3,1)}
+html.scrolled .iosbar .topr>#offbtn{top:50%;right:auto;left:84px;transform:translateY(-50%)}
 [hidden]{display:none!important}
 body{margin:0;background:var(--bg)}
 .encbox{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--up-bg);border:1px solid color-mix(in srgb,var(--up) 35%,transparent);margin:10px 0}.encbox .ib{font-size:18px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--surface)}.encbox b{display:block;color:var(--up)}.encbox small{font-size:12.5px;color:var(--muted)}
@@ -2549,7 +2556,7 @@ body{margin:0;background:var(--bg)}
         <p class="sub" id="stand">Lade Daten …</p>
       </div>
     </div>
-    <div class="topr"><span class="chip" id="sync">startet</span><button type="button" class="iconbtn" id="minibtn" aria-label="Kompaktansicht" aria-pressed="false"></button><button type="button" class="iconbtn" id="dscbtn" aria-label="Beträge verbergen" aria-pressed="false"></button><button type="button" class="iconbtn" id="setbtn" aria-label="Einstellungen" aria-expanded="false"></button><button type="button" class="iconbtn" id="lockbtn" aria-label="App-Sperre" hidden></button><button type="button" class="iconbtn" id="accbtn" hidden aria-label="Akzentfarbe wählen" aria-expanded="false"></button><button type="button" class="iconbtn" id="themebtn" aria-label="Darstellung wechseln" hidden></button><div class="accpop" id="accpop" hidden></div></div>
+    <div class="topr"><span class="chip" id="sync">startet</span><button type="button" class="iconbtn" id="minibtn" aria-label="Kompaktansicht" aria-pressed="false"></button><button type="button" class="iconbtn" id="dscbtn" aria-label="Beträge verbergen" aria-pressed="false"></button><button type="button" class="iconbtn" id="setbtn" aria-label="Einstellungen" aria-expanded="false"></button><button type="button" class="iconbtn" id="lockbtn" aria-label="App-Sperre" hidden></button><button type="button" class="iconbtn" id="accbtn" hidden aria-label="Akzentfarbe wählen" aria-expanded="false"></button><button type="button" class="iconbtn" id="themebtn" aria-label="Darstellung wechseln" hidden></button><button type="button" class="iconbtn offbtn" id="offbtn" aria-label="Offline" hidden><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8.8a15 15 0 0 1 4.4-2.7M9.9 5.2A15 15 0 0 1 22 8.8M5 12.5a10 10 0 0 1 3.6-2.1M15.6 10.4A10 10 0 0 1 19 12.5M8.5 16.1a5 5 0 0 1 4.3-1.4"/><circle cx="12" cy="20" r="1" fill="currentColor"/><path d="M3 3l18 18"/></svg></button><div class="accpop" id="accpop" hidden></div></div>
   </header>
 
   <nav class="nav" aria-label="Bereiche">
@@ -2756,6 +2763,12 @@ body{margin:0;background:var(--bg)}
           <input class="hidden-input" type="file" id="impfile" accept=".json,application/json">
         </div>
         <p class="msg" id="datamsg" role="status"></p>
+        <div class="wipebox" id="wipebox" hidden>
+          <p class="note"><b>Nur diese Claude-Version leeren:</b> Löscht alle Einträge, die du hier in Claude eingetragen hast. Deine App bei GitHub und die verschlüsselte Cloud bleiben unberührt.</p>
+          <button type="button" class="btn danger" id="wipe-1">Alle Daten in dieser Claude-Version löschen</button>
+          <div class="wipeconf" id="wipe-c" hidden><label class="f">Zur Sicherheit „LÖSCHEN“ eintippen<input type="text" id="wipe-t" autocomplete="off" autocapitalize="characters"></label><div class="btns"><button type="button" class="btn danger" id="wipe-2">Endgültig löschen</button><button type="button" class="btn" id="wipe-x">Abbrechen</button></div></div>
+          <p class="msg" id="wipemsg" role="status"></p>
+        </div>
       </section>
     </div>
   </div>
@@ -5497,7 +5510,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='3.5.2', APP_DATE='17.11.2026';
+  var APP_VERSION='3.5.4', APP_DATE='17.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
@@ -6161,7 +6174,20 @@ body{margin:0;background:var(--bg)}
       setTimeout(function(){for(var j=0;j<els.length;j++)els[j].classList.add('in');},6000);
     }catch(e){}
   })();
+  async function wipeAll(){ if(!db)return; var ks=Object.keys(docs), n=0, bad=0; say('wipemsg','Lösche … 0 von '+ks.length);
+    for(var i=0;i<ks.length;i++){ try{ await db.doc(ks[i]).delete(); delete docs[ks[i]]; n++; }catch(e){ bad++; } if(i%5===0)say('wipemsg','Lösche … '+(i+1)+' von '+ks.length); }
+    try{ Object.keys(localStorage).forEach(function(k){ if(/^vb-/.test(k))localStorage.removeItem(k); }); }catch(e){}
+    $('wipe-c').hidden=true; $('wipe-t').value='';
+    say('wipemsg',bad?n+' Einträge gelöscht, '+bad+' konnten nicht gelöscht werden. Tipp es bitte noch einmal.':'✓ Alles gelöscht ('+n+' Einträge). Diese Claude-Version ist jetzt leer.',bad?'bad':'ok'); try{ renderAll(); if(!dirty)fillForm(); }catch(e){} }
+  function wipeInit(){ var wb=$('wipebox'); if(!wb)return;
+    $('wipe-1').addEventListener('click',function(){ $('wipe-c').hidden=false; $('wipe-t').focus(); });
+    $('wipe-x').addEventListener('click',function(){ $('wipe-c').hidden=true; $('wipe-t').value=''; say('wipemsg',''); });
+    $('wipe-2').addEventListener('click',function(){ if($('wipe-t').value.trim().toUpperCase()!=='LÖSCHEN'){ say('wipemsg','Bitte genau „LÖSCHEN“ eintippen.','bad'); return; } wipeAll(); }); }
+  function netState(){ var b=$('offbtn'); if(!b)return; var off=navigator.onLine===false; b.hidden=!off; document.documentElement.classList.toggle('isoff',off); }
+  window.addEventListener('online',function(){ netState(); toast('📶 Wieder online'); }); window.addEventListener('offline',function(){ netState(); toast('📴 Offline – du kannst weiter eintragen'); });
+  document.addEventListener('click',function(ev){ if(ev.target.closest&&ev.target.closest('#offbtn'))toast(db?'📴 Offline – ohne Internet kann die Claude-Version nicht speichern.':'📴 Offline – alles wird auf dem Gerät gespeichert und abgeglichen, sobald du wieder online bist.'); });
   function renderAll(){
+    try{ $('wipebox').hidden=!db; }catch(e){}
     try{unbalance();}catch(e){}
     try{lockSync();}catch(e){}
     setTimeout(function(){try{renderTips();}catch(e){} try{renderTodo(); renderPageTodo((location.hash||'#start').slice(1));}catch(e){} balanceSoon();},0);
@@ -7755,6 +7781,8 @@ body{margin:0;background:var(--bg)}
   });
   if(window.ResizeObserver){new ResizeObserver(function(){ if(!$('page-ausblick').hidden)renderAusblick(); }).observe($('ychart'));}
 
+  try{ wipeInit(); }catch(e){}
+  try{ netState(); }catch(e){}
   init();
 })();
 </script>
