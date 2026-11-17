@@ -5497,7 +5497,7 @@ body{margin:0;background:var(--bg)}
   }
 
   /* ===== Version ===== */
-  var APP_VERSION='3.5.1', APP_DATE='15.11.2026';
+  var APP_VERSION='3.5.2', APP_DATE='17.11.2026';
   function verLabel(){ return 'Version '+APP_VERSION+' · '+APP_DATE; }
   async function checkUpdate(){
     try{
@@ -5907,6 +5907,7 @@ body{margin:0;background:var(--bg)}
   async function syncNow(){
     if(!SYNC.gist)return;
     if(syncBusy){syncAgain=true;return;}
+    if(navigator.onLine===false){ try{localStorage.setItem('vb-pending','1');}catch(e){} setSync('📴 Offline · wird nachgeholt'); say('syncmsg','Kein Internet. Alles ist auf diesem Gerät gespeichert und wird abgeglichen, sobald du wieder online bist.'); return; }
     syncBusy=true; setSync('Cloud: gleiche ab …');
     try{
       var r=await gapi('/gists/'+SYNC.gist);
@@ -5934,7 +5935,7 @@ body{margin:0;background:var(--bg)}
       var t=new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
       setSync((EK?'🔒 ':'')+'Cloud abgeglichen · '+t,'ok'); say('syncmsg','Abgeglichen um '+t+'.'+(EK?' Verschlüsselt.':''),'ok'); encUi();
       if(ch){ try{renderAll(); if(!dirty)fillForm();}catch(e2){} }
-    }catch(e){ if(e&&e.enc){ setSync('Cloud: Passwort nötig','bad'); say('syncmsg',e.enc==='bad'?'Das Passwort passt nicht zu deinen Cloud-Daten.':'Deine Cloud-Daten sind verschlüsselt. Gib unten dein Passwort ein.','bad'); } else { setSync('Cloud: nicht abgeglichen','bad'); say('syncmsg',syncErr(e),'bad'); } }
+    }catch(e){ if(e&&e.enc){ setSync('Cloud: Passwort nötig','bad'); say('syncmsg',e.enc==='bad'?'Das Passwort passt nicht zu deinen Cloud-Daten.':'Deine Cloud-Daten sind verschlüsselt. Gib unten dein Passwort ein.','bad'); } else if(e&&e.name==='TypeError'){ try{localStorage.setItem('vb-pending','1');}catch(_){} setSync('📴 Offline · wird nachgeholt'); say('syncmsg',syncErr(e)); } else { setSync('Cloud: nicht abgeglichen','bad'); say('syncmsg',syncErr(e),'bad'); } }
     syncBusy=false;
     if(syncAgain){syncAgain=false; syncNow();}
   }
@@ -7757,5 +7758,6 @@ body{margin:0;background:var(--bg)}
   init();
 })();
 </script>
+<script>if('serviceWorker' in navigator&&(/^https:$/.test(location.protocol)||location.hostname==='localhost')){addEventListener('load',function(){navigator.serviceWorker.register('sw.js').then(function(r){try{r.update().catch(function(){});}catch(e){}}).catch(function(){});});}</script>
 </body>
 </html>
