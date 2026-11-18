@@ -1,14 +1,17 @@
 # Erinnerungen fürs Cockpit – schickt feste Erinnerungstexte als Mitteilung aufs iPhone/iPad.
-# Enthält keine Finanzdaten. Geheime Werte liegen als "Secrets" im Repository (Settings → Secrets and variables → Actions):
-#   VAPID_PRIVATE  (einmalig, Schlüssel zum Senden)
-#   PUSH_SUB_1     (Code vom iPhone)   PUSH_SUB_2 (Code vom iPad)   PUSH_SUB_3 (optional, weiteres Gerät)
+# Enthält keine Finanzdaten. Die App passt die Texte erst auf dem Gerät an (z. B. „✓ schon erledigt“).
+# Secrets im Repository (Settings → Secrets and variables → Actions):
+#   VAPID_PRIVATE  (Sende-Schlüssel)   PUSH_SUB_1 (iPhone)   PUSH_SUB_2 (iPad)   PUSH_SUB_3 (optional)
 name: Erinnerungen
 
 on:
   schedule:
-    # 8:30 Uhr deutscher Zeit: Sommerzeit = 6:30 UTC, Winterzeit = 7:30 UTC (das Skript wählt den passenden Lauf)
+    # Morgens 8:30 Uhr deutscher Zeit (Sommerzeit 6:30 UTC, Winterzeit 7:30 UTC)
     - cron: '30 6 * * *'
     - cron: '30 7 * * *'
+    # Sonntagabend 19:30 Uhr deutscher Zeit (Sommerzeit 17:30 UTC, Winterzeit 18:30 UTC)
+    - cron: '30 17 * * 0'
+    - cron: '30 18 * * 0'
   workflow_dispatch:
     inputs:
       art:
@@ -39,18 +42,37 @@ jobs:
           cat > senden.cjs <<'JS'
           const webpush = require('web-push');
           const now = new Date();
-          const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Berlin', year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'short', hour: 'numeric', hourCycle: 'h23' }).formatToParts(now).map(p => [p.type, p.value]));
-          const utcH = now.getUTCHours(), berlinH = +parts.hour, offset = ((berlinH - utcH) + 24) % 24; // 1 = Winterzeit, 2 = Sommerzeit
-          const day = +parts.day, month = +parts.month, monday = parts.weekday === 'Mon';
-          const msgs = [];
-          if (process.env.ART === 'test') {
-            msgs.push({ title: 'Cockpit', body: 'Test: Erinnerungen funktionieren 👍', url: './', tag: 'test' });
-          } else {
-            if (process.env.SCHED) { const want = offset === 2 ? '30 6 * * *' : '30 7 * * *'; if (process.env.SCHED !== want) { console.log('Nicht der passende Lauf für heute (Zeitumstellung) – nichts zu tun.'); process.exit(0); } }
-            msgs.push({ title: 'Ausgaben-Check', body: 'Was hast du gestern ausgegeben? Kurz eintragen oder „Nichts ausgegeben“ tippen.', url: './#ausgaben', tag: 'ausgaben' });
-            if (monday) msgs.push({ title: 'Einnahmen-Check', body: 'Hast du letzte Woche etwas eingenommen? Pfand, Geschenke, Cashback, Rückzahlungen …', url: './#zufluss', tag: 'einnahmen' });
-            if (day === 3) msgs.push({ title: 'Stichtag heute', body: 'Monatsstand und Monats-Checkliste sind dran.' + (month === 1 ? ' Dazu der Jahres-Check der Renditen.' : ''), url: './#start', tag: 'stichtag' });
+          const P = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Berlin', year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'short', hour: 'numeric', hourCycle: 'h23' }).formatToParts(now).map(p => [p.type, p.value]));
+          const offset = ((+P.hour - now.getUTCHours()) + 24) % 24; // 1 = Winterzeit, 2 = Sommerzeit
+          const day = +P.day, month = +P.month, wd = P.weekday, year = +P.year;
+          const MON = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+          const prevMon = MON[(month + 10) % 12];
+          let slot = 'morgens';
+          if (process.env.SCHED) {
+            const ok = { '30 6 * * *': ['morgens', 2], '30 7 * * *': ['morgens', 1], '30 17 * * 0': ['abends', 2], '30 18 * * 0': ['abends', 1] }[process.env.SCHED];
+            if (!ok || ok[1] !== offset) { console.log('Nicht der passende Lauf (Sommer-/Winterzeit) – nichts zu tun.'); process.exit(0); }
+            slot = ok[0];
           }
+          const msgs = [];
+          const add = (title, body, url, tag) => msgs.push({ title, body, url, tag });
+          if (process.env.ART === 'test') {
+            add('Cockpit', 'Test: Erinnerungen funktionieren 👍', './', 'test');
+          } else if (slot === 'abends') {
+            if (wd === 'Sun') add('Wochenrückblick', 'Deine Woche ist fertig – schau kurz rein, wie sie gelaufen ist.', './#ausgaben', 'woche');
+          } else {
+            add('Ausgaben-Check', 'Was hast du gestern ausgegeben? Kurz eintragen oder „Nichts ausgegeben“ tippen.', './#ausgaben', 'ausgaben');
+            if (wd === 'Mon') add('Einnahmen-Check', 'Hast du letzte Woche etwas eingenommen? Pfand, Geschenke, Cashback, Rückzahlungen …', './#zufluss', 'einnahmen');
+            if (day === 1) add('Fixkosten-Abgleich', 'Der ' + prevMon + ' ist abgeschlossen – die App vergleicht jetzt deine Fixkosten mit deinen Buchungen.', './#ausgaben', 'fixkosten');
+            if (day === 3) add('Stichtag heute', 'Monatsstand und Monats-Checkliste sind dran.' + (month === 1 ? ' Dazu der Jahres-Check der Renditen.' : ''), './#start', 'stichtag');
+            if (day === 25) add('Gehalt eingegangen?', 'Netto eintragen – das Brutto fragt die App gleich mit ab.', './#einnahmen', 'gehalt');
+            if (month === 1 && day === 2) add('Dein Jahr ' + (year - 1), 'Der Jahresrückblick ist fertig – wie hat sich dein Vermögen entwickelt?', './#uebersicht', 'jahr');
+            if (month === 3 && day === 15) add('Steuererklärung', 'Abgabe ohne Steuerberater bis 31. Juli – jetzt in Ruhe anfangen.', './', 'steuer');
+            if (month === 7 && day === 1) add('Steuererklärung', 'Noch einen Monat bis zur Abgabe am 31. Juli.', './', 'steuer');
+            if (month === 11 && day === 2) add('Kfz-Versicherung', 'Wechseln geht meist bis 30. November – lohnt sich ein Vergleich?', './#fixkosten', 'kfz');
+            if (month === 12 && day === 2) add('Freistellungsauftrag', 'Kurz prüfen, ob die Aufteilung fürs neue Jahr passt.', './#freistellung', 'fsa');
+            if (month === 12 && day === 15) add('Vorabpauschale', 'Anfang Januar zieht die Bank Steuern auf ETFs ein – ein paar Euro aufs Verrechnungskonto legen.', './', 'vap');
+          }
+          if (!msgs.length) { console.log('Heute nichts zu senden.'); process.exit(0); }
           if (!process.env.VAPID_PRIVATE) { console.log('Secret VAPID_PRIVATE fehlt.'); process.exit(1); }
           webpush.setVapidDetails('https://wt7svff9hj-lgtm.github.io/finanzcockpit/', process.env.VAPID_PUBLIC, process.env.VAPID_PRIVATE);
           const subs = ['PUSH_SUB_1', 'PUSH_SUB_2', 'PUSH_SUB_3'].map(k => [k, process.env[k]]).filter(([, v]) => v && v.trim());
@@ -58,7 +80,7 @@ jobs:
           (async () => {
             let fehler = 0;
             for (const [name, raw] of subs) {
-              let sub; try { sub = JSON.parse(raw.trim()); } catch (e) { console.log(name + ': Code ist kein gültiger Text – bitte neu aus der App kopieren.'); fehler++; continue; }
+              let sub; try { sub = JSON.parse(raw.trim()); } catch (e) { console.log(name + ': Code ist ungültig – bitte neu aus der App kopieren.'); fehler++; continue; }
               for (const m of msgs) {
                 try { await webpush.sendNotification(sub, JSON.stringify(m), { TTL: 6 * 3600, urgency: 'normal', topic: m.tag }); console.log(name + ': gesendet – ' + m.title); }
                 catch (e) { fehler++; console.log(name + ': ' + (e.statusCode === 404 || e.statusCode === 410 ? 'Gerät abgemeldet – in der App Mitteilungen neu aktivieren und Code neu hinterlegen.' : 'Fehler ' + (e.statusCode || '') + ' ' + (e.body || e.message))); }
