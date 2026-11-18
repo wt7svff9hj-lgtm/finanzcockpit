@@ -9,6 +9,9 @@ on:
     # Morgens 8:30 Uhr deutscher Zeit (Sommerzeit 6:30 UTC, Winterzeit 7:30 UTC)
     - cron: '30 6 * * *'
     - cron: '30 7 * * *'
+    # Am 1. und 3. des Monats früh 6:45 Uhr deutscher Zeit (Sommerzeit 4:45 UTC, Winterzeit 5:45 UTC)
+    - cron: '45 4 1,3 * *'
+    - cron: '45 5 1,3 * *'
     # Sonntagabend 19:30 Uhr deutscher Zeit (Sommerzeit 17:30 UTC, Winterzeit 18:30 UTC)
     - cron: '30 17 * * 0'
     - cron: '30 18 * * 0'
@@ -47,9 +50,9 @@ jobs:
           const day = +P.day, month = +P.month, wd = P.weekday, year = +P.year;
           const MON = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
           const prevMon = MON[(month + 10) % 12];
-          let slot = 'morgens';
+          let slot = 'alles'; // manueller Lauf „heute“: alles von heute
           if (process.env.SCHED) {
-            const ok = { '30 6 * * *': ['morgens', 2], '30 7 * * *': ['morgens', 1], '30 17 * * 0': ['abends', 2], '30 18 * * 0': ['abends', 1] }[process.env.SCHED];
+            const ok = { '30 6 * * *': ['morgens', 2], '30 7 * * *': ['morgens', 1], '45 4 1,3 * *': ['frueh', 2], '45 5 1,3 * *': ['frueh', 1], '30 17 * * 0': ['abends', 2], '30 18 * * 0': ['abends', 1] }[process.env.SCHED];
             if (!ok || ok[1] !== offset) { console.log('Nicht der passende Lauf (Sommer-/Winterzeit) – nichts zu tun.'); process.exit(0); }
             slot = ok[0];
           }
@@ -60,10 +63,14 @@ jobs:
           } else if (slot === 'abends') {
             if (wd === 'Sun') add('Wochenrückblick', 'Deine Woche ist fertig – schau kurz rein, wie sie gelaufen ist.', './#ausgaben', 'woche');
           } else {
+            if (slot === 'frueh' || slot === 'alles') {
+              if (day === 1) add('Fixkosten-Abgleich', 'Der ' + prevMon + ' ist abgeschlossen – die App vergleicht jetzt deine Fixkosten mit deinen Buchungen.', './#ausgaben', 'fixkosten');
+              if (day === 3) add('Stichtag heute', 'Monatsstand und Monats-Checkliste sind dran.' + (month === 1 ? ' Dazu der Jahres-Check der Renditen.' : ''), './#start', 'stichtag');
+            }
+          }
+          if (process.env.ART !== 'test' && (slot === 'morgens' || slot === 'alles')) {
             add('Ausgaben-Check', 'Was hast du gestern ausgegeben? Kurz eintragen oder „Nichts ausgegeben“ tippen.', './#ausgaben', 'ausgaben');
             if (wd === 'Mon') add('Einnahmen-Check', 'Hast du letzte Woche etwas eingenommen? Pfand, Geschenke, Cashback, Rückzahlungen …', './#zufluss', 'einnahmen');
-            if (day === 1) add('Fixkosten-Abgleich', 'Der ' + prevMon + ' ist abgeschlossen – die App vergleicht jetzt deine Fixkosten mit deinen Buchungen.', './#ausgaben', 'fixkosten');
-            if (day === 3) add('Stichtag heute', 'Monatsstand und Monats-Checkliste sind dran.' + (month === 1 ? ' Dazu der Jahres-Check der Renditen.' : ''), './#start', 'stichtag');
             if (day === 25) add('Gehalt eingegangen?', 'Netto eintragen – das Brutto fragt die App gleich mit ab.', './#einnahmen', 'gehalt');
             if (month === 1 && day === 2) add('Dein Jahr ' + (year - 1), 'Der Jahresrückblick ist fertig – wie hat sich dein Vermögen entwickelt?', './#uebersicht', 'jahr');
             if (month === 3 && day === 15) add('Steuererklärung', 'Abgabe ohne Steuerberater bis 31. Juli – jetzt in Ruhe anfangen.', './', 'steuer');
