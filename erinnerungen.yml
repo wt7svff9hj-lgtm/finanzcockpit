@@ -1,0 +1,70 @@
+# Erinnerungen fürs Cockpit – schickt feste Erinnerungstexte als Mitteilung aufs iPhone/iPad.
+# Enthält keine Finanzdaten. Geheime Werte liegen als "Secrets" im Repository (Settings → Secrets and variables → Actions):
+#   VAPID_PRIVATE  (einmalig, Schlüssel zum Senden)
+#   PUSH_SUB_1     (Code vom iPhone)   PUSH_SUB_2 (Code vom iPad)   PUSH_SUB_3 (optional, weiteres Gerät)
+name: Erinnerungen
+
+on:
+  schedule:
+    # 8:30 Uhr deutscher Zeit: Sommerzeit = 6:30 UTC, Winterzeit = 7:30 UTC (das Skript wählt den passenden Lauf)
+    - cron: '30 6 * * *'
+    - cron: '30 7 * * *'
+  workflow_dispatch:
+    inputs:
+      art:
+        description: 'Was senden?'
+        type: choice
+        options: [test, heute]
+        default: test
+
+permissions: {}
+
+jobs:
+  senden:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Werkzeug laden
+        run: npm install --no-save --no-audit --no-fund --silent web-push@3.6.7
+      - name: Erinnerungen senden
+        env:
+          VAPID_PUBLIC: 'BEknqCepDtJvkfC-4YG7mG-UYWOhNv0vlpyAJq_t7M-ySVPTyPrdY7Vj_WAwD9lOCxqrJJ5hd-H6IW4osix1T_Q'
+          VAPID_PRIVATE: ${{ secrets.VAPID_PRIVATE }}
+          PUSH_SUB_1: ${{ secrets.PUSH_SUB_1 }}
+          PUSH_SUB_2: ${{ secrets.PUSH_SUB_2 }}
+          PUSH_SUB_3: ${{ secrets.PUSH_SUB_3 }}
+          SCHED: ${{ github.event.schedule }}
+          ART: ${{ inputs.art }}
+        run: |
+          cat > senden.cjs <<'JS'
+          const webpush = require('web-push');
+          const now = new Date();
+          const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Berlin', year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'short', hour: 'numeric', hourCycle: 'h23' }).formatToParts(now).map(p => [p.type, p.value]));
+          const utcH = now.getUTCHours(), berlinH = +parts.hour, offset = ((berlinH - utcH) + 24) % 24; // 1 = Winterzeit, 2 = Sommerzeit
+          const day = +parts.day, month = +parts.month, monday = parts.weekday === 'Mon';
+          const msgs = [];
+          if (process.env.ART === 'test') {
+            msgs.push({ title: 'Cockpit', body: 'Test: Erinnerungen funktionieren 👍', url: './', tag: 'test' });
+          } else {
+            if (process.env.SCHED) { const want = offset === 2 ? '30 6 * * *' : '30 7 * * *'; if (process.env.SCHED !== want) { console.log('Nicht der passende Lauf für heute (Zeitumstellung) – nichts zu tun.'); process.exit(0); } }
+            msgs.push({ title: 'Ausgaben-Check', body: 'Was hast du gestern ausgegeben? Kurz eintragen oder „Nichts ausgegeben“ tippen.', url: './#ausgaben', tag: 'ausgaben' });
+            if (monday) msgs.push({ title: 'Einnahmen-Check', body: 'Hast du letzte Woche etwas eingenommen? Pfand, Geschenke, Cashback, Rückzahlungen …', url: './#zufluss', tag: 'einnahmen' });
+            if (day === 3) msgs.push({ title: 'Stichtag heute', body: 'Monatsstand und Monats-Checkliste sind dran.' + (month === 1 ? ' Dazu der Jahres-Check der Renditen.' : ''), url: './#start', tag: 'stichtag' });
+          }
+          if (!process.env.VAPID_PRIVATE) { console.log('Secret VAPID_PRIVATE fehlt.'); process.exit(1); }
+          webpush.setVapidDetails('https://wt7svff9hj-lgtm.github.io/finanzcockpit/', process.env.VAPID_PUBLIC, process.env.VAPID_PRIVATE);
+          const subs = ['PUSH_SUB_1', 'PUSH_SUB_2', 'PUSH_SUB_3'].map(k => [k, process.env[k]]).filter(([, v]) => v && v.trim());
+          if (!subs.length) { console.log('Noch kein Gerät hinterlegt (Secret PUSH_SUB_1).'); process.exit(1); }
+          (async () => {
+            let fehler = 0;
+            for (const [name, raw] of subs) {
+              let sub; try { sub = JSON.parse(raw.trim()); } catch (e) { console.log(name + ': Code ist kein gültiger Text – bitte neu aus der App kopieren.'); fehler++; continue; }
+              for (const m of msgs) {
+                try { await webpush.sendNotification(sub, JSON.stringify(m), { TTL: 6 * 3600, urgency: 'normal', topic: m.tag }); console.log(name + ': gesendet – ' + m.title); }
+                catch (e) { fehler++; console.log(name + ': ' + (e.statusCode === 404 || e.statusCode === 410 ? 'Gerät abgemeldet – in der App Mitteilungen neu aktivieren und Code neu hinterlegen.' : 'Fehler ' + (e.statusCode || '') + ' ' + (e.body || e.message))); }
+              }
+            }
+            if (fehler && process.env.ART === 'test') process.exit(1);
+          })();
+          JS
+          node senden.cjs

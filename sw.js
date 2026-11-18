@@ -1,5 +1,5 @@
 /* Finanzcockpit – Offline-Speicher. Deine Finanzdaten liegen NICHT hier, sondern im Gerätespeicher der App. */
-var C='fc-shell-v1', SHELL=['./','./index.html','./manifest.webmanifest','./apple-touch-icon.png','./icon-512.png'];
+var C='fc-shell-v2', SHELL=['./','./index.html','./manifest.webmanifest','./apple-touch-icon.png','./icon-512.png'];
 self.addEventListener('install',function(e){ e.waitUntil(caches.open(C).then(function(c){ return Promise.all(SHELL.map(function(u){ return c.add(new Request(u,{cache:'reload'})).catch(function(){}); })); }).then(function(){ return self.skipWaiting(); })); });
 self.addEventListener('activate',function(e){ e.waitUntil(caches.keys().then(function(ks){ return Promise.all(ks.filter(function(k){ return k!==C; }).map(function(k){ return caches.delete(k); })); }).then(function(){ return self.clients.claim(); })); });
 function isApp(u){ return u.origin===location.origin&&(/\/$/.test(u.pathname)||/\/index\.html$/.test(u.pathname)); }
@@ -14,3 +14,11 @@ self.addEventListener('fetch',function(e){ var r=e.request; if(r.method!=='GET')
   if(u.origin===location.origin||/fonts\.(googleapis|gstatic)\.com$/.test(u.hostname)){
     e.respondWith(caches.match(r).then(function(m){ return m||fetch(r).then(function(x){ if(x&&(x.ok||x.type==='opaque')){ var cp=x.clone(); caches.open(C).then(function(c){ c.put(r,cp); }); } return x; }); })); }
 });
+/* Mitteilungen (seit 3.8.0): Text kommt vom GitHub-Erinnerungsdienst, enthält keine Finanzdaten */
+self.addEventListener('push',function(e){ var d={}; try{ d=e.data?e.data.json():{}; }catch(x){ d={title:'Cockpit',body:e.data?e.data.text():''}; }
+  e.waitUntil(Promise.all([
+    self.registration.showNotification(d.title||'Cockpit',{body:d.body||'',tag:d.tag||'fc',icon:'apple-touch-icon.png',badge:'apple-touch-icon.png',data:{url:d.url||'./'}}),
+    (self.navigator&&self.navigator.setAppBadge)?self.navigator.setAppBadge().catch(function(){}):Promise.resolve()
+  ])); });
+self.addEventListener('notificationclick',function(e){ e.notification.close(); var url=new URL((e.notification.data&&e.notification.data.url)||'./',self.registration.scope).href;
+  e.waitUntil(self.clients.matchAll({type:'window',includeUncontrolled:true}).then(function(cs){ for(var i=0;i<cs.length;i++){ var c=cs[i]; if(c.url.indexOf(self.registration.scope)===0&&'focus' in c){ return c.focus().then(function(w){ return w&&w.navigate?w.navigate(url).catch(function(){ return w; }):w; }); } } return self.clients.openWindow?self.clients.openWindow(url):null; })); });
