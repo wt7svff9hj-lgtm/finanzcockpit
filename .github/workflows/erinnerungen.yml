@@ -71,6 +71,7 @@ jobs:
             if (slot === 'frueh' || slot === 'alles') {
               if (day === 1) add('Fixkosten-Abgleich', 'Der ' + prevMon + ' ist abgeschlossen – die App vergleicht jetzt deine Fixkosten mit deinen Buchungen.', './#ausgaben', 'fixkosten');
               if (day === 3) add('Stichtag heute', 'Monatsstand und Monats-Checkliste sind dran.' + (month === 1 ? ' Dazu der Jahres-Check der Renditen.' : ''), './#start', 'stichtag');
+              if (day === 3 && [1, 4, 7, 10].includes(month)) add('Fixkosten prüfen', 'Neues Quartal – stimmen alle Beträge in deiner Fixkosten-Liste noch?', './#fixkosten', 'fkq');
             }
           }
           if (process.env.ART !== 'test' && (slot === 'morgens' || slot === 'alles')) {
